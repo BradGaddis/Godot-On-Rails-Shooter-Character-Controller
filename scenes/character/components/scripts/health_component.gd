@@ -10,7 +10,7 @@ signal health_changed(percent_health: float)
 ## Reference to death component[br]
 ## This class might not be particularly useful if death component is not a assigned.
 ## Assigned a value in _ready()
-@onready var _death_component: DeathComponent = get_node_or_null("%Death Component")
+@onready var _death_component: DeathComponent = get_node_or_null("%DeathComponent")
 
 ## The parent of this class in which it is assigned
 @onready var _parent = get_parent()
