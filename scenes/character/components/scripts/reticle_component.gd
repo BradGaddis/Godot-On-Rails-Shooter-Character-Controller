@@ -4,8 +4,7 @@ class_name ReticleComponent extends Node3D
 ## @experimental: Not fully completed, Missing the ACTUAL reticle asset.
 ## Presently using a CSG box.
 
-## Reference to the character node
-@export var _player: Player
+
 ## Bounds to keep reticle within screen view
 @export var _lock_bounds: Vector2 = Vector2(60, 35)
 ## Radius that moving the reticle will do nothing in
@@ -29,14 +28,14 @@ func _ready() -> void:
 ## Keeps z-position locked and manages locking on mode
 func physics_process(_delta: float) -> void:
 	reticle_object.position.z = _z_locked_pos
-	if _player.get_mode() == ActorEnums.mode.on_rails:
+	if PlayerManager.get_mode() == ActorEnums.mode.on_rails:
 		_lock_to_camera_bounds()
 	
 
 ## Moves reticle horizontally
 func _handle_horizontal_reticle_movement(delta: float, direction: Vector2):
 	if direction.x:
-		position.x += direction.x * _player.character.move_in_frame_speed * delta
+		position.x += direction.x * PlayerManager.character.move_in_frame_speed * delta
 	return
 
 ## @deprecated
@@ -50,7 +49,7 @@ func _hit_horizontal_screen_bound(_bound: float  = _lock_bounds.x) -> bool:
 ## Moves reticle vertically
 func _handle_vertical_reticle_movement(delta: float, direction: Vector2) -> void:
 	if direction.y:
-		position.y += direction.y * _player.character.move_in_frame_speed * delta * (-1 if File.settings.inverted_flight_control else 1)
+		position.y += direction.y * PlayerManager.character.move_in_frame_speed * delta * (-1 if File.settings.inverted_flight_control else 1)
 	return
 
 ## Pulls reticle back to the center of the screen
@@ -90,7 +89,7 @@ func _rotate_around_player(direction: Vector2, delta: float, rotation_speed: flo
 ## and moving the reticle via [method _handle_horizontal_reticle_movement]
 ## and [method _handle_vertical_reticle_movement] 
 func move(delta: float, direction: Vector2) -> void:
-	match _player.character.get_mode():
+	match PlayerManager.character.get_mode():
 		ActorEnums.mode.on_rails:
 			_pull_reticle(delta, direction)
 			_handle_horizontal_reticle_movement(delta, direction)

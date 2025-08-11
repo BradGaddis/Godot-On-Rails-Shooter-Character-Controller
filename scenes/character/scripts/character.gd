@@ -24,6 +24,8 @@ var last_x_dir: float = -1:
 	
 func _ready() -> void:
 	super._ready()
+	if !PlayerManager.character: # TODO Remove in later version. Here for testing
+		PlayerManager.character = self
 	reticle_component = get_node_or_null("%ReticleComponent")
 	camera_component = get_node_or_null("%CameraComponent")
 	if shooting_component:

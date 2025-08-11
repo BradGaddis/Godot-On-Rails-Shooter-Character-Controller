@@ -10,7 +10,6 @@ class_name CameraComponent extends SpringArm3D
 ## The tween that moves the field of view
 @onready var _fov_tweener: Tween
 
-@export var _player: Player
 
 ## The maximium that the camera is allowd to rotate positively
 @export var _max_x_rotation : float = PI/3
@@ -36,15 +35,15 @@ func tween_fov(amount : float, time : float, type = Tween.EASE_OUT) -> void:
 ## Rotates the camera to look in the direction that the player intends to see in
 func mouse_look_at_reticle(event: InputEventMouseMotion) -> void:
 	var delta: float = get_physics_process_delta_time()
-	_player._player.character.reticle_component.rotation.y += event.relative.x * delta * File.settings.mouse_sensitivity * (-1 if File.settings.inverted_camera else 1)
-	_player._player.character.reticle_component.rotation.y = wrapf(_player._player.character.reticle_component.rotation.y, -PI, PI)
-	_player._player.character.reticle_component.rotation.x += event.relative.y * delta * -1
-	_player._player.character.reticle_component.rotation.x = clamp(_player._player.character.reticle_component.rotation.x, _min_x_rotation, _max_x_rotation)
+	PlayerManager.character.reticle_component.rotation.y += event.relative.x * delta * File.settings.mouse_sensitivity * (-1 if File.settings.inverted_camera else 1)
+	PlayerManager.character.reticle_component.rotation.y = wrapf(PlayerManager.character.reticle_component.rotation.y, -PI, PI)
+	PlayerManager.character.reticle_component.rotation.x += event.relative.y * delta * -1
+	PlayerManager.character.reticle_component.rotation.x = clamp(PlayerManager.character.reticle_component.rotation.x, _min_x_rotation, _max_x_rotation)
 
 ## Looks at the reticle
 ## @experimental: Might use lerp or quaternions
 func look_at_reticle(_delta: float, _rotation_speed: float):
-	look_at(_player._player.character.reticle_component.reticle_object.global_position)
+	look_at(PlayerManager.character.reticle_component.reticle_object.global_position)
 
 
 ## Smoothly looks at a target
@@ -63,11 +62,11 @@ rotation_speed: float = 20.0,\
 ## Repositions the camera to be behind the player[br]
 ## Really only useful for when the player is in standby and there's an event
 func position_camera_behind_player(duration: float = _duration) -> void:
-	if _player.character.get_mode() == ActorEnums.mode.on_rails:
-		_tween_rotation_component(_player.character.visible_body.rotation.y, duration)
-	if _player._player.character.get_mode() == ActorEnums.mode.free:
-		if _player.character.state_machine_component.current_state.name == "roll":
-			_tween_rotation_component(_player.character.visible_body.rotation.y, duration)
+	if PlayerManager.character.get_mode() == ActorEnums.mode.on_rails:
+		_tween_rotation_component(PlayerManager.character.visible_body.rotation.y, duration)
+	if PlayerManager.character.get_mode() == ActorEnums.mode.free:
+		if PlayerManager.state_machine_component.current_state.name == "roll":
+			_tween_rotation_component(PlayerManager.character.visible_body.rotation.y, duration)
 			return
 		return
 
@@ -87,21 +86,21 @@ func handle_on_foot_camera_free(_target: Node3D, delta: float):
 	if _target:
 		# TODO
 		pass
-	_player.character.camera_component.look_at_reticle(delta, 20)
+	PlayerManager.character.camera_component.look_at_reticle(delta, 20)
 
 func handle_flight_camera_on_rails(mode: ActorEnums.cam_mode_view):
 	match mode:
 		ActorEnums.cam_mode_view.rails:
-			handle_flight_camera_rail_state_cam(_player.character.state_machine_component.current_state.name)
+			handle_flight_camera_rail_state_cam(PlayerManager.character.state_machine_component.current_state.name)
 
 func handle_flight_camera_rail_state_cam(state: String):
 	match state:
 		"fly":
-			var input_dir: Vector2 = _player.get_input_dir() if _player.get_player_state() == ActorEnums.player_state.STATE_ACTIVE else Vector2.ZERO
+			var input_dir: Vector2 = PlayerManager.get_input_dir() if PlayerManager.get_player_state() == ActorEnums.player_state.STATE_ACTIVE else Vector2.ZERO
 			rotation.y = CharacterUtils.math_smooth_step_to_f(rotation.y, deg_to_rad(-input_dir.x * 10), deg_to_rad(1), deg_to_rad(.5), deg_to_rad(.01))
 			rotation.x = CharacterUtils.math_smooth_step_to_f(rotation.y, deg_to_rad(input_dir.y * 10), deg_to_rad(1), deg_to_rad(.5), deg_to_rad(.01))
-			position.x = CharacterUtils.math_smooth_step_to_f(position.x, (input_dir.x * 5) * _player.character.position.x , 1, .5, .05)
-			position.y = CharacterUtils.math_smooth_step_to_f(position.x, (input_dir.y * 5) * _player.character.position.x, 1, .5, .05)
+			position.x = CharacterUtils.math_smooth_step_to_f(position.x, (input_dir.x * 5) * PlayerManager.character.position.x , 1, .5, .05)
+			position.y = CharacterUtils.math_smooth_step_to_f(position.x, (input_dir.y * 5) * PlayerManager.character.position.x, 1, .5, .05)
 		"u-turn":
 			pass
 
@@ -109,7 +108,7 @@ func handle_flight_camera(target: Node3D, delta: float, mode: ActorEnums.cam_mod
 	if target:
 		look_at_target(target, delta)
 		return
-	match _player.character.get_mode():
+	match PlayerManager.character.get_mode():
 		ActorEnums.mode.on_rails:
 			handle_flight_camera_on_rails(mode)
 		ActorEnums.mode.free:

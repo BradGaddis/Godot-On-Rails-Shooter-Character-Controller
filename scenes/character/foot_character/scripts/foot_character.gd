@@ -1,7 +1,6 @@
 class_name OnFootCharacter extends Character
 ## The base class for being on-foot
 
-@export var _player: Player
 ## Reference to the camrera component
 @onready var _camera_component : CameraComponent = %CameraComponent
 ## How fast the character will accelerate on moving
@@ -19,7 +18,7 @@ var _speed: float
 ## The speed the character will run at
 @export var run_speed: float = 50
 ## The direction the character is turning in
-var _player_direction: Vector3
+var _character_direction: Vector3
 ## The x and z velocity
 var _planer_velocity_xz: Vector3
 ## Force of jumping
@@ -37,10 +36,10 @@ func _detect_fall_damage():
 
 ## Assigns directions in line with the camera, moves in the planer 
 func _handle_character_movement(delta):
-	_player.character_direction = (_camera_component.camera.global_basis.x * Vector3(1,0,1)).normalized() * _direction.x
-	_player.character_direction -= (_camera_component.camera.global_basis.z * Vector3(1,0,1)).normalized() * _direction.y
+	_character_direction = (_camera_component.camera.global_basis.x * Vector3(1,0,1)).normalized() * _direction.x
+	_character_direction -= (_camera_component.camera.global_basis.z * Vector3(1,0,1)).normalized() * _direction.y
 	if _direction:
-		_planer_velocity_xz = _planer_velocity_xz.move_toward(_player.character_direction * _speed, _acceleration * delta)
+		_planer_velocity_xz = _planer_velocity_xz.move_toward(_character_direction * _speed, _acceleration * delta)
 	else:
 		_planer_velocity_xz = _planer_velocity_xz.move_toward(Vector3.ZERO, _deceleration * delta * _planer_velocity_xz.length())
 	velocity.x =_planer_velocity_xz.x

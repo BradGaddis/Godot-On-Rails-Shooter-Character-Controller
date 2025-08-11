@@ -86,7 +86,7 @@ func _handle_shooting_input_events(event: InputEvent):
 		character.shooting_component.complete_shot()
 		
 ## Processes states processes if enabled 
-func process(_delta:float):
+func _process(_delta:float):
 	if not enabled or get_tree().paused or not character:
 		return
 	_target = character.shooting_component.get_current_target()
@@ -94,7 +94,7 @@ func process(_delta:float):
 		character.shooting_component._force_lock_off(is_instance_valid(_target))
 
 ## Processes states physics processes if enabled, as well as gets input directions
-func physics_process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if not enabled or get_tree().paused or not character:
 		return
 	_input_dir = Input.get_vector("move_left", "move_right", "move_backward", "move_forward")
