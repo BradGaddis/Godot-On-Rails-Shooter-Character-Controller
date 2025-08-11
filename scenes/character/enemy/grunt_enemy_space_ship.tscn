@@ -1,0 +1,60 @@
+[gd_scene load_steps=10 format=3 uid="uid://cnkf12bfmff4x"]
+
+[ext_resource type="Script" uid="uid://ywb8ylptqyqm" path="res://addons/rails_character_controller/scenes/character/enemy/scripts/grunt_enemy.gd" id="1_rgd24"]
+[ext_resource type="PackedScene" uid="uid://vcwgu6xe422" path="res://addons/rails_character_controller/scenes/character/components/hit_box_component.tscn" id="3_gsqek"]
+[ext_resource type="PackedScene" uid="uid://ceasgrjrgywmq" path="res://addons/rails_character_controller/scenes/character/components/health_component.tscn" id="4_r1gwl"]
+[ext_resource type="PackedScene" uid="uid://bbbot6jr2uyxk" path="res://addons/rails_character_controller/scenes/character/enemy/space_plane_enemy.glb" id="5_88h00"]
+[ext_resource type="Script" uid="uid://blu1r7lx36qtv" path="res://addons/rails_character_controller/scenes/character/components/scripts/shooting_component.gd" id="5_a8xmh"]
+[ext_resource type="PackedScene" uid="uid://bkc761imuab1n" path="res://addons/rails_character_controller/scenes/character/components/hurt_box_component.tscn" id="5_im3cc"]
+[ext_resource type="PackedScene" uid="uid://ds62ivfpw2mkj" path="res://addons/rails_character_controller/scenes/character/components/death_component.tscn" id="8_a8xmh"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kybpi"]
+radius = 3.493
+height = 12.459
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_j6uan"]
+
+[node name="GruntEnemy" type="CharacterBody3D"]
+collision_layer = 512
+collision_mask = 0
+motion_mode = 1
+script = ExtResource("1_rgd24")
+
+[node name="space_plane_enemy" parent="." instance=ExtResource("5_88h00")]
+
+[node name="HitBoxComponent" parent="space_plane_enemy" instance=ExtResource("3_gsqek")]
+unique_name_in_owner = true
+collision_layer = 8
+collision_mask = 17
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="space_plane_enemy/HitBoxComponent"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_kybpi")
+
+[node name="HurtBoxComponent" parent="space_plane_enemy" instance=ExtResource("5_im3cc")]
+unique_name_in_owner = true
+collision_layer = 8
+collision_mask = 145
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="space_plane_enemy/HurtBoxComponent"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_kybpi")
+
+[node name="ShootingComponent" type="Node3D" parent="space_plane_enemy"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.03176)
+script = ExtResource("5_a8xmh")
+metadata/_custom_type_script = "uid://blu1r7lx36qtv"
+
+[node name="HealthComponent" parent="." instance=ExtResource("4_r1gwl")]
+unique_name_in_owner = true
+max_health = 10.0
+
+[node name="DeathComponent" parent="." instance=ExtResource("8_a8xmh")]
+unique_name_in_owner = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_j6uan")
+
+[editable path="space_plane_enemy/HitBoxComponent"]

@@ -1,0 +1,1 @@
+class_name FlyingVehicleCharacter extends VehicleCharacter

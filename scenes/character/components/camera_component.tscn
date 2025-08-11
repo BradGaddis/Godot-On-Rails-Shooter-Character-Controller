@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://r85abir0qcii"]
+
+[ext_resource type="Script" uid="uid://3h1xykf8e8hy" path="res://addons/rails_character_controller/scenes/character/components/scripts/camera_component.gd" id="1_qnd73"]
+[ext_resource type="Script" uid="uid://qyeeg8eqchb1" path="res://addons/rails_character_controller/scenes/character/components/scripts/camera.gd" id="2_j4hhh"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_4xe0v"]
+points = PackedVector3Array(0, 0, 0, 23, 13, -30, 23, -13, -30, -23, 13, -30, -23, -13, -30)
+
+[node name="CameraComponent" type="SpringArm3D"]
+spring_length = 15.0
+script = ExtResource("1_qnd73")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+current = true
+script = ExtResource("2_j4hhh")
+
+[node name="TargetArea" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 2048
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TargetArea"]
+shape = SubResource("ConvexPolygonShape3D_4xe0v")
+
+[connection signal="body_entered" from="TargetArea" to="Camera3D" method="_on_target_area_body_entered"]
+[connection signal="body_exited" from="TargetArea" to="Camera3D" method="_on_target_area_body_exited"]

@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://bkc761imuab1n"]
+
+[ext_resource type="Script" uid="uid://xv7d8laehyax" path="res://addons/rails_character_controller/scenes/character/components/scripts/hurt_box_component.gd" id="1_v0htn"]
+
+[node name="HurtBoxComponent" type="Area3D"]
+collision_layer = 0
+script = ExtResource("1_v0htn")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

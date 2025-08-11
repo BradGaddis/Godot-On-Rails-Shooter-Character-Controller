@@ -1,0 +1,252 @@
+[gd_scene load_steps=30 format=3 uid="uid://x8wp38bvwpvc"]
+
+[ext_resource type="Script" uid="uid://bsdyb74is5xp5" path="res://addons/rails_character_controller/scenes/character/flying_character/xplane/scripts/xplane_character.gd" id="1_quh03"]
+[ext_resource type="Script" uid="uid://xdo23w6pflqm" path="res://addons/rails_character_controller/scenes/character/components/scripts/vehicle_component.gd" id="2_3xoie"]
+[ext_resource type="PackedScene" uid="uid://t6w85w1vlrrv" path="res://addons/rails_character_controller/scenes/character/flying_character/xplane/xplane.glb" id="3_fruhl"]
+[ext_resource type="PackedScene" uid="uid://vcwgu6xe422" path="res://addons/rails_character_controller/scenes/character/components/hit_box_component.tscn" id="6_1dvi0"]
+[ext_resource type="Script" uid="uid://blu1r7lx36qtv" path="res://addons/rails_character_controller/scenes/character/components/scripts/shooting_component.gd" id="6_m8rej"]
+[ext_resource type="Script" uid="uid://cf8mkl04act6r" path="res://addons/rails_character_controller/scenes/character/components/scripts/bank_tilt_component.gd" id="7_15u4u"]
+[ext_resource type="PackedScene" uid="uid://r85abir0qcii" path="res://addons/rails_character_controller/scenes/character/components/camera_component.tscn" id="7_e6uho"]
+[ext_resource type="PackedScene" uid="uid://teei5itjmbra" path="res://addons/rails_character_controller/scenes/character/components/reticle_component.tscn" id="7_fruhl"]
+[ext_resource type="PackedScene" uid="uid://ceasgrjrgywmq" path="res://addons/rails_character_controller/scenes/character/components/health_component.tscn" id="8_cbdda"]
+[ext_resource type="PackedScene" uid="uid://bkc761imuab1n" path="res://addons/rails_character_controller/scenes/character/components/hurt_box_component.tscn" id="9_127r6"]
+[ext_resource type="Script" uid="uid://y2m11wlenatn" path="res://addons/rails_character_controller/scenes/character/scripts/state_machine_component.gd" id="10_bahrv"]
+[ext_resource type="Script" uid="uid://phtiogbt3h48" path="res://addons/rails_character_controller/scenes/character/flying_character/xplane/scripts/states/xplane_flying_state.gd" id="11_h2isl"]
+[ext_resource type="Script" uid="uid://bmyq2xofmukqa" path="res://addons/rails_character_controller/scenes/character/flying_character/xplane/scripts/states/xplane_boost_state.gd" id="12_t2fmq"]
+[ext_resource type="Script" uid="uid://bke6r3aufig3i" path="res://addons/rails_character_controller/scenes/character/flying_character/xplane/scripts/states/xplane_break_state.gd" id="13_ah2oa"]
+[ext_resource type="Script" uid="uid://c14e8irkvrbv3" path="res://addons/rails_character_controller/scenes/character/flying_character/xplane/scripts/states/xplane_roll_state.gd" id="14_2ru25"]
+[ext_resource type="Script" uid="uid://bnf3r2m2i7isc" path="res://addons/rails_character_controller/scenes/character/flying_character/xplane/scripts/states/xplane_loop_state.gd" id="15_efn5h"]
+[ext_resource type="PackedScene" uid="uid://ds62ivfpw2mkj" path="res://addons/rails_character_controller/scenes/character/components/death_component.tscn" id="16_bahrv"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pcrdr"]
+radius = 5.0
+height = 10.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7wibb"]
+
+[sub_resource type="Curve" id="Curve_7bwkw"]
+_limits = [0.0, 3.0, 0.0, 1.0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 3), 0.0, 0.0, 0, 0]
+point_count = 2
+metadata/_snap_count = 2
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ota3n"]
+radius = 1.5
+height = 10.0
+
+[sub_resource type="Curve" id="Curve_15u4u"]
+_limits = [1.0, 2.0, 0.7716049, 1.0]
+_data = [Vector2(0.7716049, 1), 0.0, 0.0, 0, 0, Vector2(0.7716049, 1), 0.0, 0.0, 0, 0, Vector2(0.9985901, 2), 14.758576, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_7lcva"]
+_limits = [1.0, 2.0, 0.0, 2.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(2, 2), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_dnhn6"]
+_limits = [0.0, 1.0, 0.0, 2.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(2, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_8q4fr"]
+_limits = [0.5, 1.0, 0.0, 5.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(5, 0.5), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_4hjcp"]
+_limits = [0.0, 1.0, 0.0, 2.0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(2, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Animation" id="Animation_15u4u"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_7bwkw"]
+resource_name = "u-turn"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6, 1.2, 1.4666667, 1.8, 2.3, 2.8333333, 3.4333334),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -10, -20.134), Vector3(0, -3.467, -28.171), Vector3(0, 0, -31.744), Vector3(0, 4, -33.074), Vector3(0, 5.767, -28.029), Vector3(0, 2.471, -24.335), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.46666667, 1.47, 1.6333333, 2.4666667, 3.4333334),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-0.59166664, 0, 0), Vector3(0, 0, 0), Vector3(1.5707964, 0, 0), Vector3(1.5707964, 0, 0), Vector3(3.1415927, 0, 0), Vector3(3.1415927, 0, 3.1415927)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 4),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"toggle_enabled"
+}, {
+"args": [],
+"method": &"toggle_enabled"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_15u4u"]
+_data = {
+&"RESET": SubResource("Animation_15u4u"),
+&"u-turn": SubResource("Animation_7bwkw")
+}
+
+[node name="XPlane Character" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_quh03")
+
+[node name="VehicleComponent" type="CharacterBody3D" parent="."]
+unique_name_in_owner = true
+collision_layer = 20
+collision_mask = 15
+floor_stop_on_slope = false
+floor_snap_length = 1.6
+platform_floor_layers = 4294901761
+script = ExtResource("2_3xoie")
+_move_speed = 40.0
+
+[node name="Pivot Point" type="Marker3D" parent="VehicleComponent"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.5603, 0)
+
+[node name="VisibleBody" parent="VehicleComponent/Pivot Point" instance=ExtResource("3_fruhl")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -12.5603, 0)
+
+[node name="HurtBoxComponent" parent="VehicleComponent/Pivot Point/VisibleBody" node_paths=PackedStringArray("_knockable_body") instance=ExtResource("9_127r6")]
+unique_name_in_owner = true
+collision_layer = 16
+collision_mask = 137
+_knockable_body = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="VehicleComponent/Pivot Point/VisibleBody/HurtBoxComponent"]
+shape = SubResource("CapsuleShape3D_pcrdr")
+
+[node name="HitBoxComponent" parent="VehicleComponent/Pivot Point/VisibleBody" instance=ExtResource("6_1dvi0")]
+unique_name_in_owner = true
+collision_mask = 8
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="VehicleComponent/Pivot Point/VisibleBody/HitBoxComponent"]
+shape = SubResource("CapsuleShape3D_7wibb")
+
+[node name="ShootingComponent" type="Node3D" parent="VehicleComponent/Pivot Point/VisibleBody"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6.61011)
+script = ExtResource("6_m8rej")
+max_num_guns = 1
+_charge_curve = SubResource("Curve_7bwkw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="VehicleComponent"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.534285, -1.59237)
+shape = SubResource("CapsuleShape3D_ota3n")
+
+[node name="BankTiltComponent" type="Node" parent="VehicleComponent"]
+unique_name_in_owner = true
+script = ExtResource("7_15u4u")
+_tilt_move_speed_curve = SubResource("Curve_15u4u")
+
+[node name="ReticleComponent" parent="." instance=ExtResource("7_fruhl")]
+unique_name_in_owner = true
+_rail_dead_zone_radius = 100.0
+
+[node name="CameraComponent" parent="." instance=ExtResource("7_e6uho")]
+unique_name_in_owner = true
+
+[node name="HealthComponent" parent="." instance=ExtResource("8_cbdda")]
+unique_name_in_owner = true
+max_health = 100.0
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state")]
+unique_name_in_owner = true
+script = ExtResource("10_bahrv")
+current_state = NodePath("fly")
+
+[node name="fly" type="Node" parent="StateMachine"]
+script = ExtResource("11_h2isl")
+
+[node name="Wobble Timer" type="Timer" parent="StateMachine/fly"]
+
+[node name="boost" type="Node" parent="StateMachine"]
+script = ExtResource("12_t2fmq")
+_enter_boost_speed_curve = SubResource("Curve_7lcva")
+_exit_boost_speed_curve = SubResource("Curve_dnhn6")
+
+[node name="break" type="Node" parent="StateMachine"]
+script = ExtResource("13_ah2oa")
+_enter_break_speed_curve = SubResource("Curve_8q4fr")
+_exit_break_speed_curve = SubResource("Curve_4hjcp")
+
+[node name="roll" type="Node" parent="StateMachine"]
+script = ExtResource("14_2ru25")
+_num_rolls = 1
+_duration_time = 0.33000000000174623
+
+[node name="somersault" type="Node" parent="StateMachine"]
+script = ExtResource("15_efn5h")
+
+[node name="EnergyTimerActive" type="Timer" parent="StateMachine"]
+wait_time = 2.0
+one_shot = true
+
+[node name="EnergyTimerCooldown" type="Timer" parent="StateMachine"]
+wait_time = 2.0
+one_shot = true
+
+[node name="DeathComponent" parent="." instance=ExtResource("16_bahrv")]
+unique_name_in_owner = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_15u4u")
+}
+
+[connection signal="timeout" from="StateMachine/EnergyTimerActive" to="StateMachine" method="_on_energy_timer_active_timeout"]
+[connection signal="timeout" from="StateMachine/EnergyTimerCooldown" to="StateMachine" method="_on_energy_timer_cooldown_timeout"]

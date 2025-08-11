@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ds62ivfpw2mkj"]
+
+[ext_resource type="Script" uid="uid://cyb8rw6atdnci" path="res://addons/rails_character_controller/scenes/character/components/scripts/death_component.gd" id="1_8mip7"]
+
+[node name="DeathComponent" type="Node"]
+script = ExtResource("1_8mip7")

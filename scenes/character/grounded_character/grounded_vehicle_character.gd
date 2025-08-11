@@ -1,0 +1,1 @@
+class_name GroundedVehicleCharacter extends VehicleCharacter

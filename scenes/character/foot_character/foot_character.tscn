@@ -1,0 +1,72 @@
+[gd_scene load_steps=12 format=3 uid="uid://dr4lsn5ovads3"]
+
+[ext_resource type="Script" uid="uid://cn0vxsmai3u6y" path="res://addons/rails_character_controller/scenes/character/foot_character/scripts/foot_character.gd" id="1_e60fd"]
+[ext_resource type="PackedScene" uid="uid://r85abir0qcii" path="res://addons/rails_character_controller/scenes/character/components/camera_component.tscn" id="2_5pyyt"]
+[ext_resource type="Script" uid="uid://blu1r7lx36qtv" path="res://addons/rails_character_controller/scenes/character/components/scripts/shooting_component.gd" id="4_alu2f"]
+[ext_resource type="PackedScene" uid="uid://teei5itjmbra" path="res://addons/rails_character_controller/scenes/character/components/reticle_component.tscn" id="4_w1vvr"]
+[ext_resource type="PackedScene" uid="uid://ceasgrjrgywmq" path="res://addons/rails_character_controller/scenes/character/components/health_component.tscn" id="5_w1vvr"]
+[ext_resource type="PackedScene" uid="uid://bkc761imuab1n" path="res://addons/rails_character_controller/scenes/character/components/hurt_box_component.tscn" id="6_imyxd"]
+[ext_resource type="PackedScene" uid="uid://ds62ivfpw2mkj" path="res://addons/rails_character_controller/scenes/character/components/death_component.tscn" id="7_5xwji"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0e2m6"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_s05pr"]
+
+[sub_resource type="Curve" id="Curve_r1rmu"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_imyxd"]
+
+[node name="Fox Character" type="CharacterBody3D"]
+transform = Transform3D(0.999294, 0, 0, 0, 0.999294, 0, 0, 0, 0.999294, 0, 0, 0)
+collision_layer = 0
+script = ExtResource("1_e60fd")
+_acceleration = 5.0
+_deceleration = 10.0
+_mass = 1.5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_0e2m6")
+
+[node name="CameraComponent" parent="." instance=ExtResource("2_5pyyt")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+spring_length = 5.0
+v_offset = 1.0
+h_offset = 1.0
+
+[node name="VisibleBody" type="Node3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="VisibleBody"]
+mesh = SubResource("CapsuleMesh_s05pr")
+skeleton = NodePath("")
+
+[node name="ShootingComponent" type="Node3D" parent="VisibleBody"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.739788, 0.302378, 0)
+script = ExtResource("4_alu2f")
+_charge_curve = SubResource("Curve_r1rmu")
+metadata/_custom_type_script = "uid://blu1r7lx36qtv"
+
+[node name="ReticleComponent" parent="." instance=ExtResource("4_w1vvr")]
+unique_name_in_owner = true
+visible = false
+
+[node name="HealthComponent" parent="." instance=ExtResource("5_w1vvr")]
+unique_name_in_owner = true
+max_health = 100.0
+
+[node name="HurtBoxComponent" parent="." instance=ExtResource("6_imyxd")]
+unique_name_in_owner = true
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBoxComponent"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_imyxd")
+
+[node name="DeathComponent" parent="." instance=ExtResource("7_5xwji")]
+unique_name_in_owner = true

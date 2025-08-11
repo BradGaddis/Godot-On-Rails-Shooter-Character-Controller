@@ -1,0 +1,60 @@
+[gd_scene load_steps=9 format=3 uid="uid://m7sc1jxqlbbv"]
+
+[ext_resource type="Script" uid="uid://xdo23w6pflqm" path="res://addons/rails_character_controller/scenes/character/components/scripts/vehicle_component.gd" id="1_n254r"]
+[ext_resource type="PackedScene" uid="uid://t6w85w1vlrrv" path="res://addons/rails_character_controller/scenes/character/flying_character/xplane/xplane.glb" id="2_v6d21"]
+[ext_resource type="PackedScene" uid="uid://bkc761imuab1n" path="res://addons/rails_character_controller/scenes/character/components/hurt_box_component.tscn" id="3_1gsh3"]
+[ext_resource type="PackedScene" uid="uid://vcwgu6xe422" path="res://addons/rails_character_controller/scenes/character/components/hit_box_component.tscn" id="4_mqtei"]
+[ext_resource type="Script" uid="uid://blu1r7lx36qtv" path="res://addons/rails_character_controller/scenes/character/components/scripts/shooting_component.gd" id="5_1p13y"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pcrdr"]
+radius = 5.0
+height = 10.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7wibb"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ota3n"]
+radius = 1.5
+height = 10.0
+
+[node name="VehicleComponent" type="CharacterBody3D"]
+collision_layer = 20
+collision_mask = 15
+floor_stop_on_slope = false
+floor_snap_length = 1.6
+platform_floor_layers = 4294901761
+script = ExtResource("1_n254r")
+_move_speed = 40.0
+
+[node name="Pivot Point" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.5603, 0)
+
+[node name="VisibleBody" parent="Pivot Point" instance=ExtResource("2_v6d21")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -12.5603, 0)
+
+[node name="HurtBoxComponent" parent="Pivot Point/VisibleBody" instance=ExtResource("3_1gsh3")]
+unique_name_in_owner = true
+collision_layer = 16
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Pivot Point/VisibleBody/HurtBoxComponent"]
+shape = SubResource("CapsuleShape3D_pcrdr")
+
+[node name="HitBoxComponent" parent="Pivot Point/VisibleBody" instance=ExtResource("4_mqtei")]
+unique_name_in_owner = true
+collision_mask = 9
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Pivot Point/VisibleBody/HitBoxComponent"]
+shape = SubResource("CapsuleShape3D_7wibb")
+
+[node name="ShootingComponent" type="Node3D" parent="Pivot Point/VisibleBody"]
+unique_name_in_owner = true
+script = ExtResource("5_1p13y")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.534285, -1.59237)
+shape = SubResource("CapsuleShape3D_ota3n")
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, 0, 0)
+
+[node name="Butts" type="Node" parent="."]

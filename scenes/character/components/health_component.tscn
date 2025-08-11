@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://ceasgrjrgywmq"]
+
+[ext_resource type="Script" uid="uid://dimekbrj1ixw7" path="res://addons/rails_character_controller/scenes/character/components/scripts/health_component.gd" id="1_gjp8e"]
+
+[node name="HealthComponent" type="Node"]
+script = ExtResource("1_gjp8e")
+
+[connection signal="health_changed" from="." to="." method="_on_health_changed"]

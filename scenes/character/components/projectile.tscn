@@ -1,0 +1,36 @@
+[gd_scene load_steps=7 format=3 uid="uid://ulc2i5sibkjk"]
+
+[ext_resource type="Script" uid="uid://nr3x653ecxxd" path="res://addons/rails_character_controller/scenes/character/components/scripts/projectile.gd" id="1_s4hwx"]
+[ext_resource type="PackedScene" uid="uid://vcwgu6xe422" path="res://addons/rails_character_controller/scenes/character/components/hit_box_component.tscn" id="2_g06fb"]
+
+[sub_resource type="Curve" id="Curve_q3m7n"]
+_data = [Vector2(0.07647058, 1), 0.0, 0.0, 0, 0, Vector2(0.9941177, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_mwjof"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_4c81l"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_gddek"]
+radius = 0.75
+
+[node name="Shooting Projectile" type="RigidBody3D"]
+collision_layer = 0
+collision_mask = 0
+gravity_scale = 0.0
+script = ExtResource("1_s4hwx")
+_damage_curve = SubResource("Curve_q3m7n")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_mwjof")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_4c81l")
+
+[node name="HitBoxComponent" parent="." instance=ExtResource("2_g06fb")]
+unique_name_in_owner = true
+collision_layer = 128
+collision_mask = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitBoxComponent"]
+shape = SubResource("SphereShape3D_gddek")
