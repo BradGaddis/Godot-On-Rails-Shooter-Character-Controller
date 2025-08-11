@@ -4,12 +4,12 @@ class_name CharacterHelperFunctionUtils extends Node
 #TODO add GUI for this
 var default_keyboard_input_map: Dictionary[String, Array] = {
 	"move_forward"      :  [[KEY_W,     "key"], [JoyAxis.JOY_AXIS_LEFT_Y,       -1,  "JoyMotion"]],
-	"move_right"        :  [[KEY_A,     "key"], [JoyAxis.JOY_AXIS_LEFT_X,       -1,  "JoyMotion"]],
-	"move_left"         :  [[KEY_S,     "key"], [JoyAxis.JOY_AXIS_LEFT_X,        1,  "JoyMotion"]],
-	"move_down"         :  [[KEY_D,     "key"], [JoyAxis.JOY_AXIS_LEFT_Y,        1,  "JoyMotion"]],
+	"move_backward"     :  [[KEY_S,     "key"], [JoyAxis.JOY_AXIS_LEFT_Y,        1,  "JoyMotion"]],
+	"move_right"        :  [[KEY_D,     "key"], [JoyAxis.JOY_AXIS_LEFT_X,        1,  "JoyMotion"]],
+	"move_left"         :  [[KEY_A,     "key"], [JoyAxis.JOY_AXIS_LEFT_X,       -1,  "JoyMotion"]],
 	"look_up"           :  [[KEY_UP,    "key"], [JoyAxis.JOY_AXIS_RIGHT_Y,      -1,  "JoyMotion"]],
-	"look_right"        :  [[KEY_RIGHT, "key"], [JoyAxis.JOY_AXIS_RIGHT_X,      -1,  "JoyMotion"]],
-	"look_left"         :  [[KEY_LEFT,  "key"], [JoyAxis.JOY_AXIS_RIGHT_X,       1,  "JoyMotion"]],
+	"look_right"        :  [[KEY_RIGHT, "key"], [JoyAxis.JOY_AXIS_RIGHT_X,       1,  "JoyMotion"]],
+	"look_left"         :  [[KEY_LEFT,  "key"], [JoyAxis.JOY_AXIS_RIGHT_X,       -1,  "JoyMotion"]],
 	"look_down"         :  [[KEY_DOWN,  "key"], [JoyAxis.JOY_AXIS_RIGHT_Y,       1,  "JoyMotion"]],
 	"break"             :  [[KEY_Q,     "key"], [JOY_BUTTON_LEFT_SHOULDER,           "JoyButton"]],
 	"boost"             :  [[KEY_E,     "key"], [JOY_BUTTON_RIGHT_SHOULDER,          "JoyButton"]],
