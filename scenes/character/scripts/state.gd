@@ -14,6 +14,10 @@ class_name State extends Node
 var is_in_cooldown : bool = false:
 	set(val): if val: print([self.name, " just went into cooldown"])
 
+# TODO remove this later after removing it from inherited children
+func _ready():
+	pass
+
 ## resets any variables required by this state
 ## @experimental
 func reset() -> void:

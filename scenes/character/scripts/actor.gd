@@ -20,6 +20,8 @@ var _mode : ActorEnums.mode = ActorEnums.mode.on_rails:
 				return
 		mode_changed.emit(_mode, val)
 		_mode = val
+		return _mode
+		
 ## How "heavy" this character is
 @warning_ignore("unused_private_class_variable")
 @export var _mass: float = 1

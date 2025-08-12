@@ -28,8 +28,6 @@ var left_wing_state: ActorEnums.vehicle_wing_state = ActorEnums.vehicle_wing_sta
 var right_wing_state: ActorEnums.vehicle_wing_state = ActorEnums.vehicle_wing_state.INTACT
 #endregion
 
-#endregion
-
 func _ready() -> void:
 	assert(owner is VehicleCharacter)
 	owner.vehicle_component = self

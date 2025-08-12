@@ -97,12 +97,12 @@ func handle_flight_camera_rail_state_cam(state: String):
 	match state:
 		"fly":
 			var input_dir: Vector2 = PlayerManager.get_input_dir() if PlayerManager.get_player_state() == ActorEnums.player_state.STATE_ACTIVE else Vector2.ZERO
-			rotation.y = CharacterUtils.math_smooth_step_to_f(rotation.y, deg_to_rad(-input_dir.x * 10), deg_to_rad(1), deg_to_rad(.5), deg_to_rad(.01))
-			rotation.x = CharacterUtils.math_smooth_step_to_f(rotation.y, deg_to_rad(input_dir.y * 10), deg_to_rad(1), deg_to_rad(.5), deg_to_rad(.01))
-			position.x = CharacterUtils.math_smooth_step_to_f(position.x, (input_dir.x * 5) * PlayerManager.character.position.x , 1, .5, .05)
-			position.y = CharacterUtils.math_smooth_step_to_f(position.x, (input_dir.y * 5) * PlayerManager.character.position.x, 1, .5, .05)
-		"u-turn":
-			pass
+			##rotation.y = CharacterUtils.math_smooth_step_to_f(rotation.y, deg_to_rad(-input_dir.x * 10), deg_to_rad(1), deg_to_rad(.5), deg_to_rad(.01))
+			##rotation.x = CharacterUtils.math_smooth_step_to_f(rotation.y, deg_to_rad(input_dir.y * 10), deg_to_rad(1), deg_to_rad(.5), deg_to_rad(.01))
+			##position.x = CharacterUtils.math_smooth_step_to_f(position.x, (input_dir.x * 5) * PlayerManager.character.position.x , 1, .5, .05)
+			##position.y = CharacterUtils.math_smooth_step_to_f(position.x, (input_dir.y * 5) * PlayerManager.character.position.x, 1, .5, .05)
+		#"u-turn":
+			#pass
 
 func handle_flight_camera(target: Node3D, delta: float, mode: ActorEnums.cam_mode_view):
 	if target:

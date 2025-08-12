@@ -55,7 +55,8 @@ func update_default_inputs():
 					ev.button_index = key[0]
 			events.append(ev)
 		ProjectSettings.set_setting("input/" + action_name, {"deadzone" : 0.5, "events" : events})
-	
+
+## @expermental
 func erase_default_inputs(): #TODO
 	#return 
 	for action_name in default_keyboard_input_map:

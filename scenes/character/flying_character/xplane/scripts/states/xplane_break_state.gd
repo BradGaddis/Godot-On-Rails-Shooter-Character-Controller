@@ -1,4 +1,4 @@
-class_name xplane_break_state extends FlyingVehicleState
+class_name XplaneBreakState extends FlyingVehicleState
 ## The break state logic for xPlane
 ##
 ## Handles states that the break state can travel to or enter from
@@ -52,7 +52,6 @@ func _physics_process(_delta) -> void:
 		PlayerManager.character.set_speed(_exit_flight_speed + (_initial_flight_speed - _exit_flight_speed) * sampled_speed)
 	_cancel_break_with_boost_to_flight_state()
 
-	print(PlayerManager.character.get_speed())
 
 ## Exits the break state by pressing boosting action
 func _cancel_break_with_boost_to_flight_state():

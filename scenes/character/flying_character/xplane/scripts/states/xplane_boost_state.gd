@@ -56,7 +56,6 @@ func _physics_process(_delta) -> void:
 		PlayerManager.character.set_speed(_initial_flight_speed + (_exit_flight_speed - _initial_flight_speed) * sampled_speed)
 		
 	_cancel_boost_with_break_to_flight_state()
-	print(PlayerManager.character.get_speed())
 
 ## Exits the boost state by pressing breaking action
 func _cancel_boost_with_break_to_flight_state():

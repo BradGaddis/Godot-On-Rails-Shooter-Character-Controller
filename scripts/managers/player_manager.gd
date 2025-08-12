@@ -18,13 +18,10 @@ var _input_dir: Vector2
 ## The direction that the player is rotating in
 var _look_dir: Vector2
 
-## @experimental
-@warning_ignore("unused_private_class_variable") var _move_by_reticle: bool
-
 ## Which controller type the player is using
 var active_controls: ActorEnums.active_controller_type
 
-var player_state: ActorEnums.player_state = ActorEnums.player_state.STATE_ACTIVE
+var _player_state: ActorEnums.player_state = ActorEnums.player_state.STATE_ACTIVE
 
 ## Whether or not the player is allowed to do anything
 var enabled: bool = true:
@@ -128,10 +125,10 @@ func get_input_dir() -> Vector2:
 	return _input_dir
 	
 func get_player_state():
-	return player_state
+	return _player_state
 	
 func set_player_state(state: ActorEnums.player_state):
-	player_state = state
+	_player_state = state
 	
 func _on_foot_input(event: InputEvent):
 	_handle_camera_input_and_controls(event)

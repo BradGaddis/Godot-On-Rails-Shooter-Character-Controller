@@ -223,9 +223,6 @@ script = ExtResource("12_t2fmq")
 _enter_boost_speed_curve = SubResource("Curve_7lcva")
 _exit_boost_speed_curve = SubResource("Curve_dnhn6")
 _boosted_fov = null
-_transition_time = null
-_duration_time = null
-_cool_down_time = null
 
 [node name="break" type="Node" parent="StateMachine"]
 script = ExtResource("13_ah2oa")
