@@ -10,4 +10,37 @@ git clone https://github.com/BradGaddis/godot-on-rails-third-person-shooter-char
 ```
 
 ## Usage:
-You will need to restart your project after enabling this plugin
+You will need to restart your project after enabling this plugin.
+
+TBD
+
+### Features / Roadmap:
+#### Flight Vehicle Character
+- [ ] rail movement
+- [ ] free-range movement
+- [ ] shooting
+	- [ ] optional multi-gun array
+	- [ ] charge shooting
+	- [ ] locking on to a target
+		- [ ] force locking off a target
+- [ ] camera view switching
+	- [ ] 3rd person view
+	- [ ] cockpit view
+- [ ] support for taking damage
+	- [ ] taking damage from enemies
+	- [ ] taking damage from the environment
+- [ ] support for dying
+
+##### Flight Vehicle Character States:
+- [ ] support for banking / tilting
+- [ ] boosting
+- [ ] breaking
+- [ ] u-turning
+- [ ] rolling
+- [ ] somersaulting
+- [ ] idling / landing
+	
+
+#### Grounded Vehicle Character
+
+#### On Foot Character
