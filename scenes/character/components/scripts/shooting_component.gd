@@ -28,7 +28,6 @@ var _temp_charging_shot : Projectile
 ## Reference to the projectile component
 @onready var _reticle_component: ReticleComponent = get_node_or_null("%ReticleComponent")
 
-@export var _player: Player
 
 @export_group("Shooting")
 ## Speed a projectile will launch at
@@ -123,7 +122,7 @@ func _handle_charging(delta) -> void:
 func _update_shot_speed() -> float:
 	match owner.get_mode():
 		ActorEnums.mode.on_rails:
-			return _shot_speed + _player.character.get_rail_speed()
+			return _shot_speed + PlayerManager.character.get_rail_speed()
 		_:
 			return _shot_speed
 
@@ -169,7 +168,7 @@ func update_projectile_collision_mask(layer: int) -> int:
 	return _projectile_collision_mask
 
 func _handle_discharge() -> bool:
-	var input_str: String = "vehicle_shoot" if _player.character is VehicleCharacter else "on_foot_shoot"
+	var input_str: String = "vehicle_shoot" if PlayerManager.character is VehicleCharacter else "on_foot_shoot"
 	if not Input.is_action_pressed(input_str):
 		complete_shot()
 		_force_lock_off(true)
@@ -210,11 +209,11 @@ func start_shot() -> void:
 	add_child(_temp_charging_shot)
 
 func shoot_smart_bomb(): # TODO
-	if _player.character is FlyingVehicleCharacter:
+	if PlayerManager.character is FlyingVehicleCharacter:
 		pass # do one thing
-	elif _player.character is GroundedVehicleCharacter:
+	elif PlayerManager.character is GroundedVehicleCharacter:
 		pass # do some other thing
-	elif _player.character is OnFootCharacter:
+	elif PlayerManager.character is OnFootCharacter:
 		pass # do another thing still
 	else:
 		assert(false, "Nothing other than the playable characters should be shooting bombs")

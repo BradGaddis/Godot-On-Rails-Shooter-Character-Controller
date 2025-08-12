@@ -59,7 +59,7 @@ func _set_signal(child: State):
 
 ## Returns how full the energy gauge should be at any given time
 func get_energy_guage_amount() -> float:
-	if _player.character.state_machine_component.energy_thrusters == ActorEnums.thrust.full:
+	if PlayerManager.character.state_machine_component.energy_thrusters == ActorEnums.thrust.full:
 		return 1
 	_active_time = energy_timer_active.time_left / energy_timer_active.wait_time
 	_cool_time = 1 - (energy_timer_cooldown.time_left / energy_timer_cooldown.wait_time)

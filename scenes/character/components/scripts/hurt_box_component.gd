@@ -10,7 +10,7 @@ signal knocked_back(direction: Vector3)
 
 ## A body to be knocked around
 @export var _knockable_body: Node3D
-@export var _player: Player
+
 ## Reference to the heath component
 @onready var _health_component: HealthComponent = get_node_or_null("%HealthComponent")
 ## Reference to the reticle component
@@ -44,11 +44,11 @@ func _knock_back(knockee: Node3D = null, other: Node3D = null, amount: float = 3
 	var direction: Vector3 = (other.global_position - knockee.global_position).normalized()
 	knocked_back.emit(direction)
 	var _vec2 = Vector2(direction.x, direction.y)
-	_player.enabled = false
+	PlayerManager.enabled = false
 	var tween: Tween = get_tree().create_tween()
 	_align_recticle_on_knock_back()
 	await tween.parallel().tween_property(knockee, "position", knockee.position * direction * amount, _knock_back_time).finished
-	_player.enabled = true
+	PlayerManager.enabled = true
 
 ## Checks if area should take damage, print logs relevant info
 func _on_area_entered(area: Area3D) -> void:

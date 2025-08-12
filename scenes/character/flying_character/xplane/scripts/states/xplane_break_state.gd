@@ -21,7 +21,7 @@ func _ready():
 func enter(_last_state):
 	_start_thrusters(_enter_break_speed_curve.max_domain)
 	_break_enter_timer = get_tree().create_timer(_enter_break_speed_curve.max_domain)
-	_initial_flight_speed = _player.character.get_speed()
+	_initial_flight_speed = PlayerManager.character.get_speed()
 	_active = true;
 	await _break_enter_timer.timeout
 	_break_enter_timer = null
@@ -30,14 +30,14 @@ func enter(_last_state):
 ## Transitions out of this state to the next
 func exit(_next_state):
 	_stop_thrusters()
-	_exit_flight_speed = _player.character.get_speed()
+	_exit_flight_speed = PlayerManager.character.get_speed()
 	await _break_exit_timer.timeout
 	_break_exit_timer = null
 	_break_enter_timer = null
 
 ## Handles state change when active
 func _physics_process(_delta) -> void:
-	if _player.character.state_machine_component.energy_thrusters == ActorEnums.thrust.cooling && _active:
+	if PlayerManager.character.state_machine_component.energy_thrusters == ActorEnums.thrust.cooling && _active:
 		_active = false;
 		start_exit_timer()
 		switch_to_flight_state()
@@ -45,14 +45,14 @@ func _physics_process(_delta) -> void:
 	if _break_enter_timer:
 		var _entry_time_left: float = _enter_break_speed_curve.max_domain - _break_enter_timer.time_left
 		var sampled_speed: float = _enter_break_speed_curve.sample(_entry_time_left)
-		_player.character.set_speed(sampled_speed * _initial_flight_speed)
+		PlayerManager.character.set_speed(sampled_speed * _initial_flight_speed)
 	if _break_exit_timer:
 		var _exit_time_left: float = _enter_break_speed_curve.max_domain - _break_exit_timer.time_left
 		var sampled_speed: float = _exit_break_speed_curve.sample(_exit_time_left)
-		_player.character.set_speed(_exit_flight_speed + (_initial_flight_speed - _exit_flight_speed) * sampled_speed)
+		PlayerManager.character.set_speed(_exit_flight_speed + (_initial_flight_speed - _exit_flight_speed) * sampled_speed)
 	_cancel_break_with_boost_to_flight_state()
 
-	print(_player.character.get_speed())
+	print(PlayerManager.character.get_speed())
 
 ## Exits the break state by pressing boosting action
 func _cancel_break_with_boost_to_flight_state():

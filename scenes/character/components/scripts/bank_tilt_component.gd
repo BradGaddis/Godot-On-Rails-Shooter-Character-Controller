@@ -2,8 +2,6 @@ class_name BankTiltComponent extends Node
 
 
 #region Properties
-@export var _player: Character
-
 
 ## The maximum amount the vehicle can tilt
 @export var _max_tilt: float = 90
@@ -67,10 +65,10 @@ func _play_sfx():
 func _handle_flushing(delta: float):
 	if vehicle.get_current_action() == ActorEnums.bank_tilt_actions.no_action:
 		return
-	if _player.character.visible_body.rotation.z != 0:
+	if PlayerManager.character.visible_body.rotation.z != 0:
 		vehicle.set_action(ActorEnums.bank_tilt_actions.flushing_rotation)
-		_player.character.character.visible_body.rotation.z = move_toward(_player.character.character.visible_body.rotation.z, 0, _tilt_speed * delta) 
-		_update_player_speed(abs(_player.character.visible_body.rotation.z) / deg_to_rad(_max_tilt))
+		PlayerManager.character.character.visible_body.rotation.z = move_toward(PlayerManager.character.character.visible_body.rotation.z, 0, _tilt_speed * delta) 
+		_update_player_speed(abs(PlayerManager.character.visible_body.rotation.z) / deg_to_rad(_max_tilt))
 	else:
 		vehicle.set_action(ActorEnums.bank_tilt_actions.no_action)
 
@@ -84,16 +82,16 @@ func _handle_tilt(delta: float):
 		_tilt_timer = get_tree().create_timer(_tilt_double_tap_time)
 	match vehicle.get_current_action():
 		ActorEnums.bank_tilt_actions.tilting:
-			_player.character.last_x_dir = _player.character.locked_dir
-			_player.character.visible_body.rotation.z = move_toward(_player.character.visible_body.rotation.z, -_player.character.locked_dir  *  deg_to_rad(_max_tilt), _tilt_speed * delta) 	
-			_update_player_speed(abs(_player.character.visible_body.rotation.z) / deg_to_rad(_max_tilt))
+			PlayerManager.character.last_x_dir =PlayerManager.character.locked_dir
+			PlayerManager.character.visible_body.rotation.z = move_toward(PlayerManager.character.visible_body.rotation.z, -PlayerManager.character.locked_dir  *  deg_to_rad(_max_tilt), _tilt_speed * delta) 	
+			_update_player_speed(abs(PlayerManager.character.visible_body.rotation.z) / deg_to_rad(_max_tilt))
 			_open_wings_on_bank()
 		_: # Any state that isn't tilting / banking
-			_cached_player_speed = _player.character.move_in_frame_speed
-			_player.character.locked_dir = _player.character.last_x_dir
+			_cached_player_speed =PlayerManager.character.move_in_frame_speed
+			PlayerManager.character.locked_dir = PlayerManager.character.last_x_dir
 			vehicle.set_action(ActorEnums.bank_tilt_actions.tilting)
 
 func _update_player_speed(x_val: float):
-	if _player.character.character is VehicleCharacter:
-		_player.character.set_move_in_frame_speed(_tilt_move_speed_curve.sample(x_val) * _cached_player_speed )
+	if PlayerManager.character.character is VehicleCharacter:
+		PlayerManager.character.set_move_in_frame_speed(_tilt_move_speed_curve.sample(x_val) * _cached_player_speed )
 	

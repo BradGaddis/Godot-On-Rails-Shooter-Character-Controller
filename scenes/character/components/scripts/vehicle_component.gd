@@ -1,7 +1,6 @@
 class_name VehicleComponent extends CharacterBody3D
 
 #region Parameters
-@export var _player: Player
 ## Reference to the reticle component
 @onready var _reticle_component: ReticleComponent = %ReticleComponent
 ## Enum actions the vehicle can take
@@ -46,7 +45,7 @@ func _handle_rotation(delta: float):
 	
 ## Moves in time with the reticle
 func _follow_reticle(delta: float, _dead_zone: float = 2):
-	if !_player.enabled:
+	if !PlayerManager.enabled:
 		return
 	var direction : Vector3 = (_reticle_component.reticle_object.global_position - global_position).normalized()
 	velocity.x = move_toward(velocity.x, direction.x * _move_speed * delta, _acceleration)

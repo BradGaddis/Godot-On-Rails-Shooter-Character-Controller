@@ -3,8 +3,6 @@ class_name FlyingVehicleState extends State
 ##
 ## Contains the basic needs for all flying vehicles
 
-## Reference to the vehicle character node
-@onready var _player: Player 
 
 ## Reference to the vehcile component of the vehicle character node
 @onready var _vehicle_component: VehicleComponent
@@ -30,7 +28,6 @@ var _did_roll: bool = false
 ## Assigns values to component and timer members 
 func _ready() -> void:
 	super._ready()
-	_player.character = owner
 	_vehicle_component = get_node_or_null("%VehicleComponent")
 	_duration_timer = get_node_or_null("DurationTimer")
 	cooldown_timer = get_node_or_null("CooldownTimer")
@@ -74,11 +71,11 @@ func _tween_transition(node: Node, property: String, amount: float, time: float,
 	
 ## Starts Active Timer and switch enum
 func _start_thrusters(start_time: float = 2):
-	_player.character.state_machine_component.energy_thrusters = ActorEnums.thrust.active
-	_player.character.state_machine_component.energy_timer_active.wait_time = start_time
-	_player.character.state_machine_component.energy_timer_active.start()
+	PlayerManager.character.state_machine_component.energy_thrusters = ActorEnums.thrust.active
+	PlayerManager.character.state_machine_component.energy_timer_active.wait_time = start_time
+	PlayerManager.character.state_machine_component.energy_timer_active.start()
 
 ## Starts Cooldown Timer and switch enum
 func _stop_thrusters():
-	_player.character.state_machine_component.energy_thrusters = ActorEnums.thrust.cooling
-	_player.character.state_machine_component.energy_timer_cooldown.start()
+	PlayerManager.character.state_machine_component.energy_thrusters = ActorEnums.thrust.cooling
+	PlayerManager.character.state_machine_component.energy_timer_cooldown.start()

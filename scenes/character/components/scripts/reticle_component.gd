@@ -83,7 +83,7 @@ func _rotate_around_player(direction: Vector2, delta: float, rotation_speed: flo
 	else:
 		rotation.y = clampf(rotation.y, -limit_y, limit_y)
 	rotation.x = clampf(rotation.x, -limit_x, limit_x)
-	#look_at(_player.character.global_position)
+	
 
 ## Handles general movement such as pulling
 ## and moving the reticle via [method _handle_horizontal_reticle_movement]

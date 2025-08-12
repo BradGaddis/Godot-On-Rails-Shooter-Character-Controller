@@ -24,21 +24,21 @@ func _ready() -> void:
 
 ## On entering this state, sets up inital caches, prevents tilting, and calls [method _roll]
 func enter(_ls):
-	_player.character.vehicle_component.bank_tilt_component.can_tilt = false
-	_initial_move_in_frame_speed = _player.character.move_in_frame_speed
-	_player.character.move_in_frame_speed *= _reticle_movement_reduction
+	PlayerManager.character.vehicle_component.bank_tilt_component.can_tilt = false
+	_initial_move_in_frame_speed =PlayerManager.character.move_in_frame_speed
+	PlayerManager.character.move_in_frame_speed *= _reticle_movement_reduction
 	_roll(_num_rolls)
 
 ## On exiting, returns tilting and reticle movement speed
 func exit(_next_state):
-	_player.character.vehicle_component.bank_tilt_component.can_tilt = true
-	_player.character.move_in_frame_speed = _initial_move_in_frame_speed
+	PlayerManager.character.vehicle_component.bank_tilt_component.can_tilt = true
+	PlayerManager.character.move_in_frame_speed = _initial_move_in_frame_speed
 #
 ## Sets the roll and angle and tweens the visible body. After finished, switches to the flight state
 func _roll(times: int = _num_rolls):
-	_roll_angle = -_player.character.last_x_dir * TAU * times
+	_roll_angle = -PlayerManager.character.last_x_dir * TAU * times
 	_tween = create_tween()
-	_tween.tween_property(_player.character.visible_body, "rotation:z", _roll_angle, _duration_time)
+	_tween.tween_property(PlayerManager.character.visible_body, "rotation:z", _roll_angle, _duration_time)
 	await _tween.finished
-	_player.character.visible_body.rotation.z = wrapf(_player.character.visible_body.rotation.z, 0, TAU)
+	PlayerManager.character.visible_body.rotation.z = wrapf(PlayerManager.character.visible_body.rotation.z, 0, TAU)
 	switch_to_flight_state()
