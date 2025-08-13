@@ -16,17 +16,15 @@ func _physics_process(delta: float) -> void:
 	if status == ActorEnums.status.dead:
 		vehicle_component.position.y -= _gravity * delta * _mass
 		return
-	_free_movement(delta)
-	_rails_movement(delta)
+	_handle_free_movement(delta)
+	_handle_rails_movement(delta)
 	
 ## @experimental 
 ## Handles moving while free-ranged and off-rails.
-func _free_movement(delta: float):
+func _handle_free_movement(delta: float):
 	pass
 
 ## @experimental 
 ## Handles moving while free-ranged and off-rails.
-func _rails_movement(delta: float):
-	if _mode != ActorEnums.mode.on_rails:
-		return
-	vehicle_component.move(delta)
+func _handle_rails_movement(delta: float):
+	pass

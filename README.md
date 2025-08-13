@@ -12,28 +12,33 @@ git clone https://github.com/BradGaddis/godot-on-rails-third-person-shooter-char
 ## Usage:
 You will need to restart your project after enabling this plugin.
 
-TBD
+###### Tentative usage docs:
+You will always need to assign the RailsComponent from however you are managing your level system.
+	Presently, the character requires that you have a RailsComponent node in the level and assigned to the character
+
+More TBD
 
 ### Features / Roadmap:
 	
 - [ ] Add character by adding a single tool script to the scene
 	
 #### Flight Vehicle Character
-- [ ] rail movement
+- [x] rail movement
 - [x] free-range movement
-- [ ] swapping between free-range movement and rails movement
+- [x] swapping between free-range movement and rails movement
 - [ ] shooting
 	- [ ] optional multi-gun array
 	- [ ] charge shooting
 	- [ ] locking on to a target
 		- [ ] force locking off a target
+- [ ] proper collision handling
+- [ ] support for taking damage
+- [ ] support for dying
 - [ ] camera view switching
 	- [ ] 3rd person view
 	- [ ] cockpit view
-- [ ] support for taking damage
 	- [ ] taking damage from enemies
 	- [ ] taking damage from the environment
-- [ ] support for dying
 
 ##### Flight Vehicle Character States:
 - [ ] support for banking / tilting

@@ -5,13 +5,13 @@ class_name Actor extends CharacterBody3D
 #region Properties
 ## Emited when the mode of this Actor is changed
 
-#region signal properties
+	#region signal properties
 signal mode_changed(current_mode: ActorEnums.mode, next_mode: ActorEnums.mode)
 ## Emited when status of the Actor is changed
 
 signal status_changed(type: ActorEnums.status)
 ## The effective movement speed while the Actor is on rails
-#endregion
+	#endregion
 
 @export var _rail_speed: float = 40.0
 
@@ -24,10 +24,14 @@ signal status_changed(type: ActorEnums.status)
 				return
 		mode_changed.emit(_mode, val)
 		_mode = val
+		update_parent(_mode)
 		return _mode
 
 ## How "heavy" this character is
 @export var _mass: float = 1
+
+## Flag determines if the actor should be propelled on rails of freely in the forward motion
+@export var move_flag = false
 
 ## The current status of the enemy (ex. Alive/Dead)
 var status: ActorEnums.status = ActorEnums.status.neutral:
@@ -36,7 +40,13 @@ var status: ActorEnums.status = ActorEnums.status.neutral:
 ## The gravity which the character can fall at. Typically only used for rail mode on death
 var _gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
-#region component properties
+var _cached_parent: Node
+
+@export_group("Additional Components")
+	#region component properties
+## Reference to the rails path components
+@export var _rails_component: RailComponent
+
 ## The visible mesh
 ## @experimental: I have also have this defined in the vehicle component. May remove
 var visible_body : Node3D 
@@ -61,7 +71,8 @@ var _hit_box: HitBoxComponent
 
 ## Reference to the animation component
 var animation_component: AnimationPlayer
-#endregion
+
+	#endregion
 #endregion
 
 ## Assigns component variables and registeres processes
@@ -74,6 +85,8 @@ func _ready() -> void:
 	_hurt_box = get_node_or_null("%HurtBoxComponent")
 	visible_body = get_node_or_null("%VisibleBody")
 	animation_component = get_node_or_null("AnimationPlayer")
+	_cached_parent = self.get_parent()
+	call_deferred("update_parent", _mode)
 
 ## Returns _rail_speed
 func get_rail_speed() -> float:
@@ -94,3 +107,10 @@ func update_mode(new_mode: ActorEnums.mode) -> void:
 
 func get_mode() -> ActorEnums.mode:
 	return _mode
+
+func update_parent(mode: ActorEnums.mode):
+	match mode:
+		ActorEnums.mode.free:
+			reparent(_cached_parent, true)
+		ActorEnums.mode.on_rails:
+			reparent(_rails_component.player_active_path_follow, true)
