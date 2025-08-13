@@ -203,6 +203,7 @@ _rail_dead_zone_radius = 100.0
 
 [node name="CameraComponent" parent="." instance=ExtResource("7_e6uho")]
 unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 0.9848077, 0.17364818, 0, -0.17364818, 0.9848077, 0, 0, 0)
 
 [node name="HealthComponent" parent="." instance=ExtResource("8_cbdda")]
 unique_name_in_owner = true

@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://teei5itjmbra"]
 
 [ext_resource type="Script" uid="uid://bbtfroi27pjr7" path="res://addons/rails_character_controller/scenes/character/components/scripts/reticle_component.gd" id="1_88xd1"]
-[ext_resource type="Script" path="res://addons/rails_character_controller/scenes/character/components/scripts/reticle_control.gd" id="3_cmeoa"]
+[ext_resource type="Script" uid="uid://cq02iogal2fan" path="res://addons/rails_character_controller/scenes/character/components/scripts/reticle_control.gd" id="3_cmeoa"]
 [ext_resource type="Texture2D" uid="uid://bcinm41wd8v1m" path="res://icon.svg" id="3_oa8ot"]
 
 [node name="ReticleComponent" type="Node3D"]

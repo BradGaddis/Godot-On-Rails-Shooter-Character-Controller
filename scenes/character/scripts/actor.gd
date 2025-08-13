@@ -11,10 +11,8 @@ signal status_changed(type: ActorEnums.status)
 @export var _rail_speed: float = 40.0
 @export var _forward_speed: float = 40.0
 
-@warning_ignore("unused_private_class_variable")
-
 ## The current mode the Actor is in
-var _mode : ActorEnums.mode = ActorEnums.mode.on_rails:
+@export var _mode : ActorEnums.mode = ActorEnums.mode.on_rails:
 	set(val):
 		if val == _mode:
 				return

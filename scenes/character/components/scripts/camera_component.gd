@@ -65,7 +65,7 @@ func position_camera_behind_player(duration: float = _duration) -> void:
 	if PlayerManager.character.get_mode() == ActorEnums.mode.on_rails:
 		_tween_rotation_component(PlayerManager.character.visible_body.rotation.y, duration)
 	if PlayerManager.character.get_mode() == ActorEnums.mode.free:
-		if PlayerManager.state_machine_component.current_state.name == "roll":
+		if PlayerManager.character.state_machine_component.current_state.name == "roll":
 			_tween_rotation_component(PlayerManager.character.visible_body.rotation.y, duration)
 			return
 		return

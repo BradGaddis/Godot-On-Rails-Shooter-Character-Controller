@@ -37,8 +37,9 @@ func _ready() -> void:
 func _handle_rotation(delta: float):
 	if _current_action == ActorEnums.bank_tilt_actions.tilting:
 		return
-	rotation.x = move_toward(rotation.x, velocity.y, _rotation_speed * delta)
-	rotation.y = move_toward(rotation.y, -velocity.x, _rotation_speed * delta)
+	if PlayerManager.character is FlyingVehicleCharacter:
+		rotation.x = move_toward(rotation.x, velocity.y, _rotation_speed * delta)
+		rotation.y = move_toward(rotation.y, -velocity.x, _rotation_speed * delta)
 	#rotation.z = move_toward(rotation.z, -velocity.x * 2, _rotation_speed * delta  * _tilt_speed)
 	
 ## Moves in time with the reticle
