@@ -15,9 +15,13 @@ You will need to restart your project after enabling this plugin.
 TBD
 
 ### Features / Roadmap:
+	
+- [ ] Add character by adding a single tool script to the scene
+	
 #### Flight Vehicle Character
 - [ ] rail movement
-- [ ] free-range movement
+- [x] free-range movement
+- [ ] swapping between free-range movement and rails movement
 - [ ] shooting
 	- [ ] optional multi-gun array
 	- [ ] charge shooting
