@@ -23,6 +23,8 @@ class_name VehicleComponent extends CharacterBody3D
 #@onready var ray_cast_3d: RayCast3D = %RayCast3D
 @onready var bank_tilt_component: BankTiltComponent 
 
+var _position_tweener: Tween
+
 #region Damage States
 var left_wing_state: ActorEnums.vehicle_wing_state = ActorEnums.vehicle_wing_state.INTACT
 var right_wing_state: ActorEnums.vehicle_wing_state = ActorEnums.vehicle_wing_state.INTACT
@@ -74,4 +76,9 @@ func get_current_action() -> ActorEnums.bank_tilt_actions:
 
 func set_action(action: ActorEnums.bank_tilt_actions) :
 	_current_action = action
+	
+func return_to_center(duration: float = .5) -> Signal:
+	_position_tweener = CharacterUtils.kill_and_create_tween(_position_tweener)
+	await _position_tweener.tween_property(self, "position", Vector3.ZERO, duration).finished
+	return _position_tweener.finished
 	

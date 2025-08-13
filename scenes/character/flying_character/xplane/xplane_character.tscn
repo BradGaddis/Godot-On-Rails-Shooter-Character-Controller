@@ -18,6 +18,10 @@
 [ext_resource type="Script" uid="uid://bnf3r2m2i7isc" path="res://addons/rails_character_controller/scenes/character/flying_character/xplane/scripts/states/xplane_loop_state.gd" id="15_efn5h"]
 [ext_resource type="PackedScene" uid="uid://ds62ivfpw2mkj" path="res://addons/rails_character_controller/scenes/character/components/death_component.tscn" id="16_bahrv"]
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ota3n"]
+radius = 1.5
+height = 10.0
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pcrdr"]
 radius = 5.0
 height = 10.0
@@ -29,10 +33,6 @@ _limits = [0.0, 3.0, 0.0, 1.0]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 3), 0.0, 0.0, 0, 0]
 point_count = 2
 metadata/_snap_count = 2
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ota3n"]
-radius = 1.5
-height = 10.0
 
 [sub_resource type="Curve" id="Curve_15u4u"]
 _limits = [1.0, 2.0, 0.7716049, 1.0]
@@ -142,6 +142,10 @@ transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
 collision_layer = 0
 collision_mask = 0
 script = ExtResource("1_oj7jl")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.3711392e-08, -0.9999999, 0, 0.9999999, -4.3711392e-08, 0, 0.5342849, -1.5923698)
+shape = SubResource("CapsuleShape3D_ota3n")
 
 [node name="VehicleComponent" type="CharacterBody3D" parent="."]
 unique_name_in_owner = true

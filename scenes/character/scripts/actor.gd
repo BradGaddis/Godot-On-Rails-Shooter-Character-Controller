@@ -4,7 +4,7 @@ class_name Actor extends CharacterBody3D
 
 #region Properties
 ## Emited when the mode of this Actor is changed
-signal mode_changed(type: ActorEnums.mode)
+signal mode_changed(current_mode: ActorEnums.mode, next_mode: ActorEnums.mode)
 ## Emited when status of the Actor is changed
 signal status_changed(type: ActorEnums.status)
 ## The effective movement speed while the Actor is on rails
