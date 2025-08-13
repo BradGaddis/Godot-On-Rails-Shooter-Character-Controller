@@ -68,11 +68,11 @@ func get_energy_guage_amount() -> float:
 
 #region shared functionality: 
 func _on_energy_timer_cooldown_timeout() -> void:
-	_player.character.state_machine_component.energy_thrusters = ActorEnums.thrust.full
+	PlayerManager.character.state_machine_component.energy_thrusters = ActorEnums.thrust.full
 	energy_timer_active.stop()
 	
 func _on_energy_timer_active_timeout() -> void:
-	_player.character.state_machine_component.energy_thrusters = ActorEnums.thrust.cooling
+	PlayerManager.character.state_machine_component.energy_thrusters = ActorEnums.thrust.cooling
 	if energy_timer_cooldown.is_stopped():
 		energy_timer_cooldown.start()
 #endregion

@@ -47,7 +47,7 @@ func set_rail_path(rail_path: PathFollow3D):
 	_rail_path = rail_path
 
 ## Handles moving in modes
-func physics_process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	#if _mode == ActorEnums.mode.free:
 		#push_warning("We haven't implemented free mode yet")
 	#if _mode == ActorEnums.mode.on_rails:

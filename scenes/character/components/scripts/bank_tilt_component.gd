@@ -35,7 +35,7 @@ func _ready() -> void:
 	vehicle = get_parent()
 	assert(vehicle, "This node is either not attached to a vehicle component, or we just couldn't find it.")
 
-func physics_process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	_handle_tilt(delta)
 
 func tilt_time_left() -> bool:
@@ -67,7 +67,7 @@ func _handle_flushing(delta: float):
 		return
 	if PlayerManager.character.visible_body.rotation.z != 0:
 		vehicle.set_action(ActorEnums.bank_tilt_actions.flushing_rotation)
-		PlayerManager.character.character.visible_body.rotation.z = move_toward(PlayerManager.character.character.visible_body.rotation.z, 0, _tilt_speed * delta) 
+		PlayerManager.character.visible_body.rotation.z = move_toward(PlayerManager.character.visible_body.rotation.z, 0, _tilt_speed * delta) 
 		_update_player_speed(abs(PlayerManager.character.visible_body.rotation.z) / deg_to_rad(_max_tilt))
 	else:
 		vehicle.set_action(ActorEnums.bank_tilt_actions.no_action)
@@ -92,6 +92,6 @@ func _handle_tilt(delta: float):
 			vehicle.set_action(ActorEnums.bank_tilt_actions.tilting)
 
 func _update_player_speed(x_val: float):
-	if PlayerManager.character.character is VehicleCharacter:
+	if PlayerManager.character is VehicleCharacter:
 		PlayerManager.character.set_move_in_frame_speed(_tilt_move_speed_curve.sample(x_val) * _cached_player_speed )
 	

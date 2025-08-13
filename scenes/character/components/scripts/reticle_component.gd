@@ -26,9 +26,9 @@ func _ready() -> void:
 	reticle_object.position.z = _z_locked_pos
 
 ## Keeps z-position locked and manages locking on mode
-func physics_process(_delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	reticle_object.position.z = _z_locked_pos
-	if PlayerManager.get_mode() == ActorEnums.mode.on_rails:
+	if PlayerManager.character.get_mode() == ActorEnums.mode.on_rails:
 		_lock_to_camera_bounds()
 	
 

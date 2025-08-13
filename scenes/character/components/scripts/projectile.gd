@@ -47,7 +47,7 @@ func update_collision_mask(layer: int):
 	_hitbox.collision_mask = layer
 		
 ## Handles launching and collisions
-func physics_process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if not launch: return;
 	_damage = _base_damage * _damage_curve.sample(_distance_traveled()/_shot_range)
 	var collision = move_and_collide(_launch_direction * delta * (_shot_speed if not _tapered_velocity else _shot_speed * delta))

@@ -176,7 +176,7 @@ func _handle_discharge() -> bool:
 	return false
 
 ## Only runs when a shot is charging/charged
-func process(delta: float) -> void:
+func _process(delta: float) -> void:
 	if not is_instance_valid(_target):
 		_target = null
 	if _handle_discharge():
@@ -198,10 +198,12 @@ func complete_shot() -> Projectile:
 	_temp_charging_shot = null
 	_charging_status = ActorEnums.charging.not_charging
 	shot_fired.emit()
+	set_process(false)
 	return shot
 
 ## Starts the charging sequence
 func start_shot() -> void:
+	set_process(true)
 	_charge_hold.start(_charge_time)
 	_charging_status = ActorEnums.charging.is_charging
 	_charge_hold.paused = false

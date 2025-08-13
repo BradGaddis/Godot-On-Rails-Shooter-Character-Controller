@@ -21,12 +21,10 @@ func get_dist_from_ground():
 ## @experimental 
 ## Handles moving while free-ranged and off-rails.
 func _handle_rails_movement(delta: float):
-	if _mode != ActorEnums.mode.on_rails:
-		return
-	
+	if _mode != ActorEnums.mode.on_rails: return
+	if !move_flag: return
 	vehicle_component.move(delta)
-	if move_flag:
-		_rails_component.player_active_path_follow.progress += delta * get_speed()
+	_rails_component.player_active_path_follow.progress += delta * get_speed()
 	
 ## @experimental 
 ## Handles moving while free-ranged and off-rails.
@@ -37,7 +35,8 @@ func _handle_free_movement(delta: float):
 	
 func _fly_forward(delta):
 	if !reticle_component: return
-	velocity = (Vector3.ONE * _forward_speed) * dir_to_reticle().rotated(Vector3.UP, rotation.y)
+	if !move_flag: return
+	velocity = (Vector3.ONE * _forward_speed) * dir_to_reticle().rotated(Vector3.UP, rotation.y) 
 	_rotate_character_toward_reticle(delta, 5, 4, false)
 	move_and_slide()
 
