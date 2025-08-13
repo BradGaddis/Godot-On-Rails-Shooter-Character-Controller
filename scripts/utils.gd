@@ -9,16 +9,16 @@ var default_keyboard_input_map: Dictionary[String, Array] = {
 	"move_left"         :  [[KEY_A,     "key"], [JoyAxis.JOY_AXIS_LEFT_X,       -1,  "JoyMotion"]],
 	"look_up"           :  [[KEY_UP,    "key"], [JoyAxis.JOY_AXIS_RIGHT_Y,      -1,  "JoyMotion"]],
 	"look_right"        :  [[KEY_RIGHT, "key"], [JoyAxis.JOY_AXIS_RIGHT_X,       1,  "JoyMotion"]],
-	"look_left"         :  [[KEY_LEFT,  "key"], [JoyAxis.JOY_AXIS_RIGHT_X,       -1,  "JoyMotion"]],
+	"look_left"         :  [[KEY_LEFT,  "key"], [JoyAxis.JOY_AXIS_RIGHT_X,      -1,  "JoyMotion"]],
 	"look_down"         :  [[KEY_DOWN,  "key"], [JoyAxis.JOY_AXIS_RIGHT_Y,       1,  "JoyMotion"]],
-	"break"             :  [[KEY_Q,     "key"], [JOY_BUTTON_LEFT_SHOULDER,           "JoyButton"]],
-	"boost"             :  [[KEY_E,     "key"], [JOY_BUTTON_RIGHT_SHOULDER,          "JoyButton"]],
-	"tilt"              :  [[KEY_UP,    "key"], [JOY_BUTTON_LEFT_SHOULDER,           "JoyButton"]],
-	"roll"              :  [[KEY_UP,    "key"], ],
-	"somersault"        :  [[KEY_UP,    "key"], ],
-	"uturn"             :  [[KEY_UP,    "key"], ],
-	"vehicle_shoot"     :  [[KEY_UP,    "key"], ],
-	"on_foot_shoot"     :  [[KEY_UP,    "key"], ],
+	"tilt"              :  [[KEY_SHIFT, "key"], [JoyAxis.JOY_AXIS_TRIGGER_RIGHT, 1,  "JoyMotion"]],
+	"somersault"        :  [[KEY_C,     "key"], [JoyAxis.JOY_AXIS_RIGHT_Y,       1,  "JoyMotion"]],
+	"uturn"             :  [[KEY_X,     "key"], [JoyAxis.JOY_AXIS_RIGHT_Y,      -1,  "JoyMotion"]],
+	"roll"              :  [[KEY_CTRL,  "key"], [JOY_BUTTON_LEFT_SHOULDER,           "JoyButton"]],
+	"break"             :  [[KEY_Q,     "key"], [JOY_BUTTON_RIGHT_SHOULDER,          "JoyButton"]],
+	"boost"             :  [[KEY_E,     "key"], [JOY_BUTTON_Y,                       "JoyButton"]],
+	"on_foot_shoot"     :  [[KEY_C,     "key"], [JOY_BUTTON_A,                       "JoyButton"], [MOUSE_BUTTON_LEFT, "MouseButton"]],
+	"vehicle_shoot"     :  [[KEY_SPACE, "key"], [JOY_BUTTON_A,                       "JoyButton"], [MOUSE_BUTTON_LEFT, "MouseButton"]],
 	"run"               :  [[KEY_SHIFT, "key"], ],
 	#"jump"             : [[KEY_UP, "key"]],
 	}
@@ -53,13 +53,16 @@ func update_default_inputs():
 				"joybutton":
 					ev = InputEventJoypadButton.new()
 					ev.button_index = key[0]
+			match key[-1].to_lower():
+				"mousebutton":
+					ev = InputEventMouseButton.new()
+					ev.button_index = key[0]
 			events.append(ev)
 		ProjectSettings.set_setting("input/" + action_name, {"deadzone" : 0.5, "events" : events})
 
 ## @expermental
 func erase_default_inputs(): #TODO
-	#return 
 	for action_name in default_keyboard_input_map:
-		print(ProjectSettings.get_setting("input/" + action_name))
+		#print(action_name, ProjectSettings.get_setting("input/" + action_name))
 		#break	
 		ProjectSettings.clear("input/" + action_name)
