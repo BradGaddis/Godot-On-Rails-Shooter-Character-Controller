@@ -1,0 +1,86 @@
+[gd_scene load_steps=3 format=3 uid="uid://bcio80vdajk2l"]
+
+[ext_resource type="Script" uid="uid://b1nd28j2u4fxi" path="res://addons/rails_character_controller/editor/scripts/editor_main.gd" id="1_63q1c"]
+[ext_resource type="Script" uid="uid://ctj3m573wn4ar" path="res://addons/rails_character_controller/editor/editor_manager.gd" id="2_1c0rc"]
+
+[node name="EditorMain" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+script = ExtResource("1_63q1c")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Unused TabBar" type="TabBar" parent="VBoxContainer"]
+layout_mode = 2
+current_tab = 0
+tab_count = 3
+tab_0/title = "Vechicle Character"
+tab_1/title = "On Foot Character"
+tab_2/title = "Grounded Character"
+
+[node name="Panel" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Label" type="Label" parent="VBoxContainer/Panel"]
+layout_mode = 2
+text = "Add Component:"
+horizontal_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+columns = 10
+
+[node name="Comp" type="VBoxContainer" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/GridContainer/Comp"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "[name] Component
+"
+
+[node name="Button" type="CheckButton" parent="VBoxContainer/GridContainer/Comp"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_stretch_ratio = 0.0
+
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/CenterContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Character Name Label" type="Label" parent="VBoxContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Name of Character:"
+horizontal_alignment = 1
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Save Button" type="Button" parent="VBoxContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Save Character
+"
+
+[node name="EditorManager" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_1c0rc")
