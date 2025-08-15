@@ -19,6 +19,7 @@ func _ready() -> void:
 	tabbar.clear_tabs()
 	tabbar.tab_clicked.connect(_on_editors_tab_changed)
 	_add_editor("uid://cntoa2fm8hhj5", "Flight Character")
+	open_editor(editors_holder.get_child(0))
 
 
 func open_editor(editor: RaigonCharacterCreator, ...extra_info) -> void:
