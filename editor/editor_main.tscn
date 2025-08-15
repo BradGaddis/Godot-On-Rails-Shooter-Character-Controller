@@ -13,7 +13,17 @@ grow_vertical = 2
 size_flags_vertical = 3
 script = ExtResource("1_63q1c")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="EditorManager" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_1c0rc")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EditorManager"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -21,66 +31,54 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Unused TabBar" type="TabBar" parent="VBoxContainer"]
+[node name="CharacterTabBar" type="TabBar" parent="EditorManager/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 5
 current_tab = 0
-tab_count = 3
-tab_0/title = "Vechicle Character"
-tab_1/title = "On Foot Character"
-tab_2/title = "Grounded Character"
+tab_count = 1
+tab_0/title = "Flight Character"
 
-[node name="Panel" type="PanelContainer" parent="VBoxContainer"]
+[node name="Panel" type="PanelContainer" parent="EditorManager/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="Label" type="Label" parent="VBoxContainer/Panel"]
+[node name="Label" type="Label" parent="EditorManager/VBoxContainer/Panel"]
 layout_mode = 2
 text = "Add Component:"
 horizontal_alignment = 1
 
-[node name="GridContainer" type="GridContainer" parent="VBoxContainer"]
+[node name="Editors" type="Control" parent="EditorManager/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 4
 size_flags_vertical = 3
-columns = 10
+size_flags_stretch_ratio = 4.0
 
-[node name="Comp" type="VBoxContainer" parent="VBoxContainer/GridContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="VBoxContainer/GridContainer/Comp"]
-layout_mode = 2
-size_flags_vertical = 0
-text = "[name] Component
-"
-
-[node name="Button" type="CheckButton" parent="VBoxContainer/GridContainer/Comp"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_stretch_ratio = 0.0
-
-[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer"]
+[node name="CenterContainer" type="CenterContainer" parent="EditorManager/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/CenterContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="EditorManager/VBoxContainer/CenterContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="Character Name Label" type="Label" parent="VBoxContainer/CenterContainer/VBoxContainer"]
+[node name="Character Name Label" type="Label" parent="EditorManager/VBoxContainer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 text = "Name of Character:"
 horizontal_alignment = 1
 
-[node name="LineEdit" type="LineEdit" parent="VBoxContainer/CenterContainer/VBoxContainer"]
+[node name="CharacterName" type="Label" parent="EditorManager/VBoxContainer/CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="LineEdit" type="LineEdit" parent="EditorManager/VBoxContainer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Save Button" type="Button" parent="VBoxContainer/CenterContainer/VBoxContainer"]
+[node name="Save Button" type="Button" parent="EditorManager/VBoxContainer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 text = "Save Character
 "
 
-[node name="EditorManager" type="Control" parent="."]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("2_1c0rc")
+[connection signal="text_changed" from="EditorManager/VBoxContainer/CenterContainer/VBoxContainer/LineEdit" to="EditorManager" method="_on_line_edit_text_changed"]
+[connection signal="pressed" from="EditorManager/VBoxContainer/CenterContainer/VBoxContainer/Save Button" to="EditorManager" method="_on_save_button_pressed"]

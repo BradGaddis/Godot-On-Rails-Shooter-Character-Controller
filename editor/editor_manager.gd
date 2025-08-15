@@ -1,47 +1,59 @@
+@tool
 extends Control
 ## Shows the given editor
 
 
-@onready var tabbar := $HSplit/VBox/Toolbar/EditorTabBar
-@onready var editors_holder := $HSplit/VBox/Editors
+@onready var tabbar := %CharacterTabBar
+@onready var editors_holder := %Editors
+@onready var character_name: Label = %CharacterName
+@onready var _character_generator: RaigonCharacterGenerator = RaigonCharacterGenerator.new()
 
+var _character_name_input
 
 ## Information on supported resource extensions and registered editors
-var current_editor: Control = null
-var previous_editor: Control = null
+var current_editor: RaigonCharacterCreator = null
+var previous_editor: RaigonCharacterCreator = null
 var editors := {}
 
 func _ready() -> void:
+	tabbar.clear_tabs()
 	tabbar.tab_clicked.connect(_on_editors_tab_changed)
+	_add_editor("uid://cntoa2fm8hhj5", "Flight Character")
 
 
-func open_editor(editor:DialogicEditor, save_previous: bool = true, extra_info:Variant = null) -> void:
-	#if current_editor and save_previous:
-		#current_editor._save()
-##
-	#if current_editor:
-		#current_editor._close()
-		#current_editor.hide()
+func open_editor(editor: RaigonCharacterCreator, ...extra_info) -> void:
+	if current_editor:
+		editor._close(extra_info)
+		current_editor.hide()
 
 	if current_editor != previous_editor:
 		previous_editor = current_editor
 
 	editor._open(extra_info)
 	editor.opened.emit()
+	
 	current_editor = editor
 	editor.show()
 	tabbar.current_tab = editor.get_index()
-#
-	#if editor.current_resource:
-		#var text: String = editor.current_resource.resource_path.get_file()
-		#if editor.current_resource_state == DialogicEditor.ResourceStates.UNSAVED:
-			#text += "(*)"
 
-	## This makes custom button editor-specific
-	## I think it's better without.
-
-	#save_current_state()
-	#editor_changed.emit(previous_editor, current_editor)
 
 func _on_editors_tab_changed(tab:int) -> void:
 	open_editor(editors_holder.get_child(tab))
+
+
+func _add_editor(path:String, name: String) -> void:
+	var editor: RaigonCharacterCreator = load(path).instantiate()
+	editors_holder.add_child(editor)
+	editor.hide()
+	tabbar.add_tab(name)
+
+
+func _on_save_button_pressed() -> void:
+	if !_character_name_input:
+		return
+	_character_generator.create_character(0, _character_name_input, current_editor.components_to_add)
+
+
+func _on_line_edit_text_changed(new_text: String) -> void:
+	_character_name_input = new_text
+	character_name.text = _character_name_input
