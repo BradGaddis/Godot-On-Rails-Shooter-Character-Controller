@@ -13,7 +13,7 @@ func state_physics_process(_delta) -> void:
 		switch_to_boost_state()
 		switch_to_break_state()
 		
-	if Input.is_action_just_released("tilt") and PlayerManager.character.vehicle_component.bank_tilt_component.tilt_time_left():
+	if PlayerManager.character.vehicle_component.bank_tilt_component and Input.is_action_just_released("tilt") and PlayerManager.character.vehicle_component.bank_tilt_component.tilt_time_left():
 		transitioned.emit(self, "roll")
 	
 	switch_to_roll_state()

@@ -1,3 +1,4 @@
+@tool
 class_name VehicleComponent extends CharacterBody3D
 
 #region Parameters
@@ -7,6 +8,7 @@ class_name VehicleComponent extends CharacterBody3D
 @onready var _current_action: ActorEnums.bank_tilt_actions = ActorEnums.bank_tilt_actions.no_action
 ## The point that the loop state will pivot around
 @onready var pivot_point: Marker3D = $"Pivot Point"
+
 @export_group("Movement")
 ## Handles how the vehilce will rotate while moving
 @export var _rotation_speed: float = 2

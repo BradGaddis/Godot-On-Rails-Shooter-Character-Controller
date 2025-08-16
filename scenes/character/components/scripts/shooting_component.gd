@@ -1,3 +1,4 @@
+@tool
 class_name ShootingComponent extends Node3D
 ## Handles shooting related logic
 ## 
@@ -72,6 +73,21 @@ var _was_locked_on: bool
 var _target: Node3D
 #endregion
 
+
+func _get_configuration_warnings() -> PackedStringArray:
+	var output: PackedStringArray
+	var found_vehicle_parent: bool = false
+	if owner is VehicleCharacter:
+		var vehicle_components = owner.find_children("*", "VehicleComponent")
+		if !vehicle_components:
+			output.append("You might want to have at least one vehicle component. Otherwise ignore this warning.")
+		for vehicle_component in vehicle_components:
+			found_vehicle_parent = vehicle_component.find_children(self.name, "ShootingComponent", true) != []
+		if !found_vehicle_parent:
+			output.append("This shooting component might not behave as you expect if it is not placed as a child of a vehicle component. If this is intended, ignore this warning")
+			
+	return output
+
 ## Calls [method _set_up_timer]
 func _ready() -> void:
 	_set_up_charging_timer()
@@ -120,12 +136,8 @@ func _handle_charging(delta) -> void:
 
 ## Updates shot speed according to character mode
 func _update_shot_speed() -> float:
-	match owner.get_mode():
-		ActorEnums.mode.on_rails:
-			return _shot_speed + PlayerManager.character.get_rail_speed()
-		_:
-			return _shot_speed
-
+	return owner.get_speed()
+	
 ## Updates the charging status on [member _charge_hold] timeout[br]
 ## Emits [member finshed_charging]
 func _on_charge_hold_timeout():

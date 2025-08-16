@@ -1,0 +1,73 @@
+[gd_scene load_steps=11 format=3 uid="uid://c7q83nsp2wsbn"]
+
+[ext_resource type="Script" uid="uid://y2m11wlenatn" path="res://addons/rails_character_controller/scenes/character/scripts/state_machine_component.gd" id="1_334bt"]
+[ext_resource type="Script" uid="uid://phtiogbt3h48" path="res://addons/rails_character_controller/scenes/character/flying_character/xplane/scripts/states/xplane_flying_state.gd" id="2_ycifk"]
+[ext_resource type="Script" uid="uid://bmyq2xofmukqa" path="res://addons/rails_character_controller/scenes/character/flying_character/xplane/scripts/states/xplane_boost_state.gd" id="3_lsm4l"]
+[ext_resource type="Script" uid="uid://bke6r3aufig3i" path="res://addons/rails_character_controller/scenes/character/flying_character/xplane/scripts/states/xplane_break_state.gd" id="4_j44l7"]
+[ext_resource type="Script" uid="uid://c14e8irkvrbv3" path="res://addons/rails_character_controller/scenes/character/flying_character/xplane/scripts/states/xplane_roll_state.gd" id="5_87ty2"]
+[ext_resource type="Script" uid="uid://bnf3r2m2i7isc" path="res://addons/rails_character_controller/scenes/character/flying_character/xplane/scripts/states/xplane_loop_state.gd" id="6_iox2a"]
+
+[sub_resource type="Curve" id="Curve_7lcva"]
+_limits = [1.0, 2.0, 0.0, 2.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(2, 2), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_dnhn6"]
+_limits = [0.0, 1.0, 0.0, 2.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(2, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_8q4fr"]
+_limits = [0.5, 1.0, 0.0, 5.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(5, 0.5), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_4hjcp"]
+_limits = [0.0, 1.0, 0.0, 2.0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(2, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="StateMachine" type="Node" node_paths=PackedStringArray("current_state")]
+script = ExtResource("1_334bt")
+current_state = NodePath("fly")
+
+[node name="fly" type="Node" parent="."]
+script = ExtResource("2_ycifk")
+
+[node name="Wobble Timer" type="Timer" parent="fly"]
+
+[node name="boost" type="Node" parent="."]
+script = ExtResource("3_lsm4l")
+_enter_boost_speed_curve = SubResource("Curve_7lcva")
+_exit_boost_speed_curve = SubResource("Curve_dnhn6")
+_boosted_fov = null
+
+[node name="break" type="Node" parent="."]
+script = ExtResource("4_j44l7")
+_enter_break_speed_curve = SubResource("Curve_8q4fr")
+_exit_break_speed_curve = SubResource("Curve_4hjcp")
+
+[node name="roll" type="Node" parent="."]
+script = ExtResource("5_87ty2")
+_num_rolls = 1
+_transition_time = null
+_duration_time = 0.33000000000174623
+_cool_down_time = null
+
+[node name="somersault" type="Node" parent="."]
+script = ExtResource("6_iox2a")
+_delay_time = null
+_transition_time = null
+_duration_time = null
+_cool_down_time = null
+
+[node name="EnergyTimerActive" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="EnergyTimerCooldown" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="timeout" from="EnergyTimerActive" to="." method="_on_energy_timer_active_timeout"]
+[connection signal="timeout" from="EnergyTimerCooldown" to="." method="_on_energy_timer_cooldown_timeout"]

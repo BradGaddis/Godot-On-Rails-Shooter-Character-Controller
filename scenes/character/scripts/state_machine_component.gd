@@ -31,9 +31,12 @@ var energy_thrusters: ActorEnums.thrust = ActorEnums.thrust.full
 func _ready() -> void:
 	for child in get_children():
 		if child is State:
+			if !current_state:
+				current_state = child
 			_states[child.name] = child
 			print("Adding %s to states" % child.name)
 			_set_signal(child)
+	
 	energy_timer_active = get_node_or_null("EnergyTimerActive")
 	energy_timer_cooldown = get_node_or_null("EnergyTimerCooldown")
 

@@ -22,7 +22,7 @@ func _ready() -> void:
 		
 
 func _open(...args):
-	print(editor_manager)
+	pass
 
 func _close(...args):
 	pass
@@ -42,7 +42,6 @@ func _on_button_toggled(toggled, button: CheckBox):
 		_add_comp(button)
 	elif !toggled:
 		_remove_comp(button)
-	print(components_to_add)
 		
 func _add_comp(button: CheckBox):
 	components_to_add.append(button.get_parent().get_parent().name)

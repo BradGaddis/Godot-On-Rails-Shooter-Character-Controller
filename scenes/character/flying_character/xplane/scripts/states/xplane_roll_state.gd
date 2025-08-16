@@ -24,14 +24,16 @@ func _ready() -> void:
 
 ## On entering this state, sets up inital caches, prevents tilting, and calls [method _roll]
 func enter(_ls):
-	PlayerManager.character.vehicle_component.bank_tilt_component.can_tilt = false
+	if PlayerManager.character.vehicle_component.bank_tilt_component:
+		PlayerManager.character.vehicle_component.bank_tilt_component.can_tilt = false
 	_initial_move_in_frame_speed =PlayerManager.character.move_in_frame_speed
 	PlayerManager.character.move_in_frame_speed *= _reticle_movement_reduction
 	_roll(_num_rolls)
 
 ## On exiting, returns tilting and reticle movement speed
 func exit(_next_state):
-	PlayerManager.character.vehicle_component.bank_tilt_component.can_tilt = true
+	if PlayerManager.character.vehicle_component.bank_tilt_component:
+		PlayerManager.character.vehicle_component.bank_tilt_component.can_tilt = true
 	PlayerManager.character.move_in_frame_speed = _initial_move_in_frame_speed
 #
 ## Sets the roll and angle and tweens the visible body. After finished, switches to the flight state

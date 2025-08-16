@@ -52,7 +52,7 @@ func _add_editor(path:String, name: String) -> void:
 func _on_save_button_pressed() -> void:
 	if !_character_name_input:
 		return
-	_character_generator.create_character(0, _character_name_input, current_editor.components_to_add)
+	_character_generator.create_character(tabbar.get_index(), _character_name_input, current_editor.components_to_add)
 
 
 func _on_line_edit_text_changed(new_text: String) -> void:
