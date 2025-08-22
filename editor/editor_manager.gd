@@ -44,6 +44,7 @@ func _on_editors_tab_changed(tab:int) -> void:
 
 func _add_editor(path:String, name: String) -> void:
 	var editor: RaigonCharacterCreator = load(path).instantiate()
+	#var scroll_container: ScrollContainer = ScrollContainer.new()
 	editors_holder.add_child(editor)
 	editor.hide()
 	tabbar.add_tab(name)
