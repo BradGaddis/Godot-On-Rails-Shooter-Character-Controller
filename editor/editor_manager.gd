@@ -8,7 +8,8 @@ extends Control
 @onready var character_name: Label = %CharacterName
 @onready var _character_generator: RaigonCharacterGenerator = RaigonCharacterGenerator.new()
 
-var _character_name_input
+var _character_name_input: String
+var _save_path: String
 
 ## Information on supported resource extensions and registered editors
 var current_editor: RaigonCharacterCreator = null
@@ -53,9 +54,20 @@ func _add_editor(path:String, name: String) -> void:
 func _on_save_button_pressed() -> void:
 	if !_character_name_input:
 		return
-	_character_generator.create_character(tabbar.get_index(), _character_name_input, current_editor.components_to_add)
+		
+	_character_generator.create_character(
+		tabbar.get_index(),
+		_character_name_input,
+		current_editor.components_to_add,
+		_save_path
+	)
 
 
-func _on_line_edit_text_changed(new_text: String) -> void:
+func _on_character_line_edit_text_changed(new_text: String) -> void:
 	_character_name_input = new_text
 	character_name.text = _character_name_input
+
+
+func _on_save_path_line_edit_text_changed(new_text: String) -> void:
+	_save_path = new_text
+	print(_save_path)

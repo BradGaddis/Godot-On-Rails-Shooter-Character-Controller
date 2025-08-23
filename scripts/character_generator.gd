@@ -3,7 +3,7 @@ class_name RaigonCharacterGenerator extends Node
 
 var _character: Character
 var generator_helper: RaigonCharacterGenerator
-
+@onready var ei: EditorFileSystem = EditorInterface.get_resource_filesystem()
 
 enum character_type {
 	flying,
@@ -27,7 +27,7 @@ func _new_flying_character():
 	generator_helper.add_state_machine(_character)
 
 
-func create_character(char_type: character_type, character_name: String, components: Array[String]):
+func create_character(char_type: character_type, character_name: String, components: Array[String], save_path: String):
 	character_name = "".join(character_name.capitalize().split((" ")))
 	
 	match char_type:
@@ -42,7 +42,7 @@ func create_character(char_type: character_type, character_name: String, compone
 			
 	_add_components(components)
 	_character.name = character_name
-	_save_character()
+	_save_character(save_path)
 
 
 func _add_components(comps: Array):
@@ -72,14 +72,30 @@ func _handle_component_is_rigid_body_3D(component):
 		_add_base_component(CollisionShape3D, component)
 		
 		
-func _save_character():
+func _save_character(save_path: String):
 	var packed_scene = PackedScene.new()
 	var packed_scene_result = packed_scene.pack(_character) 
+	save_path = _update_save_path(save_path)
 	if packed_scene_result == OK:
-		var error = ResourceSaver.save(packed_scene, "res://%s.tscn" % _character.name.to_camel_case())
+		var error = ResourceSaver.save(packed_scene, save_path)
 		if error != OK:
 			push_error("Failed to save scene ", packed_scene_result)
+	ei.scan()
+	ei.reimport_files([save_path])
+	ei.update_file(save_path)
 
+
+func _update_save_path(save_path: String):
+	var dir = DirAccess.open("res://")
+	var try_path = "res://%s/" % save_path
+	if !dir.dir_exists(try_path):
+		var dirs: PackedStringArray = save_path.split("/")
+		var updated_dirs: String
+		for d in dirs:
+			updated_dirs += "/" + d
+			dir.make_dir("res://" + updated_dirs)
+			
+	return try_path + "%s.tscn" % _character.name.to_camel_case()
 
 func handle_add_vehicle_component(component):
 	pass
