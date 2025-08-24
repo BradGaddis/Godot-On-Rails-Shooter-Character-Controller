@@ -52,9 +52,6 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventJoypadButton or InputEventJoypadMotion:
 		active_controls = ActorEnums.active_controller_type.game_pad
 
-	#if event.is_action_pressed("pause"):
-		#_gm.toggle_pause()
-
 	if get_tree().paused || !enabled:
 		return
 	
@@ -81,6 +78,7 @@ func _handle_shooting_input_events(event: InputEvent):
 		character.shooting_component.start_shot()
 	elif event.is_action_released(input) && character.shooting_component:
 		character.shooting_component.complete_shot()
+		
 		
 ## Processes states processes if enabled 
 func _process(_delta:float):

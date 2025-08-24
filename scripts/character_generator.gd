@@ -29,7 +29,6 @@ func _new_flying_character():
 
 func create_character(char_type: character_type, character_name: String, components: Array[String], save_path: String):
 	character_name = "".join(character_name.capitalize().split((" ")))
-	
 	match char_type:
 		0:
 			_new_flying_character()
@@ -39,7 +38,6 @@ func create_character(char_type: character_type, character_name: String, compone
 		2:
 			_character = _character as OnFootCharacter
 			_character = GroundedVehicleCharacter.new()
-			
 	_add_components(components)
 	_character.name = character_name
 	_save_character(save_path)
@@ -48,8 +46,8 @@ func create_character(char_type: character_type, character_name: String, compone
 func _add_components(comps: Array):
 	for comp: String in comps:
 		_add_custom_component(comp)
-		
-		
+
+
 func _add_custom_component(component):
 	var comp_path: String = "res://addons/rails_character_controller/scenes/character/components/scripts/"
 	var dir = DirAccess.open(comp_path)
@@ -70,11 +68,11 @@ func _add_custom_component(component):
 func _handle_component_is_rigid_body_3D(component):
 	if component is PhysicsBody3D:
 		_add_base_component(CollisionShape3D, component)
-		
-		
+
+
 func _save_character(save_path: String):
 	var packed_scene = PackedScene.new()
-	var packed_scene_result = packed_scene.pack(_character) 
+	var packed_scene_result = packed_scene.pack(_character)
 	save_path = _update_save_path(save_path)
 	if packed_scene_result == OK:
 		var error = ResourceSaver.save(packed_scene, save_path)
@@ -94,21 +92,23 @@ func _update_save_path(save_path: String):
 		for d in dirs:
 			updated_dirs += "/" + d
 			dir.make_dir("res://" + updated_dirs)
-			
+
 	return try_path + "%s.tscn" % _character.name.to_camel_case()
+
 
 func handle_add_vehicle_component(component):
 	pass
 
+
 func _handle_add_instantiated_component(component) -> bool:
 	var instantiated_components = {
-		"ReticleComponent" : "uid://teei5itjmbra", 
+		"ReticleComponent" : "uid://teei5itjmbra",
 		"CameraComponent" : "uid://r85abir0qcii"
 		}
-		
+
 	if not component.name in instantiated_components:
 		return false
-	
+
 	var inst_comp = load(instantiated_components[component.name]).instantiate()
 	_character.add_child(inst_comp)
 	inst_comp.owner = _character

@@ -20,7 +20,7 @@ enum bank_tilt_actions {
 enum charging {
 	not_charging,
 	is_charging,
-	charged
+	fully_charged
 }
 
 enum max_gun_power {
