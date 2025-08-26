@@ -3,7 +3,6 @@ class_name StateMachineComponent extends Node
 ## 
 ## Collects child states and manages the logic that should happen when a state enters being active or inactive (enter and exit)
 
-@export var _player: Character
 
 ## The active state
 @export var current_state: State:

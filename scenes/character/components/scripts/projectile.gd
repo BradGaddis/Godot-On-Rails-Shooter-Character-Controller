@@ -16,7 +16,7 @@ var _launch_direction: Vector3 = Vector3.FORWARD
 ## Cached initial position
 var _initial_position: Vector3 = Vector3.ZERO
 ## The velocity at which the pojectile should fall off at
-var _tapered_velocity: bool
+var _tapered_velocity: bool # TODO
 ## The amount of damage this projectile wil do
 var _base_damage: float = 5:
 	set(val):
@@ -27,6 +27,7 @@ var _damage: float = _base_damage
 var launch: bool 
 ## Emited when died
 signal died
+
 
 ## Registers process and starts audio
 #func _ready():

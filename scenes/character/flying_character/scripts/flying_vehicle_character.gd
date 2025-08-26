@@ -36,7 +36,7 @@ func _handle_free_movement(delta: float):
 func _fly_forward(delta):
 	if !reticle_component: return
 	if !move_flag: return
-	velocity = (Vector3.ONE * _forward_speed) * dir_to_reticle().rotated(Vector3.UP, rotation.y) 
+	velocity = dir_to_reticle().rotated(Vector3.UP, rotation.y) * get_speed()
 	_rotate_character_toward_reticle(delta, 5, 4, false)
 	move_and_slide()
 

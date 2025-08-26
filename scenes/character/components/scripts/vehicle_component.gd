@@ -7,7 +7,7 @@ class_name VehicleComponent extends CharacterBody3D
 ## Enum actions the vehicle can take
 @onready var _current_action: ActorEnums.bank_tilt_actions = ActorEnums.bank_tilt_actions.no_action
 ## The point that the loop state will pivot around
-@onready var pivot_point: Marker3D = $"Pivot Point"
+@onready var pivot_point: Marker3D = $"PivotPoint"
 
 @export_group("Movement")
 ## Handles how the vehilce will rotate while moving

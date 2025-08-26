@@ -4,6 +4,7 @@ class_name ShootingComponent extends Node3D
 ##
 ## Handles spawning a projectile and setting up the parameters for launching it.
 
+
 #region Parameters
 ## Emited when fully charged
 signal finshed_charging
@@ -59,11 +60,11 @@ var _temp_charging_shot : Projectile
 ## @experimental Might just deal with this with the curve itself instead in the future # TODO
 @export var _min_charge_time_thresholds : float = 0.25
 
-## The speed and size the charge will increase
+## The speed and size the charge will increase. [br]Domain is the the time and should always be between zero and one[br]Range is the size of the projectile
 @export var _charge_curve: Curve
 
-## @experimental: TODO swap charging booleans
-var _charging_status: ActorEnums.charging
+## The current state of charging
+var _charging_status: ActorEnums.charging = ActorEnums.charging.not_charging
 
 var _was_locked_on: bool
 
@@ -74,6 +75,9 @@ var _was_locked_on: bool
 
 ## A target to lock on to when charging is complete or the target that is currently locked on to
 var _target: Node3D
+
+var _inverted_time_left: float
+var shot_size: float
 #endregion
 
 
@@ -93,13 +97,8 @@ func _get_configuration_warnings() -> PackedStringArray:
 	return output
 
 
-## Calls [method _set_up_timer]
 func _ready() -> void:
-	_set_up_charging_timer()
-
-
-## Creates and sets up a timer at [member _charge_hold] for charging based on properties for charging time
-func _set_up_charging_timer() -> void:
+	set_physics_process(false)
 	_charge_hold_timer = Timer.new()
 	_charge_hold_timer.one_shot = true
 	_charge_hold_timer.wait_time = _charge_time
@@ -115,7 +114,8 @@ func _get_shot_launch_direction(target: Node3D = _reticle_component.reticle_obje
 ## Updates the [memeber _target] via [method CameraComponent.get_nearest_visible_target]
 ## @experimental: TODO add functionality for changing a target
 func _lock_on() -> void:
-	_target = _camera_component.camera.get_nearest_visible_target(_target)
+	if !_target:
+		_target = _camera_component.camera.get_nearest_visible_target(_target)
 	if not _target and _was_locked_on:
 		_camera_component.position_camera_behind_player()
 
@@ -129,40 +129,33 @@ func _force_lock_off(off: bool = true) -> void:
 
 ## The logic for charging. Handles size and damage and charge timer things
 func _handle_charging(delta: float) -> void:
-	if not _charging_status == ActorEnums.charging.is_charging or not _temp_charging_shot:
-		return
-	if 1 - _charge_hold_timer.time_left < _min_charge_time_thresholds:
-		return
-	var size: float = _charge_curve.sample(1 - _charge_hold_timer.time_left / _charge_time) * delta
-	_set_projectile_scale(size)
-	_damage = _charge_strength_factor * size
+	shot_size = _charge_curve.sample(_inverted_time_left / _charge_time)
+	_set_projectile_scale(shot_size)
+	_damage = _charge_strength_factor * shot_size
 
 
 func _set_projectile_scale(size: float):
-	_temp_charging_shot.scale = Vector3(
-		_temp_charging_shot.scale.x + size,
-		_temp_charging_shot.scale.y + size,
-		_temp_charging_shot.scale.z + size,
-	)
+	_temp_charging_shot.scale = Vector3.ONE * size
 
 
 ## Updates shot speed according to character mode
 func _update_shot_speed() -> float:
-	return owner.get_speed()
+	return PlayerManager.character.get_speed() + _shot_speed
 
 
-## Updates the charging status on [member _charge_hold] timeout[br]
+## Updates the charging status on [member _charge_hold] a[br]
 ## Emits [member finshed_charging]
 func _on_charge_hold_timeout():
+	_charge_hold_timer.wait_time = _charge_time
 	_charging_status = ActorEnums.charging.fully_charged
 	finshed_charging.emit()
 
 
 ## Sets up projectile, emits [member shot_fired] and returns it
 func _setup_shot() -> Projectile:
-	var shot: Projectile = _temp_charging_shot
 	if not _temp_charging_shot:
 		return
+	var shot: Projectile = _temp_charging_shot
 	shot.top_level = true
 	if _reticle_component:
 		shot.set_launch_direction(_get_shot_launch_direction())
@@ -179,7 +172,7 @@ func _setup_shot() -> Projectile:
 ## Launches already charging/charged shot if knocked back
 ## @experimental: Might do something or another with the _direction argument at some point
 func _on_hurt_box_component_knocked_back(_direction: Vector3) -> void:
-	if !_charging_status == ActorEnums.charging.not_charging:
+	if _charging_status != ActorEnums.charging.not_charging:
 		complete_shot()
 
 
@@ -196,51 +189,55 @@ func update_projectile_collision_mask(layer: int) -> int:
 	_projectile_collision_mask = layer
 	return _projectile_collision_mask
 
-func _handle_discharge() -> bool:
-	var input_str: String = "vehicle_shoot" if PlayerManager.character is VehicleCharacter else "on_foot_shoot"
-	if not Input.is_action_pressed(input_str):
-		complete_shot()
-		_force_lock_off(true)
-		return true
-	return false
-
 
 # None of this make sense... #TODO
 ## Only runs when a shot is charging/charged
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if Engine.is_editor_hint():
 		update_configuration_warnings()
 		return
 	if not is_instance_valid(_target):
 		_target = null
-	if _handle_discharge():
-		return
-	if _charging_status == ActorEnums.charging.fully_charged and not _target:
-		_lock_on()
-	elif !_charging_status == ActorEnums.charging.fully_charged:
-		_force_lock_off(true)
-	_handle_charging(delta)
+	_inverted_time_left = 1 - _charge_hold_timer.time_left
+	match _charging_status:
+		ActorEnums.charging.not_charging:
+			#_force_lock_off(_target != null)
+			if _inverted_time_left <= _min_charge_time_thresholds:
+				_charging_status += 1
+		ActorEnums.charging.is_charging:
+			_handle_charging(delta)
+			#_lock_on()
+		ActorEnums.charging.fully_charged:
+			_handle_charging(delta)
+			_lock_on()
+		_:
+			assert(false, "You've entered a state that does not exist.")
 
 
 ## Launches a shot, repleacing the temporary charging shot with a new active one
 func complete_shot() -> Projectile:
+	#return null
 	if not _temp_charging_shot:
-		start_shot()
+		#start_shot()
+		return
+	_charging_status = ActorEnums.charging.not_charging
+	set_physics_process(false)
 	var shot = _setup_shot()
+	#_charge_hold_timer.stop()
 	_charge_hold_timer.paused = true
 	_temp_charging_shot = null
-	_charging_status = ActorEnums.charging.not_charging
 	shot_fired.emit()
-	set_process(false)
 	return shot
 
 
 ## Starts the charging sequence
 func start_shot() -> void:
-	set_process(true)
+	#if _charging_status != ActorEnums.charging.not_charging or _temp_charging_shot:
+		#return
+	set_physics_process(true)
+	_charge_hold_timer.paused = false
 	_charge_hold_timer.start(_charge_time)
 	_charging_status = ActorEnums.charging.is_charging
-	_charge_hold_timer.paused = false
 	_temp_charging_shot = _projectile_packed_scene.instantiate()
 	add_child(_temp_charging_shot)
 
