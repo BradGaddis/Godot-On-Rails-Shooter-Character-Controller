@@ -37,11 +37,12 @@ var enabled: bool = true:
 			#return false
 		#if enabled:
 			#set_player_state(ActorEnums.player_state.STATE_ACTIVE)
-		#return enabled1
+		#return enabled
 
 var player_cam_mode: ActorEnums.cam_mode_view = ActorEnums.cam_mode_view.rails
 
 #endregion
+
 
 ## Handles input movement, camera movement, and actions (shooting, etc.)
 func _input(event: InputEvent) -> void:
@@ -60,6 +61,7 @@ func _input(event: InputEvent) -> void:
 
 	_handle_shooting_input_events(event)
 
+
 func _handle_running():
 	if character is OnFootCharacter:
 		if Input.is_action_pressed("run"):
@@ -67,9 +69,11 @@ func _handle_running():
 			return
 		character.update_speed(character.walk_speed)
 
+
 func _handle_camera_input_and_controls(event: InputEvent):
 	if event is InputEventMouseMotion:
 		character.camera_component.mouse_look_at_reticle(event)
+
 
 ## Called in [method _input]. Handles shooting inputs
 func _handle_shooting_input_events(event: InputEvent):
@@ -102,36 +106,42 @@ func _physics_process(delta: float) -> void:
 	_flight_character_vehicle_process(delta)
 	_grounded_character_vehicle_process(delta)
 	_foot_character_process(delta)
+	character.camera_component.handle_camera_base_actions(delta, player_cam_mode, _target)
 	character.move(_input_dir)
+
 
 func _flight_character_vehicle_process(delta: float):
 	if not character is FlyingVehicleCharacter:
 		return
-	character.camera_component.handle_flight_camera(_target, delta, player_cam_mode)
 
 	if character.reticle_component:
 		character.reticle_component.move(delta, _input_dir)
 
+
 func _grounded_character_vehicle_process(_delta: float):
 	if not character is GroundedVehicleCharacter:
 		return
+
 
 func _foot_character_process(delta: float):
 	if not character is OnFootCharacter:
 		return
 	_handle_running()
 	character.reticle_component.move(delta, _look_dir)
-	character.camera_component.handle_on_foot_camera_free(_target, delta)
+	#character.camera_component.handle_foot_camera(delta, player_cam_mode, _target)
 
 
 func get_input_dir() -> Vector2:
 	return _input_dir
 
+
 func get_player_state():
 	return _player_state
 
+
 func set_player_state(state: ActorEnums.player_state):
 	_player_state = state
+
 
 func _on_foot_input(event: InputEvent):
 	_handle_camera_input_and_controls(event)

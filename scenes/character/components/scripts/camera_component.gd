@@ -65,9 +65,7 @@ func position_camera_behind_player(duration: float = _duration) -> void:
 	if PlayerManager.character.get_mode() == ActorEnums.mode.on_rails:
 		_tween_rotation_component(PlayerManager.character.visible_body.rotation.y, duration)
 	if PlayerManager.character.get_mode() == ActorEnums.mode.free:
-		if PlayerManager.character.state_machine_component.current_state.name == "roll":
-			_tween_rotation_component(PlayerManager.character.visible_body.rotation.y, duration)
-			return
+		_tween_rotation_component(PlayerManager.character.visible_body.rotation.y, duration)
 		return
 
 func _tween_rotation(target_rotation: Vector3, duration: float = _duration) -> Tween:
@@ -82,34 +80,49 @@ func _tween_rotation_component(target_y_rotation: float, duration: float = _dura
 	_tween.tween_property(self, "rotation", _target_rotation, duration)
 	return _tween
 
-func handle_on_foot_camera_free(_target: Node3D, delta: float):
+func _handle_on_foot_camera_free(delta: float, cam_mode: ActorEnums.cam_mode_view, _target: Node3D = null):
 	if _target:
 		# TODO
 		pass
 	PlayerManager.character.camera_component.look_at_reticle(delta, 20)
 
-func handle_flight_camera_on_rails(mode: ActorEnums.cam_mode_view):
-	match mode:
-		ActorEnums.cam_mode_view.rails:
-			handle_flight_camera_rail_state_cam(PlayerManager.character.state_machine_component.current_state.name)
+func _handle_flight_camera_free(delta: float, cam_mode: ActorEnums.cam_mode_view, _target: Node3D = null):
+	if _target:
+		# TODO
+		pass
+	PlayerManager.character.camera_component.look_at_reticle(delta, 20)
+	position_camera_behind_player(.25)
 
-func handle_flight_camera_rail_state_cam(state: String):
+func _handle_flight_camera_on_rails(delta: float, cam_mode: ActorEnums.cam_mode_view, target: Node3D):
+	match cam_mode:
+		ActorEnums.cam_mode_view.rails:
+			_handle_flight_camera_rail_state_cam(PlayerManager.character.state_machine_component.current_state.name)
+
+func _handle_flight_camera_rail_state_cam(state: String):
 	match state:
 		"fly":
 			var input_dir: Vector2 = PlayerManager.get_input_dir() if PlayerManager.get_player_state() == ActorEnums.player_state.STATE_ACTIVE else Vector2.ZERO
-			##rotation.y = CharacterUtils.math_smooth_step_to_f(rotation.y, deg_to_rad(-input_dir.x * 10), deg_to_rad(1), deg_to_rad(.5), deg_to_rad(.01))
-			##rotation.x = CharacterUtils.math_smooth_step_to_f(rotation.y, deg_to_rad(input_dir.y * 10), deg_to_rad(1), deg_to_rad(.5), deg_to_rad(.01))
-			##position.x = CharacterUtils.math_smooth_step_to_f(position.x, (input_dir.x * 5) * PlayerManager.character.position.x , 1, .5, .05)
-			##position.y = CharacterUtils.math_smooth_step_to_f(position.x, (input_dir.y * 5) * PlayerManager.character.position.x, 1, .5, .05)
 		#"u-turn":
 			#pass
 
-func handle_flight_camera(target: Node3D, delta: float, mode: ActorEnums.cam_mode_view):
+
+# TODO add support for camera modes (ie cockpit, etc)
+func handle_camera_base_actions(delta: float, cam_mode: ActorEnums.cam_mode_view, target: Node3D):
 	if target:
 		look_at_target(target, delta)
 		return
+	
 	match PlayerManager.character.get_mode():
-		ActorEnums.mode.on_rails:
-			handle_flight_camera_on_rails(mode)
 		ActorEnums.mode.free:
-			position_camera_behind_player(.25)
+			if PlayerManager.character is OnFootCharacter:
+				_handle_on_foot_camera_free(delta, cam_mode, target)
+				return
+			if PlayerManager.character is FlyingVehicleCharacter:
+				_handle_flight_camera_free(delta, cam_mode, target)
+				return
+		ActorEnums.mode.on_rails:
+			if PlayerManager.character is FlyingVehicleCharacter:
+				_handle_flight_camera_on_rails(delta, cam_mode, target)
+				return
+		_:
+			assert(false, "State should not exist and you entered it some how")
