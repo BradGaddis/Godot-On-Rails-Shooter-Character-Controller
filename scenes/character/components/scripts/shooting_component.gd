@@ -81,6 +81,16 @@ var shot_size: float
 #endregion
 
 
+func _init() -> void:
+	if !_charge_curve:
+		_charge_curve = Curve.new()
+		_charge_curve.max_value = 2
+		_charge_curve.min_value = 1
+		_charge_curve.max_domain = 2
+		_charge_curve.add_point(Vector2.ZERO)
+		_charge_curve.add_point(Vector2.ONE * 2) 
+
+
 func _get_configuration_warnings() -> PackedStringArray:
 	var output: PackedStringArray
 	var found_vehicle_parent: bool = false

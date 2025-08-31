@@ -32,6 +32,13 @@ var _tilt_timer: SceneTreeTimer
 var _cached_player_speed: float
 #endregion
 
+func _init() -> void:
+	if !_tilt_move_speed_curve:
+		_tilt_move_speed_curve = Curve.new()
+		_tilt_move_speed_curve.add_point(Vector2.ZERO)
+		_tilt_move_speed_curve.add_point(Vector2.ONE) 
+
+
 func _get_configuration_warnings() -> PackedStringArray:
 	var output: PackedStringArray = []
 	if not owner is VehicleCharacter:
