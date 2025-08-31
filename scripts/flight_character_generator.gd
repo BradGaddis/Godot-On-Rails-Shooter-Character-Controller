@@ -1,4 +1,15 @@
+@tool
 class_name RaigonFlightCharacterGenerator extends RaigonCharacterGenerator
+
+func _new_character():
+	_character = FlyingVehicleCharacter.new()
+	super._new_character()
+	add_state_machine(_character)
+
+func _add_custom_component(component):
+	var new_comp = super._add_custom_component(component)
+	handle_add_vehicle_component(new_comp)
+
 
 func handle_add_vehicle_component(component):
 	if not component is VehicleComponent:
@@ -21,17 +32,3 @@ func add_state_machine(_character):
 	state_machine_component.set_unique_name_in_owner(true)
 	
 	
-	#var state_machine_component: StateMachineComponent = StateMachineComponent.new()
-	#state_machine_component.name = "StateMachine"
-	#_character.add_child(state_machine_component)
-	#state_machine_component.owner = _character
-	#state_machine_component.set_unique_name_in_owner(true)
-	#add_states(state_machine_component)
-	#
-#func add_states(state_machine_component):
-	#var flying = XplaneFlyingState.new()
-	#state_machine_component.add_child(flying)
-	#flying.name = "fly"
-	#flying.owner = state_machine_component.owner
-	#print(_character.get_children())
-	#

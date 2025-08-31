@@ -1,15 +1,10 @@
 @tool
 class_name RaigonCharacterGenerator extends Node
 
+
+@onready var ei: EditorFileSystem = EditorInterface.get_resource_filesystem()
 var _character: Character
 var generator_helper: RaigonCharacterGenerator
-@onready var ei: EditorFileSystem = EditorInterface.get_resource_filesystem()
-
-enum character_type {
-	flying,
-	foot,
-	ground,
-}
 
 
 func _add_base_component(component_type, parent = _character):
@@ -18,26 +13,13 @@ func _add_base_component(component_type, parent = _character):
 	component.owner = _character
 
 
-func _new_flying_character():
-	generator_helper = RaigonFlightCharacterGenerator.new()
-	generator_helper._character = _character
-	_character = _character as FlyingVehicleCharacter
-	_character = FlyingVehicleCharacter.new()
+func _new_character():
 	_add_base_component(CollisionShape3D)
-	generator_helper.add_state_machine(_character)
 
 
-func create_character(char_type: character_type, character_name: String, components: Array[String], save_path: String):
+func create_character(character_name: String, components: Array[String], save_path: String):
 	character_name = "".join(character_name.capitalize().split((" ")))
-	match char_type:
-		0:
-			_new_flying_character()
-		1:
-			_character = _character as GroundedVehicleCharacter
-			_character = GroundedVehicleCharacter.new()
-		2:
-			_character = _character as OnFootCharacter
-			_character = GroundedVehicleCharacter.new()
+	_new_character()
 	_add_components(components)
 	_character.name = character_name
 	_save_character(save_path)
@@ -62,7 +44,7 @@ func _add_custom_component(component):
 		new_comp.owner = _character
 		new_comp.set_unique_name_in_owner(true)
 		_handle_component_is_rigid_body_3D(new_comp)
-		generator_helper.handle_add_vehicle_component(new_comp)
+		return new_comp
 
 
 func _handle_component_is_rigid_body_3D(component):
@@ -71,21 +53,25 @@ func _handle_component_is_rigid_body_3D(component):
 
 
 func _save_character(save_path: String):
+	save_path = _update_save_path(save_path)
 	var packed_scene = PackedScene.new()
 	var packed_scene_result = packed_scene.pack(_character)
-	save_path = _update_save_path(save_path)
+
 	if packed_scene_result == OK:
 		var error = ResourceSaver.save(packed_scene, save_path)
 		if error != OK:
 			push_error("Failed to save scene ", packed_scene_result)
-	ei.scan()
-	ei.reimport_files([save_path])
-	ei.update_file(save_path)
+			return
+		ei.scan_sources()
+		ei.update_file(save_path)
+		EditorInterface.reload_scene_from_path(save_path)
+		EditorInterface.open_scene_from_path(save_path)
+
 
 
 func _update_save_path(save_path: String):
 	var dir = DirAccess.open("res://")
-	var try_path = "res://%s/" % save_path
+	var try_path = "res://%s" % save_path.to_snake_case()
 	if !dir.dir_exists(try_path):
 		var dirs: PackedStringArray = save_path.split("/")
 		var updated_dirs: String
@@ -93,7 +79,7 @@ func _update_save_path(save_path: String):
 			updated_dirs += "/" + d
 			dir.make_dir("res://" + updated_dirs)
 
-	return try_path + "%s.tscn" % _character.name.to_camel_case()
+	return (try_path + "%s.tscn" % _character.name.to_snake_case()).strip_edges()
 
 
 func handle_add_vehicle_component(component):

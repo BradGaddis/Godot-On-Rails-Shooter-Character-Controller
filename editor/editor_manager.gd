@@ -21,6 +21,7 @@ func _ready() -> void:
 	tabbar.tab_clicked.connect(_on_editors_tab_changed)
 	_add_editor("uid://cntoa2fm8hhj5", "Flight Character")
 	open_editor(editors_holder.get_child(0))
+	add_child(_character_generator)
 
 
 func open_editor(editor: RaigonCharacterCreator, ...extra_info) -> void:
@@ -45,7 +46,6 @@ func _on_editors_tab_changed(tab:int) -> void:
 
 func _add_editor(path:String, name: String) -> void:
 	var editor: RaigonCharacterCreator = load(path).instantiate()
-	#var scroll_container: ScrollContainer = ScrollContainer.new()
 	editors_holder.add_child(editor)
 	editor.hide()
 	tabbar.add_tab(name)
@@ -53,10 +53,16 @@ func _add_editor(path:String, name: String) -> void:
 
 func _on_save_button_pressed() -> void:
 	if !_character_name_input:
+		push_error("Try inputing a character name before saving")
 		return
-		
+	match tabbar.get_index():
+		0:
+			if _character_generator is not RaigonFlightCharacterGenerator:
+				_character_generator.free()
+				_character_generator = RaigonFlightCharacterGenerator.new()
+				add_child(_character_generator)
+	
 	_character_generator.create_character(
-		tabbar.get_index(),
 		_character_name_input,
 		current_editor.components_to_add,
 		_save_path
@@ -64,7 +70,7 @@ func _on_save_button_pressed() -> void:
 
 
 func _on_character_line_edit_text_changed(new_text: String) -> void:
-	_character_name_input = new_text
+	_character_name_input =  "".join(new_text.capitalize().split((" ")))
 	character_name.text = _character_name_input
 
 
