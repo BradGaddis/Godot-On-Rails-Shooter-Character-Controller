@@ -4,26 +4,33 @@ class_name StateMachineComponent extends Node
 ## Collects child states and manages the logic that should happen when a state enters being active or inactive (enter and exit)
 
 
+#region Properties
 ## The active state
 @export var current_state: State:
 	set(val):
-		@warning_ignore("incompatible_ternary")
-		print("State was updated from %s to %s" % [current_state.name if current_state != null else "", val.name])
 		current_state = val;
+		
 ## A reference to the previous state we were in.
 var previous_state: String
+
 ## Set when the energy thrusters active timer exits early or times out
 var _cool_time: float
+
 ## The time on the active time (as in when the timer is running out)
 var _active_time: float
+
 ## Stores the states that are of the children of this node
-var _states : Dictionary[String, State] = {} # not sure if this will be necessary as I have it currently written. Maybe for someone referrencing me
+var _states : Dictionary[String, State] = {} 
+
 ## Timer for GUI progress meter for active thrusters
 var energy_timer_active: Timer 
+
 ## Timer for GUI progress meter for cooling thrusters
 var energy_timer_cooldown: Timer
+
 ## Represents the enegy remaining on come states (such as boost and breaks)
 var energy_thrusters: ActorEnums.thrust = ActorEnums.thrust.full
+#endregion
 
 ## Sets up states from children and connects their signals.[br]
 ## Assigns timers and cooldown time

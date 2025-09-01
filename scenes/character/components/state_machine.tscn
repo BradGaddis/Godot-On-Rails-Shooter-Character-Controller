@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://c7q83nsp2wsbn"]
+[gd_scene load_steps=13 format=3 uid="uid://c7q83nsp2wsbn"]
 
 [ext_resource type="Script" uid="uid://y2m11wlenatn" path="res://addons/rails_character_controller/scenes/character/scripts/state_machine_component.gd" id="1_334bt"]
 [ext_resource type="Script" uid="uid://phtiogbt3h48" path="res://addons/rails_character_controller/scenes/character/flying_character/xplane/scripts/states/xplane_flying_state.gd" id="2_ycifk"]
@@ -15,6 +15,16 @@ point_count = 2
 [sub_resource type="Curve" id="Curve_dnhn6"]
 _limits = [0.0, 1.0, 0.0, 2.0]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(2, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_334bt"]
+_limits = [75.0, 100.0, 0.0, 1.0]
+_data = [Vector2(0, 100), 0.0, 0.0, 0, 0, Vector2(1, 75), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_ycifk"]
+_limits = [75.0, 100.0, 0.0, 1.0]
+_data = [Vector2(0, 75), 0.0, 0.0, 0, 0, Vector2(1, 100), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="Curve" id="Curve_8q4fr"]
@@ -40,7 +50,8 @@ script = ExtResource("2_ycifk")
 script = ExtResource("3_lsm4l")
 _enter_boost_speed_curve = SubResource("Curve_7lcva")
 _exit_boost_speed_curve = SubResource("Curve_dnhn6")
-_boosted_fov = null
+_enter_fov_curve = SubResource("Curve_334bt")
+_exit_fov_curve = SubResource("Curve_ycifk")
 
 [node name="break" type="Node" parent="."]
 script = ExtResource("4_j44l7")
