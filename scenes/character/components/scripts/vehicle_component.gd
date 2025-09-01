@@ -23,7 +23,7 @@ class_name VehicleComponent extends CharacterBody3D
 @export var _lock_bounds: Vector2 = Vector2(20, 10)
 
 #@onready var ray_cast_3d: RayCast3D = %RayCast3D
-@onready var bank_tilt_component: BankTiltComponent 
+@onready var bank_tilt_component: BankTiltComponent
 
 var _position_tweener: Tween
 
@@ -32,10 +32,18 @@ var left_wing_state: ActorEnums.vehicle_wing_state = ActorEnums.vehicle_wing_sta
 var right_wing_state: ActorEnums.vehicle_wing_state = ActorEnums.vehicle_wing_state.INTACT
 #endregion
 
+
+func _get_configuration_warnings() -> PackedStringArray:
+	var output: PackedStringArray = []
+	if owner is not VehicleBody3D:
+		output.append("Owner is not a vehicle character. It doesn't make sense to have this component on this owner.")
+	return output
+
+
 func _ready() -> void:
-	assert(owner is VehicleCharacter)
-	owner.vehicle_component = self
-	bank_tilt_component = get_node_or_null("%BankTiltComponent")
+	if owner is VehicleCharacter:
+		owner.vehicle_component = self
+
 
 ## Handles how the vehicle will rotate while in motion
 func _handle_rotation(delta: float):
@@ -45,7 +53,8 @@ func _handle_rotation(delta: float):
 		rotation.x = move_toward(rotation.x, velocity.y, _rotation_speed * delta)
 		rotation.y = move_toward(rotation.y, -velocity.x, _rotation_speed * delta)
 	#rotation.z = move_toward(rotation.z, -velocity.x * 2, _rotation_speed * delta  * _tilt_speed)
-	
+
+
 ## Moves in time with the reticle
 func _follow_reticle(delta: float, _dead_zone: float = 2):
 	if !PlayerManager.enabled:
@@ -58,11 +67,12 @@ func _follow_reticle(delta: float, _dead_zone: float = 2):
 	_lock_to_bounds()
 
 
-	
+
 ## handles the movement of the vehicle
 func move(delta: float) -> void:
 	_handle_rotation(delta)
 	_follow_reticle(delta)
+
 
 ## Locks the component to the screen
 func _lock_to_bounds():
@@ -73,14 +83,20 @@ func _lock_to_bounds():
 		-_lock_bounds.y, _lock_bounds.y
 	)
 
+
 func get_current_action() -> ActorEnums.bank_tilt_actions:
 	return _current_action
 
+
 func set_action(action: ActorEnums.bank_tilt_actions) :
 	_current_action = action
-	
+
+
+func get_action() -> ActorEnums.bank_tilt_actions:
+	return _current_action
+
+
 func return_to_center(duration: float = .5) -> Signal:
 	_position_tweener = CharacterUtils.kill_and_create_tween(_position_tweener)
 	await _position_tweener.tween_property(self, "position", Vector3.ZERO, duration).finished
 	return _position_tweener.finished
-	

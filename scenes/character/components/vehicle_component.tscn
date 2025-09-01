@@ -1,10 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://m7sc1jxqlbbv"]
+[gd_scene load_steps=8 format=3 uid="uid://m7sc1jxqlbbv"]
 
 [ext_resource type="Script" uid="uid://xdo23w6pflqm" path="res://addons/rails_character_controller/scenes/character/components/scripts/vehicle_component.gd" id="1_n254r"]
 [ext_resource type="PackedScene" uid="uid://t6w85w1vlrrv" path="res://addons/rails_character_controller/scenes/character/flying_character/xplane/xplane.glb" id="2_v6d21"]
 [ext_resource type="PackedScene" uid="uid://bkc761imuab1n" path="res://addons/rails_character_controller/scenes/character/components/hurt_box_component.tscn" id="3_1gsh3"]
 [ext_resource type="PackedScene" uid="uid://vcwgu6xe422" path="res://addons/rails_character_controller/scenes/character/components/hit_box_component.tscn" id="4_mqtei"]
-[ext_resource type="Script" uid="uid://blu1r7lx36qtv" path="res://addons/rails_character_controller/scenes/character/components/scripts/shooting_component.gd" id="5_1p13y"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pcrdr"]
 radius = 5.0
@@ -44,10 +43,6 @@ collision_mask = 9
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Pivot Point/VisibleBody/HitBoxComponent"]
 shape = SubResource("CapsuleShape3D_7wibb")
-
-[node name="ShootingComponent" type="Node3D" parent="Pivot Point/VisibleBody"]
-unique_name_in_owner = true
-script = ExtResource("5_1p13y")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.534285, -1.59237)

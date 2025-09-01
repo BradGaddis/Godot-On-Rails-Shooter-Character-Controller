@@ -32,12 +32,6 @@ var enabled: bool = true:
 			_input_dir = Vector2.ZERO
 		else:
 			print("Player enabled")
-	#get:
-		#if ProcessManager.get_game_state() == ActorEnums.game_state.STATE_STANDBY:
-			#return false
-		#if enabled:
-			#set_player_state(ActorEnums.player_state.STATE_ACTIVE)
-		#return enabled
 
 var player_cam_mode: ActorEnums.cam_mode_view = ActorEnums.cam_mode_view.rails
 
@@ -47,19 +41,34 @@ var player_cam_mode: ActorEnums.cam_mode_view = ActorEnums.cam_mode_view.rails
 ## Handles input movement, camera movement, and actions (shooting, etc.)
 func _input(event: InputEvent) -> void:
 	if not character: return
-
 	if event is InputEventMouse or event is InputEventKey:
 		active_controls = ActorEnums.active_controller_type.m_k
 	if event is InputEventJoypadButton or InputEventJoypadMotion:
 		active_controls = ActorEnums.active_controller_type.game_pad
-
 	if get_tree().paused || !enabled:
 		return
-
 	if character is OnFootCharacter:
 		_on_foot_input(event)
-
+	_handle_tilt_input_events(event)
 	_handle_shooting_input_events(event)
+
+
+func _handle_tilt_input_events(event: InputEvent):
+	if character is not VehicleCharacter: return
+	if !character.vehicle_component.bank_tilt_component: return
+	if (Input.is_action_pressed("tilt") or (Input.is_action_pressed("roll") and Input.get_action_raw_strength("roll") < 0.75) and character.vehicle_component.can_tilt):
+		if character.vehicle_component.get_action() == ActorEnums.bank_tilt_actions.flushing_rotation and \
+		abs(character.visible_body.rotation.z) > character.vehicle_component.bank_tilt_component.flushed_rotation_epsilon:
+			return
+		character.vehicle_component.set_action(ActorEnums.bank_tilt_actions.tilting)
+	else:
+		if !is_zero_approx(character.visible_body.rotation.z):
+			character.vehicle_component.set_action(ActorEnums.bank_tilt_actions.flushing_rotation)
+			return
+		character.vehicle_component.set_action(ActorEnums.bank_tilt_actions.no_action)
+		return
+	if Input.is_action_just_pressed("tilt"): # start double tap timer. Handled in roll state for now
+		character.vehicle_component.bank_tilt_component.set_tilt_timer()
 
 
 func _handle_running():

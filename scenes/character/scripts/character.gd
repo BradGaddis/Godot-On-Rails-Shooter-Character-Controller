@@ -3,6 +3,7 @@ class_name Character extends Actor
 ##
 ## The speed at which the reticle will move in frame
 @export var move_in_frame_speed : float = 50
+@onready var cached_player_speed = move_in_frame_speed
 ## How far the camera can deviate from the rails
 @export var rail_bounds_tolerances: Vector4 = Vector4.ZERO
 ## Reference to the reticle component
