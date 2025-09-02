@@ -1,8 +1,10 @@
+@tool
 class_name FlyingVehicleCharacter extends VehicleCharacter
 
-var cached_collision_layers: int 
-
+#region Properties
+var cached_collision_layers: int
 var cached_vehicle_collision_layers: int
+#endregion
 
 func _ready() -> void:
 	super._ready()
@@ -13,32 +15,37 @@ func _ready() -> void:
 		vehicle_component.collision_layer = 0
 	if get_mode() == ActorEnums.mode.free:
 		collision_layer = 0
-		
+
+## Returns the distance from the vehicle's visible body height to the ground
 func get_dist_from_ground():
 	# placeholder method
 	pass
-	
-## @experimental 
+
+## @experimental
 ## Handles moving while free-ranged and off-rails.
 func _handle_rails_movement(delta: float):
 	if _mode != ActorEnums.mode.on_rails: return
 	if !move_flag: return
 	vehicle_component.move(delta)
 	_rails_component.player_active_path_follow.progress += delta * get_speed()
-	
-## @experimental 
+
+
+## @experimental
 ## Handles moving while free-ranged and off-rails.
-func _handle_free_movement(delta: float): 	
+func _handle_free_movement(delta: float):
 	if _mode != ActorEnums.mode.free:
 		return
 	_fly_forward(delta)
-	
+
+
+## Moves the vehicle forward in space
 func _fly_forward(delta):
 	if !reticle_component: return
 	if !move_flag: return
 	velocity = dir_to_reticle().rotated(Vector3.UP, rotation.y) * get_speed()
 	_rotate_character_toward_reticle(delta, 5, 4, false)
 	move_and_slide()
+
 
 ## The actions / events to take place when switch modes
 func _on_mode_changed(prev_mode: ActorEnums.mode, next_mode: ActorEnums.mode):

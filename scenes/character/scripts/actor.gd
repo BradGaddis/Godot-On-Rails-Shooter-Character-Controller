@@ -1,4 +1,5 @@
 @abstract
+
 class_name Actor extends CharacterBody3D
 ## The base Actor class (ex. enemies and playable characters)
 

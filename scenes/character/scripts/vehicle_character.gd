@@ -1,8 +1,11 @@
+@tool
 class_name VehicleCharacter extends Character
 ## The Character logic if the character is vehicle
 
+#region Properties
 ## Reference to child vehicle component. Set in [method _ready] because this is picked up by child classes
 var vehicle_component: VehicleComponent
+#endregion
 
 ## Sets inherited visible body and vehicle component[br]
 ## Reminder to Self: Don't register processes here
