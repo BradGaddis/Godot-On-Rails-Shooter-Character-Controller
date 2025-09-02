@@ -23,6 +23,12 @@ var active_controls: ActorEnums.active_controller_type
 
 var _player_state: ActorEnums.player_state = ActorEnums.player_state.STATE_ACTIVE
 
+var y_axis_flipped: bool
+
+var mouse_sensitivity: float
+
+var inverted_camera: bool
+
 ## Whether or not the player is allowed to do anything
 var enabled: bool = true:
 	set(val):
@@ -154,3 +160,7 @@ func set_player_state(state: ActorEnums.player_state):
 
 func _on_foot_input(event: InputEvent):
 	_handle_camera_input_and_controls(event)
+
+
+func toggle_inverted_y_axis():
+	y_axis_flipped = !y_axis_flipped

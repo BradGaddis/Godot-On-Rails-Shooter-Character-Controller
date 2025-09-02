@@ -5,52 +5,67 @@ class_name ReticleComponent extends Node3D
 ## Presently using a CSG box.
 
 
+#region Properties
+@onready var reticle_object: Marker3D = %ReticleObject
+
 ## Bounds to keep reticle within screen view
 @export var _lock_bounds: Vector2 = Vector2(60, 35)
+
 ## Radius that moving the reticle will do nothing in
 @export var _rail_dead_zone_radius: float  = 1
+
 ## The speed that the reticle will return to center when no player input is present
 @export var _reticle_pull_speed: float = 1
+
 ## The position in space that the reticle will remain in front at
 @export var _z_locked_pos: float = -30
+
 ## The coordinates of the reticle in screen-space
 var retical_screen_position: Vector2 
+
 ## The tween the returns the retile to the center of the screen
 var _pull_tween: Tween
+
 ## @deprecated
 var tolerated_screen_bounds: Vector4
-@onready var reticle_object: Marker3D = %ReticleObject
+#endregion
+
 
 ## Sets z-lock so the reticle always stays in front of the player
 func _ready() -> void:
 	reticle_object.position.z = _z_locked_pos
 
+
 ## Keeps z-position locked and manages locking on mode
 func _physics_process(_delta: float) -> void:
 	reticle_object.position.z = _z_locked_pos
 	if PlayerManager.character.get_mode() == ActorEnums.mode.on_rails:
+
 		_lock_to_camera_bounds()
 	
-
 ## Moves reticle horizontally
 func _handle_horizontal_reticle_movement(delta: float, direction: Vector2):
 	if direction.x:
 		position.x += direction.x * PlayerManager.character.move_in_frame_speed * delta
 	return
 
+
 ## @deprecated
 func _hit_vertical_screen_bound(_bound: float = _lock_bounds.y) -> bool:
 	return abs(position.y) == _bound
+
 
 ## @deprecated
 func _hit_horizontal_screen_bound(_bound: float  = _lock_bounds.x) -> bool:
 	return abs(position.x) >= abs(_bound)
 
+
 ## Moves reticle vertically
 func _handle_vertical_reticle_movement(delta: float, direction: Vector2) -> void:
 	if direction.y:
-		position.y += direction.y * PlayerManager.character.move_in_frame_speed * delta * (-1 if File.settings.inverted_flight_control else 1)
+		position.y += direction.y * PlayerManager.character.move_in_frame_speed * delta * (-1 if PlayerManager.y_axis_flipped else 1)
 	return
+
 
 ## Pulls reticle back to the center of the screen
 func _pull_reticle(_delta: float, direction: Vector2) -> void:

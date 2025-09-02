@@ -4,7 +4,7 @@ class_name RailCharacterController extends EditorPlugin
 var DEPENDENT_PLUGINS: Array =\
 # The order does matter
 [
-	SaveAndLoadPlugin, 
+	#SaveAndLoadPlugin, 
 ]
 
 const MAIN_PANEL : PackedScene = preload("uid://bcio80vdajk2l")
