@@ -4,7 +4,6 @@ class_name RaigonCharacterCreator extends Control # TODO refactor into other cre
 
 @onready var components: GridContainer = %Components
 @onready var selected_label: Label = %SelectedLabel
-@onready var editor_manager = get_parent().get_node_or_null("%EditorManager")
 signal opened
 signal closed
 
@@ -22,6 +21,7 @@ func _ready() -> void:
 		
 
 func _open(...args):
+	print(args[0])
 	pass
 
 func _close(...args):

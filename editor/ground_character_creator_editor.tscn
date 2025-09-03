@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://cntoa2fm8hhj5"]
+[gd_scene load_steps=2 format=3 uid="uid://c04ppy7lo7rjb"]
 
-[ext_resource type="Script" uid="uid://dvjs24cw8u7w7" path="res://addons/rails_character_controller/editor/scripts/character_creator_editor.gd" id="1_mqaaa"]
+[ext_resource type="Script" uid="uid://dvjs24cw8u7w7" path="res://addons/rails_character_controller/editor/scripts/character_creator_editor.gd" id="1_i7j4v"]
 
-[node name="FlightCharacterCreator" type="ScrollContainer"]
+[node name="GroundCharacterCreator" type="ScrollContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -12,7 +12,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 follow_focus = true
 draw_focus_border = true
-script = ExtResource("1_mqaaa")
+script = ExtResource("1_i7j4v")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2

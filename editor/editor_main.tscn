@@ -37,8 +37,10 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 5
 current_tab = 0
-tab_count = 1
+tab_count = 3
 tab_0/title = "Flight Character"
+tab_1/title = "Foot Character"
+tab_2/title = "Ground Character"
 
 [node name="MarginContainer" type="MarginContainer" parent="EditorManager/VBoxContainer"]
 layout_mode = 2

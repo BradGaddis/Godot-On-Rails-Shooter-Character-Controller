@@ -20,6 +20,8 @@ func _ready() -> void:
 	tabbar.clear_tabs()
 	tabbar.tab_clicked.connect(_on_editors_tab_changed)
 	_add_editor("uid://cntoa2fm8hhj5", "Flight Character")
+	_add_editor("uid://c8iuoxtibah42", "Foot Character")
+	_add_editor("uid://c04ppy7lo7rjb", "Ground Character")
 	open_editor(editors_holder.get_child(0))
 	add_child(_character_generator)
 
@@ -55,13 +57,27 @@ func _on_save_button_pressed() -> void:
 	if !_character_name_input:
 		push_error("Try inputing a character name before saving")
 		return
-	match tabbar.get_index():
+	match tabbar.current_tab:
 		0:
 			if _character_generator is not RaigonFlightCharacterGenerator:
 				_character_generator.free()
 				_character_generator = RaigonFlightCharacterGenerator.new()
 				add_child(_character_generator)
-	
+				print("flight")
+		1: 
+			if _character_generator is not RaigonFootCharacterGenerator:
+				_character_generator.free()
+				_character_generator = RaigonFootCharacterGenerator.new()
+				add_child(_character_generator)
+				print("foot")
+		2:
+			if _character_generator is not RaigonGroundCharacterGenerator:
+				_character_generator.free()
+				_character_generator = RaigonGroundCharacterGenerator.new()
+				add_child(_character_generator)
+				print("ground")
+				
+	print(typeof(_character_generator))
 	_character_generator.create_character(
 		_character_name_input,
 		current_editor.components_to_add,

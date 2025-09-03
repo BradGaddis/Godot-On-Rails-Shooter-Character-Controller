@@ -37,7 +37,7 @@ More TBD
 
 # Features / Roadmap:
 - [x] Character creator from the editor
-	- [ ] Support for multiple character creation types
+	- [x] Support for multiple character creation types
 	- [x] Support for overwriting characters
 	- [ ] Interactive editor for creating the character
 - [ ] Potentially integrate with Dialogic?

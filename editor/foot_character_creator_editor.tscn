@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://cntoa2fm8hhj5"]
+[gd_scene load_steps=2 format=3 uid="uid://c8iuoxtibah42"]
 
-[ext_resource type="Script" uid="uid://dvjs24cw8u7w7" path="res://addons/rails_character_controller/editor/scripts/character_creator_editor.gd" id="1_mqaaa"]
+[ext_resource type="Script" uid="uid://dvjs24cw8u7w7" path="res://addons/rails_character_controller/editor/scripts/character_creator_editor.gd" id="1_41853"]
 
-[node name="FlightCharacterCreator" type="ScrollContainer"]
+[node name="FootCharacterCreator" type="ScrollContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -12,7 +12,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 follow_focus = true
 draw_focus_border = true
-script = ExtResource("1_mqaaa")
+script = ExtResource("1_41853")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -51,28 +51,6 @@ button_pressed = true
 layout_mode = 2
 size_flags_vertical = 0
 text = "Reticle Component"
-horizontal_alignment = 1
-
-[node name="VehicleComponent" type="PanelContainer" parent="MarginContainer/VBoxContainer/Components"]
-layout_mode = 2
-
-[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/Components/VehicleComponent"]
-layout_mode = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Components/VehicleComponent"]
-layout_mode = 2
-
-[node name="Button" type="CheckBox" parent="MarginContainer/VBoxContainer/Components/VehicleComponent/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_stretch_ratio = 0.0
-disabled = true
-button_pressed = true
-
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Components/VehicleComponent/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 0
-text = "Vehicle Component"
 horizontal_alignment = 1
 
 [node name="CameraComponent" type="PanelContainer" parent="MarginContainer/VBoxContainer/Components"]
@@ -150,27 +128,6 @@ horizontal_alignment = 1
 [node name="Note" type="Label" parent="MarginContainer/VBoxContainer/Components/DeathComponent/VBoxContainer"]
 layout_mode = 2
 text = "Necessarily adds a hurtbox"
-
-[node name="BankTiltComponent" type="PanelContainer" parent="MarginContainer/VBoxContainer/Components"]
-layout_mode = 2
-
-[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/Components/BankTiltComponent"]
-layout_mode = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Components/BankTiltComponent"]
-layout_mode = 2
-
-[node name="Button" type="CheckBox" parent="MarginContainer/VBoxContainer/Components/BankTiltComponent/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_stretch_ratio = 0.0
-button_pressed = true
-
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Components/BankTiltComponent/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 0
-text = "Tilt Component"
-horizontal_alignment = 1
 
 [node name="ShootingComponent" type="PanelContainer" parent="MarginContainer/VBoxContainer/Components"]
 layout_mode = 2
