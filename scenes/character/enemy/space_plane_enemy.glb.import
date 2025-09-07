@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://bbbot6jr2uyxk"
-path="res://.godot/imported/space_plane_enemy.glb-2358a03e657182753c1c92bd6e0140b4.scn"
+path="res://.godot/imported/space_plane_enemy.glb-52e56d4ab45467c75fc4f0bdd82be943.scn"
 
 [deps]
 
-source_file="res://addons/rails_character_controller/scenes/character/enemy/space_plane_enemy.glb"
-dest_files=["res://.godot/imported/space_plane_enemy.glb-2358a03e657182753c1c92bd6e0140b4.scn"]
+source_file="res://addons/rails_character_controler/scenes/character/enemy/space_plane_enemy.glb"
+dest_files=["res://.godot/imported/space_plane_enemy.glb-52e56d4ab45467c75fc4f0bdd82be943.scn"]
 
 [params]
 

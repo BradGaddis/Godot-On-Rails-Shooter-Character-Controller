@@ -79,7 +79,7 @@ func _update_save_path(save_path: String):
 			updated_dirs += "/" + d
 			dir.make_dir("res://" + updated_dirs)
 
-	return (try_path + "%s.tscn" % _character.name.to_snake_case()).strip_edges()
+	return (try_path + "/%s.tscn" % _character.name.to_snake_case()).strip_edges()
 
 
 func handle_add_vehicle_component(component):
