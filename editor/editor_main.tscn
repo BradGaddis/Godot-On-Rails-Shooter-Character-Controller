@@ -102,11 +102,12 @@ layout_mode = 2
 layout_mode = 2
 alignment = 1
 
-[node name="Save Path" type="Label" parent="EditorManager/VBoxContainer/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+[node name="Save Path Label" type="Label" parent="EditorManager/VBoxContainer/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
-text = "Save Path
-Relative to Res://"
+text = "Save Paths are relative to Res://"
 horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="SavePathLineEdit" type="LineEdit" parent="EditorManager/VBoxContainer/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
 layout_mode = 2

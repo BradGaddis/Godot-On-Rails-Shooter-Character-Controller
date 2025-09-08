@@ -7,6 +7,7 @@ extends Control
 @onready var editors_holder := %Editors
 @onready var character_name: Label = %CharacterName
 @onready var _character_generator: RaigonCharacterGenerator = RaigonCharacterGenerator.new()
+@onready var save_path_label: Label = %"Save Path Label"
 
 var _character_name_input: String
 var _save_path: String
@@ -63,21 +64,17 @@ func _on_save_button_pressed() -> void:
 				_character_generator.free()
 				_character_generator = RaigonFlightCharacterGenerator.new()
 				add_child(_character_generator)
-				print("flight")
 		1: 
 			if _character_generator is not RaigonFootCharacterGenerator:
 				_character_generator.free()
 				_character_generator = RaigonFootCharacterGenerator.new()
 				add_child(_character_generator)
-				print("foot")
 		2:
 			if _character_generator is not RaigonGroundCharacterGenerator:
 				_character_generator.free()
 				_character_generator = RaigonGroundCharacterGenerator.new()
 				add_child(_character_generator)
-				print("ground")
 				
-	print(typeof(_character_generator))
 	_character_generator.create_character(
 		_character_name_input,
 		current_editor.components_to_add,
@@ -92,4 +89,10 @@ func _on_character_line_edit_text_changed(new_text: String) -> void:
 
 func _on_save_path_line_edit_text_changed(new_text: String) -> void:
 	_save_path = new_text
-	print(_save_path)
+	var dir = DirAccess.open("res://")
+	var try_path = "res://%s" % _save_path.to_snake_case()
+	save_path_label.text = "Save Paths are relative to Res://\n"
+	if dir.dir_exists(try_path):
+		save_path_label.text += "Save path is a valid path."
+	else:
+		save_path_label.text += "Save Path Is not a valid path.\nOne will be created on save."

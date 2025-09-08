@@ -33,7 +33,7 @@ func _add_components(comps: Array):
 func _add_custom_component(component):
 	var comp_path: String = "res://addons/rails_character_controller/scenes/character/components/scripts/"
 	var dir = DirAccess.open(comp_path)
-	component = component.to_snake_case().to_lower()
+	#component = component.to_snake_case().to_lower()
 	comp_path += component + ".gd"
 	if dir.file_exists(comp_path):
 		var new_comp: Node = load(comp_path).new()
