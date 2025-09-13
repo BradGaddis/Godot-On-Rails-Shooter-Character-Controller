@@ -15,7 +15,7 @@ Clone this repo into the `addons` folder of your project recursively:
 
 ```
 
-git clone https://github.com/BradGaddis/godot-on-rails-third-person-shooter-character-controller rails_character_controler --recursive
+git clone https://github.com/BradGaddis/godot-on-rails-third-person-shooter-character-controller rails_character_controller --recursive
 
 ```
 

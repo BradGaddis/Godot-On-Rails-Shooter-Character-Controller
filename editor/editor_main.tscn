@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bcio80vdajk2l"]
 
-[ext_resource type="Script" uid="uid://b1nd28j2u4fxi" path="res://addons/rails_character_controler/editor/scripts/editor_main.gd" id="1_63q1c"]
-[ext_resource type="Script" uid="uid://ctj3m573wn4ar" path="res://addons/rails_character_controler/editor/editor_manager.gd" id="2_1c0rc"]
+[ext_resource type="Script" uid="uid://b1nd28j2u4fxi" path="res://addons/rails_character_controller/editor/scripts/editor_main.gd" id="1_63q1c"]
+[ext_resource type="Script" uid="uid://ctj3m573wn4ar" path="res://addons/rails_character_controller/editor/editor_manager.gd" id="2_1c0rc"]
 
 [node name="EditorMain" type="Control"]
 layout_mode = 3
