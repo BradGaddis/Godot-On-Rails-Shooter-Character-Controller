@@ -27,7 +27,7 @@ var active_controls: ActorEnums.active_controller_type
 
 var _player_state: ActorEnums.player_state = ActorEnums.player_state.STATE_ACTIVE
 
-var y_axis_flipped: bool
+var y_axis_flipped: bool = true
 
 var mouse_sensitivity: float
 
@@ -56,7 +56,6 @@ var enabled: bool = true:
 			print("Player enabled")
 
 var player_cam_mode: ActorEnums.cam_mode_view = ActorEnums.cam_mode_view.rails
-
 #endregion
 
 
@@ -79,6 +78,7 @@ func _check_state():
 	if character is FlyingVehicleCharacter:
 		current_state = states.get("FlyingPlayer")
 
+
 ## Processes states processes if enabled
 func _process(delta:float):
 	if not enabled or get_tree().paused or not character:
@@ -96,7 +96,6 @@ func _physics_process(delta: float) -> void:
 	character.camera_component.handle_camera_base_actions(delta, player_cam_mode, _target)
 	character.move(_input_dir)
 	_check_state()
-
 
 
 func get_input_dir() -> Vector2:
