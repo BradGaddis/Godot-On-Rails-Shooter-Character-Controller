@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://deioxeex4fncm"]
+[gd_scene load_steps=6 format=3 uid="uid://deioxeex4fncm"]
 
 [ext_resource type="Script" uid="uid://blm6rewq1r0ot" path="res://addons/rails_character_controller/scenes/managers/scripts/managers/player_manager.gd" id="1_kotld"]
 [ext_resource type="Script" uid="uid://dvlqyxjudfb3v" path="res://addons/rails_character_controller/scenes/managers/scripts/managers/no_player_state.gd" id="2_aakdc"]
 [ext_resource type="Script" uid="uid://cviiwut87oj17" path="res://addons/rails_character_controller/scenes/managers/scripts/managers/flying_player_state.gd" id="3_imd78"]
+[ext_resource type="Script" uid="uid://b4r5efpjhs3hj" path="res://addons/rails_character_controller/scenes/managers/scripts/managers/foot_player_state.gd" id="4_8b4ee"]
+[ext_resource type="Script" uid="uid://b42iti4lj55qw" path="res://addons/rails_character_controller/scenes/managers/scripts/managers/ground_player_state.gd" id="5_b6x7k"]
 
 [node name="PlayerManager" type="Node"]
 process_mode = 3
@@ -15,5 +17,7 @@ script = ExtResource("2_aakdc")
 script = ExtResource("3_imd78")
 
 [node name="FootPlayer" type="Node" parent="."]
+script = ExtResource("4_8b4ee")
 
 [node name="GroundPlayer" type="Node" parent="."]
+script = ExtResource("5_b6x7k")
