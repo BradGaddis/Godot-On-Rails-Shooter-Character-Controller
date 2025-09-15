@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://c14e8irkvrbv3" path="res://addons/rails_character_controller/scenes/character/flying_character/xplane/scripts/states/xplane_roll_state.gd" id="5_87ty2"]
 [ext_resource type="Script" uid="uid://bnf3r2m2i7isc" path="res://addons/rails_character_controller/scenes/character/flying_character/xplane/scripts/states/xplane_loop_state.gd" id="6_iox2a"]
 
+
 [sub_resource type="Curve" id="Curve_7lcva"]
 _limits = [1.0, 2.0, 0.0, 2.0]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(2, 2), 0.0, 0.0, 0, 0]

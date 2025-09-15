@@ -110,8 +110,12 @@ func get_mode() -> ActorEnums.mode:
 	return _mode
 
 func update_parent(mode: ActorEnums.mode):
+	return
 	match mode:
 		ActorEnums.mode.free:
 			reparent(_cached_parent, true)
 		ActorEnums.mode.on_rails:
 			reparent(_rails_component.player_active_path_follow, true)
+			
+func set_rail_component(rail_component: RailComponent):
+	_rails_component = rail_component

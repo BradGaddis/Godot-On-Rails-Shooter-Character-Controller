@@ -13,7 +13,7 @@ const PLUGIN_NAME: String = "Raigon Char Creator"
 const PLUGIN_PATH: String = "rails_character_controller"
 
 const UTILS_UID: String = "uid://3y2b13k824kj"
-const PLAYER_MANAGER_UID: String = "uid://blm6rewq1r0ot"
+const PLAYER_MANAGER_UID: String = "uid://deioxeex4fncm"
 const CHARACTER_UTILS_AUTOLOAD_NAME: String = "CharacterUtils"
 const PLAYER_MANAGER_AUTOLOAD_NAME: String = "PlayerManager"
 

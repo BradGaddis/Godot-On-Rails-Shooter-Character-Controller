@@ -71,7 +71,7 @@ func _rotate_character_toward_reticle(delta: float, yaw_speed: float =  3, pitch
 ## Checks character status (ex. Dead/Alive), disables
 #func physics_process(_delta: float) -> void:
 	#if status == ActorEnums.status.dead:
-		#_gm.player.enabled = false
+		#PlayerManager.enabled = false
 
 func visible_body_dir_to_reticle() -> Vector3:
 	return (visible_body.global_transform.origin - reticle_component.reticle_object.global_transform.origin).normalized()
@@ -80,7 +80,7 @@ func dir_to_reticle() -> Vector3:
 	return (reticle_component.reticle_object.global_transform.origin - global_transform.origin).normalized()
 
 #func toggle_enabled():
-	#_gm.player.enabled = !_gm.player.enabled
+	#PlayerManager.enabled = !PlayerManager.enabled
 
 func get_speed() -> float:
 	match _mode:

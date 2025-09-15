@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://deioxeex4fncm"]
+
+[ext_resource type="Script" uid="uid://blm6rewq1r0ot" path="res://addons/rails_character_controller/scenes/managers/scripts/managers/player_manager.gd" id="1_kotld"]
+[ext_resource type="Script" uid="uid://dvlqyxjudfb3v" path="res://addons/rails_character_controller/scenes/managers/scripts/managers/no_player_state.gd" id="2_aakdc"]
+[ext_resource type="Script" uid="uid://cviiwut87oj17" path="res://addons/rails_character_controller/scenes/managers/scripts/managers/flying_player_state.gd" id="3_imd78"]
+
+[node name="PlayerManager" type="Node"]
+process_mode = 3
+script = ExtResource("1_kotld")
+
+[node name="DefaultState" type="Node" parent="."]
+script = ExtResource("2_aakdc")
+
+[node name="FlyingPlayer" type="Node" parent="."]
+script = ExtResource("3_imd78")
+
+[node name="FootPlayer" type="Node" parent="."]
+
+[node name="GroundPlayer" type="Node" parent="."]

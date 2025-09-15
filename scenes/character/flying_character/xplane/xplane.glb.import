@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://t6w85w1vlrrv"
-path="res://.godot/imported/xplane.glb-b4c080900f04405155fa295a19b3a063.scn"
+path="res://.godot/imported/xplane.glb-3ee075fc2b8cd3a3837f7ab9de04dd90.scn"
 
 [deps]
 
-source_file="res://addons/rails_character_controler/scenes/character/flying_character/xplane/xplane.glb"
-dest_files=["res://.godot/imported/xplane.glb-b4c080900f04405155fa295a19b3a063.scn"]
+source_file="res://addons/rails_character_controller/scenes/character/flying_character/xplane/xplane.glb"
+dest_files=["res://.godot/imported/xplane.glb-3ee075fc2b8cd3a3837f7ab9de04dd90.scn"]
 
 [params]
 

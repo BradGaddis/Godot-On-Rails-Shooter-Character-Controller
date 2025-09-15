@@ -1,9 +1,11 @@
 class_name Player extends Node
 ## Manages input and player-related actions
 
-#region Properties
 ## Emmited when a character is added to this class
 signal character_added
+
+
+#region Properties
 
 ## Reference to the character that this class is controlling
 @export var character : Character:
@@ -28,6 +30,10 @@ var y_axis_flipped: bool
 var mouse_sensitivity: float
 
 var inverted_camera: bool
+
+var current_state: PlayerManagerState
+
+var states: Dictionary[String, PlayerManagerState]
 
 ## Whether or not the player is allowed to do anything
 var enabled: bool = true:
@@ -58,6 +64,8 @@ func _input(event: InputEvent) -> void:
 	_handle_tilt_input_events(event)
 	_handle_shooting_input_events(event)
 
+func _ready():
+	_setup_states()
 
 func _handle_tilt_input_events(event: InputEvent):
 	if character is not VehicleCharacter: return
@@ -104,33 +112,30 @@ func _handle_shooting_input_events(event: InputEvent):
 	elif event.is_action_released(input) && character.shooting_component:
 		character.shooting_component.complete_shot()
 
+func _check_state():
+	if character is FlyingVehicleCharacter:
+		current_state = states.get("FlyingPlayer")
 
 ## Processes states processes if enabled
-func _process(_delta:float):
+func _process(delta:float):
 	if not enabled or get_tree().paused or not character:
 		return
+	current_state.update(delta)
 	_target = character.shooting_component.get_current_target()
-
+	_check_state()
 
 ## Processes states physics processes if enabled, as well as gets input directions
 func _physics_process(delta: float) -> void:
 	if not enabled or get_tree().paused or not character:
 		return
+	current_state.physics_update(delta)
 	_input_dir = Input.get_vector("move_left", "move_right", "move_backward", "move_forward")
 	_look_dir = Input.get_vector("look_left", "look_right", "look_down", "look_up")
-	_flight_character_vehicle_process(delta)
 	_grounded_character_vehicle_process(delta)
 	_foot_character_process(delta)
 	character.camera_component.handle_camera_base_actions(delta, player_cam_mode, _target)
 	character.move(_input_dir)
-
-
-func _flight_character_vehicle_process(delta: float):
-	if not character is FlyingVehicleCharacter:
-		return
-
-	if character.reticle_component:
-		character.reticle_component.move(delta, _input_dir)
+	_check_state()
 
 
 func _grounded_character_vehicle_process(_delta: float):
@@ -164,3 +169,15 @@ func _on_foot_input(event: InputEvent):
 
 func toggle_inverted_y_axis():
 	y_axis_flipped = !y_axis_flipped
+
+
+func _on_state_transitioned() -> void:
+	pass
+
+
+func _setup_states() -> void:
+	for child in get_children():
+		if child is PlayerManagerState:
+			states[child.name] = child
+			child.transitioned.connect(_on_state_transitioned)
+	current_state = states[states.keys()[0]]

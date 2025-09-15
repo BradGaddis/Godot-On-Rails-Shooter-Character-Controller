@@ -1,6 +1,6 @@
 [gd_scene load_steps=30 format=3 uid="uid://cl6y2j2ycylmt"]
 
-[ext_resource type="Script" uid="uid://bsdyb74is5xp5" path="res://addons/rails_character_controller/scenes/character/flying_character/xplane/scripts/xplane_character.gd" id="1_quh03"]
+[ext_resource type="Script" uid="uid://de37mu45b565n" path="res://addons/rails_character_controller/scenes/character/flying_character/scripts/flying_vehicle_character.gd" id="1_quh03"]
 [ext_resource type="Script" uid="uid://xdo23w6pflqm" path="res://addons/rails_character_controller/scenes/character/components/scripts/vehicle_component.gd" id="2_3xoie"]
 [ext_resource type="PackedScene" uid="uid://t6w85w1vlrrv" path="res://addons/rails_character_controller/scenes/character/flying_character/xplane/xplane.glb" id="3_fruhl"]
 [ext_resource type="PackedScene" uid="uid://vcwgu6xe422" path="res://addons/rails_character_controller/scenes/character/components/hit_box_component.tscn" id="6_1dvi0"]
@@ -145,7 +145,7 @@ script = ExtResource("1_quh03")
 
 [node name="VehicleComponent" type="CharacterBody3D" parent="."]
 unique_name_in_owner = true
-collision_layer = 20
+collision_layer = 0
 collision_mask = 15
 floor_stop_on_slope = false
 floor_snap_length = 1.6
@@ -181,17 +181,17 @@ shape = SubResource("CapsuleShape3D_7wibb")
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6.61011)
 script = ExtResource("6_m8rej")
-max_num_guns = 1
 _charge_curve = SubResource("Curve_7bwkw")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="VehicleComponent"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.534285, -1.59237)
 shape = SubResource("CapsuleShape3D_ota3n")
 
-[node name="BankTiltComponent" type="Node" parent="VehicleComponent"]
+[node name="BankTiltComponent" type="Node" parent="VehicleComponent" node_paths=PackedStringArray("vehicle_component")]
 unique_name_in_owner = true
 script = ExtResource("7_15u4u")
 _tilt_move_speed_curve = SubResource("Curve_15u4u")
+vehicle_component = NodePath("..")
 
 [node name="ReticleComponent" parent="." instance=ExtResource("7_fruhl")]
 unique_name_in_owner = true

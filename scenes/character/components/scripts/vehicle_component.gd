@@ -35,7 +35,7 @@ var right_wing_state: ActorEnums.vehicle_wing_state = ActorEnums.vehicle_wing_st
 
 func _get_configuration_warnings() -> PackedStringArray:
 	var output: PackedStringArray = []
-	if owner is not VehicleBody3D:
+	if owner is not VehicleCharacter:
 		output.append("Owner is not a vehicle character. It doesn't make sense to have this component on this owner.")
 	return output
 

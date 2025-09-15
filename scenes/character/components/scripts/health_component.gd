@@ -8,16 +8,18 @@ class_name HealthComponent extends Node
 ## Emited when the value of health (as a percentage) has changed
 signal health_changed(percent_health: float)
 
+#region Properties
 ## Reference to death component[br]
 ## This class might not be particularly useful if death component is not a assigned.
 ## Assigned a value in _ready()
 @onready var _death_component: DeathComponent = get_node_or_null("%DeathComponent")
 
 ## The parent of this class in which it is assigned
-@onready var _parent: Actor = owner
+@onready var _parent: Actor = get_parent()
 
 ## The maximum amount of health this component can have
 @export var max_health: float = 5
+#endregion
 
 
 func _get_configuration_warnings() -> PackedStringArray:

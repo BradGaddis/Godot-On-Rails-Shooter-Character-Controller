@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://bkc761imuab1n" path="res://addons/rails_character_controller/scenes/character/components/hurt_box_component.tscn" id="3_1gsh3"]
 [ext_resource type="PackedScene" uid="uid://vcwgu6xe422" path="res://addons/rails_character_controller/scenes/character/components/hit_box_component.tscn" id="4_mqtei"]
 
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pcrdr"]
 radius = 5.0
 height = 10.0

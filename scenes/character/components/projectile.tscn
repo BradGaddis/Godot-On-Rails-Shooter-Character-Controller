@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://nr3x653ecxxd" path="res://addons/rails_character_controller/scenes/character/components/scripts/projectile.gd" id="1_s4hwx"]
 [ext_resource type="PackedScene" uid="uid://vcwgu6xe422" path="res://addons/rails_character_controller/scenes/character/components/hit_box_component.tscn" id="2_g06fb"]
 
+
 [sub_resource type="Curve" id="Curve_q3m7n"]
 _data = [Vector2(0.07647058, 1), 0.0, 0.0, 0, 0, Vector2(0.9941177, 0), 0.0, 0.0, 0, 0]
 point_count = 2
