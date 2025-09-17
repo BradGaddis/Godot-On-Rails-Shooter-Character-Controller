@@ -32,6 +32,7 @@ var energy_timer_cooldown: Timer
 var energy_thrusters: ActorEnums.thrust = ActorEnums.thrust.full
 #endregion
 
+
 ## Sets up states from children and connects their signals.[br]
 ## Assigns timers and cooldown time
 func _ready() -> void:
@@ -42,17 +43,21 @@ func _ready() -> void:
 			_states[child.name] = child
 			print("Adding %s to states" % child.name)
 			_set_signal(child)
-	
 	energy_timer_active = get_node_or_null("EnergyTimerActive")
 	energy_timer_cooldown = get_node_or_null("EnergyTimerCooldown")
 
+
 ## Process the current states update
 func _process(delta: float) -> void:
+	if !current_state: return
 	current_state.state_process(delta)
+
 
 ## Process the current states physics update
 func _physics_process(delta: float) -> void:
+	if !current_state: return
 	current_state.state_physics_process(delta)
+	
 	
 ## Called when a state has transitioned on a per-state basis
 func _on_state_transitioned(incoming_state: State, next_state: String):
@@ -61,10 +66,12 @@ func _on_state_transitioned(incoming_state: State, next_state: String):
 	previous_state = current_state.name
 	current_state = _states[next_state]
 	current_state.enter(previous_state)
+
 	
 ## Connects the transition signal of a state
 func _set_signal(child: State):
 	child.connect("transitioned", _on_state_transitioned)
+
 
 ## Returns how full the energy gauge should be at any given time
 func get_energy_guage_amount() -> float:
@@ -75,10 +82,12 @@ func get_energy_guage_amount() -> float:
 	_cool_time = 0.0 if _cool_time == 1.0 else _cool_time
 	return max(_active_time, _cool_time)
 
+
 #region shared functionality: 
 func _on_energy_timer_cooldown_timeout() -> void:
 	PlayerManager.character.state_machine_component.energy_thrusters = ActorEnums.thrust.full
 	energy_timer_active.stop()
+
 	
 func _on_energy_timer_active_timeout() -> void:
 	PlayerManager.character.state_machine_component.energy_thrusters = ActorEnums.thrust.cooling

@@ -82,13 +82,12 @@ func _process(delta: float) -> void:
 func mouse_look_at_reticle(event: InputEventMouseMotion) -> void:
 	var delta: float = get_physics_process_delta_time()
 	PlayerManager.character.reticle_component.rotation.y += event.relative.x * delta * PlayerManager.mouse_sensitivity * (-1 if PlayerManager.inverted_camera else 1)
+	PlayerManager.character.reticle_component.rotation.x += event.relative.y * delta * -1 * PlayerManager.mouse_sensitivity
 	PlayerManager.character.reticle_component.rotation.y = wrapf(PlayerManager.character.reticle_component.rotation.y, -PI, PI)
-	PlayerManager.character.reticle_component.rotation.x += event.relative.y * delta * -1
 	PlayerManager.character.reticle_component.rotation.x = clamp(PlayerManager.character.reticle_component.rotation.x, _min_x_rotation, _max_x_rotation)
 
-
 ## Looks at the reticle
-## @experimental: Might use lerp or quaternions
+## @experimental: Might use lerp or quaternions #TODO
 func look_at_reticle(_delta: float, _rotation_speed: float):
 	look_at(PlayerManager.character.reticle_component.reticle_object.global_position)
 

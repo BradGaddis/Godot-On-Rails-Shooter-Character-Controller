@@ -32,7 +32,7 @@ signal status_changed(type: ActorEnums.status)
 @export var _mass: float = 1
 
 ## Flag determines if the actor should be propelled on rails of freely in the forward motion
-@export var move_flag = false
+@export var move_flag = true
 
 ## The current status of the enemy (ex. Alive/Dead)
 var status: ActorEnums.status = ActorEnums.status.neutral:
