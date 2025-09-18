@@ -77,8 +77,9 @@ func _ready():
 func _check_state():
 	if character is FlyingVehicleCharacter:
 		current_state = states.get("FlyingPlayer")
-	if character is OnFootCharacter:
+	if character is OnFootCharacter: #TODO refactor to check which state the player is in and use that instead of this
 		current_state = states.get("FootPlayer")
+
 
 ## Processes states processes if enabled
 func _process(delta:float):

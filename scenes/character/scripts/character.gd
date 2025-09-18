@@ -34,7 +34,10 @@ var last_x_dir: float = -1:
 	get: return sign(last_x_dir)
 #endregion
 
+#TODO move public methods to the top
 
+func get_input_dir() -> Vector2:
+	return _direction
 
 func _ready() -> void:
 	super._ready()

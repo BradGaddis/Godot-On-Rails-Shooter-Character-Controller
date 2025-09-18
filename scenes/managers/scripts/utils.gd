@@ -20,7 +20,7 @@ var default_keyboard_input_map: Dictionary[String, Array] = {
 	"on_foot_shoot"     :  [[KEY_C,     "key"], [JOY_BUTTON_A,                       "JoyButton"], [MOUSE_BUTTON_LEFT, "MouseButton"]],
 	"vehicle_shoot"     :  [[KEY_SPACE, "key"], [JOY_BUTTON_A,                       "JoyButton"], [MOUSE_BUTTON_LEFT, "MouseButton"]],
 	"run"               :  [[KEY_SHIFT, "key"], ],
-	#"jump"             : [[KEY_UP, "key"]],
+	"jump"             :   [[KEY_SPACE, "key"]  ],
 	}
 
 ## Destroys a tween and returns a new one

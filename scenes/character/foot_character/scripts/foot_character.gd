@@ -5,25 +5,12 @@ class_name OnFootCharacter extends Character
 ## Reference to the camrera component
 @onready var _camera_component : CameraComponent = %CameraComponent
 
-## How fast the character will accelerate on moving
-@export var _acceleration : float = .5
-
-## How fast the character will deccelerate on slowing down
-@export var _deceleration : float = 5
 
 ## The amount of velocity to gain before fall damage taken
 @export var _fall_damage_threshold: float = -5
 
 ## Previous frame y velocity
 var _last_y_velocity: float
-
-var _speed: float = 20
-
-## The direction the character is turning in
-var _character_direction: Vector3
-
-## The x and z velocity
-var _planer_velocity_xz: Vector3
 #endregion
 
 
@@ -39,33 +26,23 @@ func _detect_fall_damage():
 	_last_y_velocity = velocity.y
 
 
-## Assigns directions in line with the camera, moves in the planer 
-func _handle_character_movement(delta):
-	_character_direction = (_camera_component.camera.global_basis.x * Vector3(1,0,1)).normalized() * _direction.x
-	_character_direction -= (_camera_component.camera.global_basis.z * Vector3(1,0,1)).normalized() * _direction.y
-	if _direction:
-		_planer_velocity_xz = _planer_velocity_xz.move_toward(_character_direction * _speed, _acceleration * delta)
-	else:
-		_planer_velocity_xz = _planer_velocity_xz.move_toward(Vector3.ZERO, _deceleration * delta * _planer_velocity_xz.length())
-	velocity.x =_planer_velocity_xz.x
-	velocity.z =_planer_velocity_xz.z
-
-
+#TODO refactor this to handle other states
 func move(direction: Vector2):
 	super.move(direction)
-
-
-func update_speed(new_speed: float):
-	_speed = new_speed
+	if !is_on_floor():
+		return
+	if direction != Vector2.ZERO and state_machine_component.current_state.name != "move":
+		state_machine_component.current_state.change_to_state("move")
+		return
+	elif direction == Vector2.ZERO and state_machine_component.current_state.name != "idle":
+		state_machine_component.current_state.change_to_state("idle")
 
 
 ## Moves the character via the reticle and handles jumping
 func _physics_process(delta: float) -> void:
-	_handle_character_movement(delta)
 	if not is_on_floor():
 		velocity.y -= _gravity * delta * _mass
 	_detect_fall_damage()
 	move_and_slide()
 	if _mode == ActorEnums.mode.free:
 		_rotate_character_toward_reticle(delta)
-		
