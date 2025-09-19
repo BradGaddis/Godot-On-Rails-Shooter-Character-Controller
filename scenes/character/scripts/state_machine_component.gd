@@ -1,4 +1,4 @@
-class_name StateMachineComponent extends Node
+class_name StateMachineComponent extends State
 ## Manages the current state, facitates logic between states
 ## 
 ## Collects child states and manages the logic that should happen when a state enters being active or inactive (enter and exit)
@@ -49,23 +49,24 @@ func _ready() -> void:
 
 ## Process the current states update
 func _process(delta: float) -> void:
-	if !current_state: return
+	if !current_state or !_states: return
 	current_state.state_process(delta)
 
 
 ## Process the current states physics update
 func _physics_process(delta: float) -> void:
-	if !current_state: return
+	if !current_state or !_states: return
 	current_state.state_physics_process(delta)
 	
 	
 ## Called when a state has transitioned on a per-state basis
 func _on_state_transitioned(incoming_state: State, next_state: String):
-	assert(incoming_state != _states[next_state], "Looks like you are trying to transition from a state to the same state")
+	assert(incoming_state != _states.get(next_state), "Looks like you are trying to transition from a state to the same state")
 	current_state.exit(next_state)
 	previous_state = current_state.name
-	current_state = _states[next_state]
-	current_state.enter(previous_state)
+	current_state = _states.get(next_state)
+	if current_state:
+		current_state.enter(previous_state)
 
 	
 ## Connects the transition signal of a state
