@@ -3,9 +3,20 @@ extends State
 #region Properties
 ## Force of jumping
 const JUMP_VELOCITY = 4.5
+var jumping: bool
 #endregion
 
 
+func enter(previous_state: String) -> void:
+	_update_animation("jumping", true)
+
+
+func exit(previous_state: String) -> void:
+	_update_animation("jumping", false)
+
+
+# TODO(brad) find a way to delay the jump until some frames have passed that works with this workflow
+# short of just making it local and adding a method track, I don't know how I would do it.
 func state_process(delta) -> void:
 	_handle_jump()
 

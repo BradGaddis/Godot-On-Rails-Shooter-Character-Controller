@@ -71,7 +71,7 @@ var _hurt_box: HurtBoxComponent
 var _hit_box: HitBoxComponent
 
 ## Reference to the animation component
-var animation_component: AnimationPlayer
+var animation_component: AnimationTree
 
 	#endregion
 #endregion
@@ -85,7 +85,7 @@ func _ready() -> void:
 	_hit_box = get_node_or_null("%HitBoxComponent")
 	_hurt_box = get_node_or_null("%HurtBoxComponent")
 	visible_body = get_node_or_null("%VisibleBody")
-	animation_component = get_node_or_null("AnimationPlayer")
+	animation_component = get_node_or_null("%AnimationTree")
 	_cached_parent = self.get_parent()
 	call_deferred("update_parent", _mode)
 

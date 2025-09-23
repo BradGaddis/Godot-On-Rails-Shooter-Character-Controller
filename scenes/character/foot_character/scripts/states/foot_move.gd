@@ -24,6 +24,14 @@ func update_speed(new_speed: float):
 	_speed = new_speed
 
 
+func enter(previous_state: String) -> void:
+	_update_animation("running", true)
+
+
+func exit(previous_state: String) -> void:
+	_update_animation("running", false)
+
+
 ## Assigns directions in line with the camera, moves in the planer
 func handle_character_movement(delta):
 	_character_direction = (PlayerManager.character.camera_component.camera.global_basis.x * Vector3(1,0,1)).normalized() * _direction.x
