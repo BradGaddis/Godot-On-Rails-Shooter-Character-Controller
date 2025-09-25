@@ -31,9 +31,6 @@ func move(direction: Vector2):
 	super.move(direction)
 	if !is_on_floor() or state_machine_component.current_state.name == "move":
 		return
-	if direction != Vector2.ZERO or velocity != Vector3.ZERO:
-		PlayerManager.character.state_machine_component.current_state.change_to_state("move")
-		return
 
 
 ## Moves the character via the reticle and handles jumping
