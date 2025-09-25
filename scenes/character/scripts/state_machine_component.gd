@@ -1,6 +1,6 @@
 class_name StateMachineComponent extends State
 ## Manages the current state, facitates logic between states
-## 
+##
 ## Collects child states and manages the logic that should happen when a state enters being active or inactive (enter and exit)
 
 
@@ -9,7 +9,7 @@ class_name StateMachineComponent extends State
 @export var current_state: State:
 	set(val):
 		current_state = val;
-		
+
 ## A reference to the previous state we were in.
 var previous_state: String
 
@@ -20,16 +20,17 @@ var _cool_time: float
 var _active_time: float
 
 ## Stores the states that are of the children of this node
-var _states : Dictionary[String, State] = {} 
+var _states : Dictionary[String, State] = {}
 
 ## Timer for GUI progress meter for active thrusters
-var energy_timer_active: Timer 
+var energy_timer_active: Timer
 
 ## Timer for GUI progress meter for cooling thrusters
 var energy_timer_cooldown: Timer
 
 ## Represents the enegy remaining on come states (such as boost and breaks)
 var energy_thrusters: ActorEnums.thrust = ActorEnums.thrust.full
+
 #endregion
 
 
@@ -57,8 +58,8 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	if !current_state or !_states: return
 	current_state.state_physics_process(delta)
-	
-	
+
+
 ## Called when a state has transitioned on a per-state basis
 func _on_state_transitioned(incoming_state: State, next_state: String):
 	assert(incoming_state != _states.get(next_state), "Looks like you are trying to transition from a state to the same state")
@@ -68,7 +69,7 @@ func _on_state_transitioned(incoming_state: State, next_state: String):
 	if current_state:
 		current_state.enter(previous_state)
 
-	
+
 ## Connects the transition signal of a state
 func _set_signal(child: State):
 	child.connect("transitioned", _on_state_transitioned)
@@ -84,12 +85,12 @@ func get_energy_guage_amount() -> float:
 	return max(_active_time, _cool_time)
 
 
-#region shared functionality: 
+#region shared functionality:
 func _on_energy_timer_cooldown_timeout() -> void:
 	PlayerManager.character.state_machine_component.energy_thrusters = ActorEnums.thrust.full
 	energy_timer_active.stop()
 
-	
+
 func _on_energy_timer_active_timeout() -> void:
 	PlayerManager.character.state_machine_component.energy_thrusters = ActorEnums.thrust.cooling
 	if energy_timer_cooldown.is_stopped():

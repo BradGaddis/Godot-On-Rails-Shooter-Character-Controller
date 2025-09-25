@@ -41,8 +41,6 @@ func get_input_dir() -> Vector2:
 
 func _ready() -> void:
 	super._ready()
-	if !PlayerManager.character: # TODO Remove in later version. Here for testing
-		PlayerManager.character = self
 	reticle_component = get_node_or_null("%ReticleComponent")
 	camera_component = get_node_or_null("%CameraComponent")
 	if shooting_component:

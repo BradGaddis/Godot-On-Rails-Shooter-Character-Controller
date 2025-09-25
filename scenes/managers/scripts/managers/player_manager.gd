@@ -25,8 +25,6 @@ var _look_dir: Vector2:
 ## Which controller type the player is using
 var active_controls: ActorEnums.active_controller_type
 
-var _player_state: ActorEnums.player_state = ActorEnums.player_state.STATE_ACTIVE
-
 var y_axis_flipped: bool = true
 
 var mouse_sensitivity: float
@@ -104,14 +102,6 @@ func get_input_dir() -> Vector2:
 	return _input_dir
 
 
-func get_player_state():
-	return _player_state
-
-
-func set_player_state(state: ActorEnums.player_state):
-	_player_state = state
-
-
 func toggle_inverted_y_axis():
 	y_axis_flipped = !y_axis_flipped
 
@@ -127,3 +117,16 @@ func _setup_states() -> void:
 			states[child.name] = child
 			child.transitioned.connect(_on_state_transitioned)
 	current_state = states[states.keys()[0]]
+
+func get_velocity() -> Vector3:
+	return character.velocity
+
+func get_state_machine() -> StateMachineComponent:
+	return character.state_machine_component
+
+func get_player_state() -> State:
+	return get_state_machine().current_state
+
+## @experimental I don't know if I want this
+func get_anim_comp() -> AnimationTree:
+	return character.animation_component

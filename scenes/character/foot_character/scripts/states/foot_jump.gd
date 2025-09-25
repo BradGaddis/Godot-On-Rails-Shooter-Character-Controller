@@ -22,7 +22,7 @@ func state_process(delta) -> void:
 
 
 func _check_velocity():
-	if PlayerManager.character.velocity.y >= 0:
+	if PlayerManager.get_velocity().y >= 0:
 		return
 	change_to_state("fall")
 
