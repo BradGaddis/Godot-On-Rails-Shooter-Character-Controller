@@ -1,5 +1,5 @@
 @tool
-class_name ShootingComponent extends Node3D
+class_name ShootingComponent extends Marker3D
 ## Handles shooting related logic
 ##
 ## Handles spawning a projectile and setting up the parameters for launching it.
