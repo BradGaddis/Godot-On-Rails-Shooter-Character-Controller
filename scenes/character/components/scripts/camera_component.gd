@@ -147,11 +147,12 @@ func _handle_flight_camera_on_rails(delta: float, cam_mode: ActorEnums.cam_mode_
 		ActorEnums.cam_mode_view.rails:
 			_handle_flight_camera_rail_state_cam(PlayerManager.character.state_machine_component.current_state.name)
 
-
+# TODO(brad): fix this
 func _handle_flight_camera_rail_state_cam(state: String):
-	match state:
-		"fly":
-			var input_dir: Vector2 = PlayerManager.get_input_dir() if PlayerManager.get_player_state() == ActorEnums.player_state.STATE_ACTIVE else Vector2.ZERO
+	return
+	#match state:
+		#"fly":
+			#var input_dir: Vector2 = PlayerManager.get_input_dir() if PlayerManager.get_player_state() == ActorEnums.player_state.STATE_ACTIVE else Vector2.ZERO
 		#"u-turn":
 			#pass
 

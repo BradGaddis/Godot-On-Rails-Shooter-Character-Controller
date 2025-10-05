@@ -6,22 +6,25 @@ class_name DeathComponent extends Node
 ## This node might not work as intended when not a direct child of a node
 ## This component fits squarly in the experimental stage of things. It's far from complete
 
+#region Properties
 ## The parent of this object
 @onready var _actor: Actor = owner
 
 ## Emits when the parent node has died
 signal died
+#endregion
+
 
 func _get_configuration_warnings() -> PackedStringArray:
 	var output: PackedStringArray
 	if owner is not Actor:
-		output.append("The owner of this scene must be an Actor")
+		output.append("The owner of this node must be an Actor")
 	return output
 
 
 ## Handles the sequences of steps that need to be taken when the parent node dies
 ## @experimental: Not complete #TODO
-func die() -> Signal:
+func complete_death() -> Signal:
 	died.emit()
 	if _actor is Character:
 		pass
@@ -29,9 +32,11 @@ func die() -> Signal:
 		_actor.queue_free()
 	return died
 
+
 ## @experimental: Not complete  #TODO
 func disable_parent() -> void:
 	printerr(str(get_stack()[0]["function"]) + " Not implemented")
+
 
 ## @experimental: Not complete  #TODO
 ## Kicks off the chain of events that need to happen when the parent node dies
@@ -42,9 +47,9 @@ func start_death_sequence(node: Actor = _actor) -> void:
 			await _on_rails_death_sequence()
 		ActorEnums.mode.free:
 			printerr(str(get_stack()[0]["function"]) + " Not implemented")
-			die()
+			complete_death()
 		_:
-			die()
+			complete_death()
 
 ## @experimental: Not complete #TODO
 func _on_rails_death_sequence() -> void:
@@ -59,4 +64,4 @@ func _on_rails_death_sequence() -> void:
 		printerr(str(get_stack()[0]["function"]) + " Not complete") 
 		# fall with velocity in-tact
 		# explode on collision
-		die()
+		complete_death()

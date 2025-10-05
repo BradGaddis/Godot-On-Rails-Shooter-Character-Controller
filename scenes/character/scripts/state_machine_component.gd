@@ -6,12 +6,10 @@ class_name StateMachineComponent extends State
 
 #region Properties
 ## The active state
-@export var current_state: State:
-	set(val):
-		current_state = val;
+@export var current_state: State
 
 ## A reference to the previous state we were in.
-var previous_state: String
+var previous_state: State
 
 ## Set when the energy thrusters active timer exits early or times out
 var _cool_time: float
@@ -44,6 +42,7 @@ func _ready() -> void:
 			_states[child.name] = child
 			print("Adding %s to states" % child.name)
 			_set_signal(child)
+	current_state = _states["idle"]
 	energy_timer_active = get_node_or_null("EnergyTimerActive")
 	energy_timer_cooldown = get_node_or_null("EnergyTimerCooldown")
 
@@ -62,13 +61,18 @@ func _physics_process(delta: float) -> void:
 
 ## Called when a state has transitioned on a per-state basis
 func _on_state_transitioned(incoming_state: State, next_state: String):
-	assert(incoming_state != _states.get(next_state), "Looks like you are trying to transition from a state to the same state")
+	assert(incoming_state != _states.get(next_state), "Looks like you are trying to transition from a state '%s' to the same state '%s'"  % [incoming_state.name, next_state])
 	current_state.exit(next_state)
-	previous_state = current_state.name
-	current_state = _states.get(next_state)
-	if current_state:
-		current_state.enter(previous_state)
+	previous_state = current_state
+	_enter_state(_states.get(next_state))
 
+func _enter_state(new_state: State):
+	current_state = new_state
+	if current_state:
+		current_state.enter(previous_state.name)
+	else:
+		push_error("You're entering a state that doesn't exist.")
+		#current_state.change_to_state("idle")
 
 ## Connects the transition signal of a state
 func _set_signal(child: State):

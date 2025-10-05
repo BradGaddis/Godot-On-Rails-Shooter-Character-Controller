@@ -26,13 +26,6 @@ func _detect_fall_damage():
 	_last_y_velocity = velocity.y
 
 
-#TODO refactor this to handle other states
-func move(direction: Vector2):
-	super.move(direction)
-	if !is_on_floor() or state_machine_component.current_state.name == "move":
-		return
-
-
 ## Moves the character via the reticle and handles jumping
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():

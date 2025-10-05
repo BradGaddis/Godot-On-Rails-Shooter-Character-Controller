@@ -1,5 +1,6 @@
 @tool
-class_name RaigonCharacterCreator extends Control # TODO refactor into other creators
+class_name RaigonCharacterCreator extends Control
+ #TODO(brad): Simplify need to have multiple generators since I am moving to a component system
 
 
 @onready var components: GridContainer = %Components
