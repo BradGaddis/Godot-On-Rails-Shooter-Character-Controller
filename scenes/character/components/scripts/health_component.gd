@@ -1,4 +1,3 @@
-@tool
 class_name HealthComponent extends Node
 ## Gives health functionality to a node
 ##
