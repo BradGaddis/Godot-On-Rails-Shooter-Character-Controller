@@ -19,9 +19,10 @@ var _rail_path: PathFollow3D
 ## Sets up and assgings components, registers processes with the process manager
 func _ready():
 	super._ready()
+	#TODO Make these the same as the shooting component (same for player)
 	if shooting_component:
-		shooting_component.update_projectile_collision_layer(2**4 + 1)
-		shooting_component.update_projectile_collision_mask(2**4 + 1)
+		shooting_component.update_projectile_collision_layer(2**3 + 1)
+		shooting_component.update_projectile_collision_mask(2**3 + 1)
 	if _hurt_box:
 		_hurt_box.collision_layer = 2**3
 	set_rail_path(get_parent() as PathFollow3D)

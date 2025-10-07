@@ -1,7 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://ulc2i5sibkjk"]
+[gd_scene load_steps=8 format=3 uid="uid://ulc2i5sibkjk"]
 
 [ext_resource type="Script" uid="uid://nr3x653ecxxd" path="res://addons/rails_character_controller/scenes/character/components/scripts/projectile.gd" id="1_s4hwx"]
 [ext_resource type="PackedScene" uid="uid://vcwgu6xe422" path="res://addons/rails_character_controller/scenes/character/components/hit_box_component.tscn" id="2_g06fb"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_jwgsd"]
+bounce = 0.11
+absorbent = true
 
 [sub_resource type="Curve" id="Curve_q3m7n"]
 _data = [Vector2(0.07647058, 1), 0.0, 0.0, 0, 0, Vector2(0.9941177, 0), 0.0, 0.0, 0, 0]
@@ -17,6 +21,7 @@ radius = 0.75
 [node name="Shooting Projectile" type="RigidBody3D"]
 collision_layer = 0
 collision_mask = 0
+physics_material_override = SubResource("PhysicsMaterial_jwgsd")
 gravity_scale = 0.0
 script = ExtResource("1_s4hwx")
 _damage_curve = SubResource("Curve_q3m7n")

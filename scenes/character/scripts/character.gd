@@ -43,9 +43,10 @@ func _ready() -> void:
 	super._ready()
 	reticle_component = get_node_or_null("%ReticleComponent")
 	camera_component = get_node_or_null("%CameraComponent")
-	if shooting_component:
-		shooting_component.update_projectile_collision_layer(2**3 + 1)
-		shooting_component.update_projectile_collision_mask(2**3 + 1)
+	#TODO Remove if this works
+	#if shooting_component:
+		#shooting_component.update_projectile_collision_layer(2**3 + 1)
+		#shooting_component.update_projectile_collision_mask(2**3 + 1)
 
 
 ## Handles inputs

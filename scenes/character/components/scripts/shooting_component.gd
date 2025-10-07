@@ -1,4 +1,3 @@
-@tool
 class_name ShootingComponent extends Marker3D
 ## Handles shooting related logic
 ##
@@ -6,6 +5,14 @@ class_name ShootingComponent extends Marker3D
 
 
 #region Parameters
+@export_group("Projectile Physics Collision")
+@export_flags_3d_physics var _projectile_physics_collision_layer = 0;
+@export_flags_3d_physics var _projectile_physics_collision_mask = 0;
+
+@export_group("Projectile HitBox Collision")
+@export_flags_3d_physics var _projectile_hitbox_collision_layer = 0;
+@export_flags_3d_physics var _projectile_hitbox_collision_mask = 0;
+
 ## Emited when fully charged
 signal finshed_charging
 
@@ -14,12 +21,6 @@ signal shot_fired
 
 ## Reference to the time that controls charging length
 var _charge_hold_timer : Timer
-
-## The layer of the hitbox on the projectile
-var _projectile_collision_layer: int = 0
-
-## The layer of the hurtbox on the projectile
-var _projectile_collision_mask: int = 0
 
 ## A temporary variable that is only used while charging
 var _temp_charging_shot : Projectile
@@ -31,7 +32,7 @@ var _temp_charging_shot : Projectile
 @onready var _reticle_component: ReticleComponent = get_node_or_null("%ReticleComponent")
 
 
-@export_group("Shooting") # ------------------------------------------------------------------
+@export_group("Projectile Specs") # ------------------------------------------------------------------
 ## Speed a projectile will launch at
 @export var _shot_speed: float = 100
 ## @experimental: Not implemented
@@ -91,20 +92,20 @@ func _init() -> void:
 		_charge_curve.add_point(Vector2.ONE * 2) 
 
 
-func _get_configuration_warnings() -> PackedStringArray:
-	var output: PackedStringArray
-	var found_vehicle_parent: bool = false
-	if !_charge_curve:
-		output.append("Charging cannot work without a charging curve set.")
-	if owner is VehicleCharacter:
-		var vehicle_components = owner.find_children("*", "VehicleComponent")
-		if !vehicle_components:
-			output.append("You might want to have at least one vehicle component. Otherwise ignore this warning.")
-		for vehicle_component in vehicle_components:
-			found_vehicle_parent = vehicle_component.find_children(self.name, "ShootingComponent", true) != []
-		if !found_vehicle_parent:
-			output.append("This shooting component might not behave as you expect if it is not placed as a child of a vehicle component. If this is intended, ignore this warning")
-	return output
+#func _get_configuration_warnings() -> PackedStringArray:
+	#var output: PackedStringArray
+	#var found_vehicle_parent: bool = false
+	#if !_charge_curve:
+		#output.append("Charging cannot work without a charging curve set.")
+	#if owner is VehicleCharacter:
+		#var vehicle_components = owner.find_children("*", "VehicleComponent")
+		#if !vehicle_components:
+			#output.append("You might want to have at least one vehicle component. Otherwise ignore this warning.")
+		#for vehicle_component in vehicle_components:
+			#found_vehicle_parent = vehicle_component.find_children(self.name, "ShootingComponent", true) != []
+		#if !found_vehicle_parent:
+			#output.append("This shooting component might not behave as you expect if it is not placed as a child of a vehicle component. If this is intended, ignore this warning")
+	#return output
 
 
 func _ready() -> void:
@@ -165,18 +166,20 @@ func _on_charge_hold_timeout():
 func _setup_shot() -> Projectile:
 	if not _temp_charging_shot:
 		return
-	var shot: Projectile = _temp_charging_shot
-	shot.top_level = true
+	var shot: Projectile = _temp_charging_shot;
+	shot.top_level = true;
 	if _reticle_component:
-		shot.set_launch_direction(_get_shot_launch_direction())
-	shot.set_initial_position(global_position)
-	shot.set_shot_speed(_update_shot_speed())
-	shot.set_tapered_velocity(_tapered_velocity)
-	shot.set_damage(_damage)
-	shot.update_collision_layer(_projectile_collision_layer)
-	shot.update_collision_mask(_projectile_collision_mask)
-	shot.launch_projectile()
-	return shot
+		shot.set_launch_direction(_get_shot_launch_direction());
+	shot.set_initial_position(global_position);
+	shot.set_shot_speed(_update_shot_speed());
+	shot.set_tapered_velocity(_tapered_velocity);
+	shot.set_damage(_damage);
+	shot.update_physics_collision_layer(_projectile_physics_collision_layer);
+	shot.update_physics_collision_mask(_projectile_physics_collision_mask);
+	shot.update_hitbox_collision_layer(_projectile_hitbox_collision_layer);
+	shot.update_hitbox_collision_mask(_projectile_hitbox_collision_mask);
+	shot.launch_projectile();
+	return shot;
 
 
 ## Launches already charging/charged shot if knocked back
@@ -188,24 +191,23 @@ func _on_hurt_box_component_knocked_back(_direction: Vector3) -> void:
 
 ## Updates what the projectile can hit
 ## @experimental: I think I need to change this such that it updates the hitbox
-func update_projectile_collision_layer(layer: int) -> int:
-	_projectile_collision_layer = layer
-	return _projectile_collision_layer
+func update_projectile_hitbox_collision_layer(layer: int) -> int:
+	_projectile_hitbox_collision_layer = layer;
+	return _projectile_hitbox_collision_layer;
 
 
 ## Updates what can hit the projectile
 ## @experimental: I think I need to change this such that it updates the hurtbox
-func update_projectile_collision_mask(layer: int) -> int:
-	_projectile_collision_mask = layer
-	return _projectile_collision_mask
+func update_projectile_hitbox_collision_mask(layer: int) -> int:
+	_projectile_hitbox_collision_mask = layer;
+	return _projectile_hitbox_collision_mask;
 
 
 # None of this make sense... #TODO
 ## Only runs when a shot is charging/charged
 func _physics_process(delta: float) -> void:
-	if Engine.is_editor_hint():
-		update_configuration_warnings()
-		return
+	if !_projectile_hitbox_collision_layer and !_projectile_hitbox_collision_mask and !_projectile_physics_collision_layer and !_projectile_physics_collision_mask:
+		push_warning("None of the collision masks or layers are set for the projectile. Is this intended?")
 	if not is_instance_valid(_target):
 		_target = null
 	_inverted_time_left = 1 - _charge_hold_timer.time_left
