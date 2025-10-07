@@ -43,7 +43,7 @@ func _resume_rail_speed_on_exit():
 	_out_tween.parallel().tween_property(PlayerManager.character, "_rail_speed", _initial_flight_speed, 1)
 
 ## Aligns rotation and delays before starting the loop on entering
-func enter(last_state: String):
+func enter(last_state: State):
 	_player_entry_set_up()
 	await _realign_rotation()
 	await _set_delay()

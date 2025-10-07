@@ -72,6 +72,7 @@ func _ready():
 	_setup_states()
 
 
+#TODO(brad) refactor this to be aligned with the player states instead of player class types
 func _check_state():
 	if character is FlyingVehicleCharacter:
 		current_state = states.get("FlyingPlayer")
@@ -86,6 +87,7 @@ func _process(delta:float):
 	current_state.update(delta)
 	_target = character.shooting_component.get_current_target()
 	_check_state()
+	Utils.DEBUG_take_damage(character, 5)
 
 
 ## Processes states physics processes if enabled, as well as gets input directions

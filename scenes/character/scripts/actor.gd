@@ -61,9 +61,6 @@ var state_machine_component: StateMachineComponent
 ## Reference to the health component
 var health_component: HealthComponent
 
-## Reference to the death component
-var death_component: DeathComponent
-
 ## Reference to the hurt box component
 var _hurt_box: HurtBoxComponent
 
@@ -79,9 +76,8 @@ var animation_component: AnimationTree
 ## Assigns component variables and registeres processes
 func _ready() -> void:
 	shooting_component = get_node_or_null("%ShootingComponent")
-	state_machine_component = get_node_or_null("%StateMachine")
+	state_machine_component = get_node_or_null("%StateMachineComponent")
 	health_component = get_node_or_null("%HealthComponent")
-	death_component = get_node_or_null("%DeathComponent")
 	_hit_box = get_node_or_null("%HitBoxComponent")
 	_hurt_box = get_node_or_null("%HurtBoxComponent")
 	visible_body = get_node_or_null("%VisibleBody")
@@ -119,3 +115,13 @@ func update_parent(mode: ActorEnums.mode):
 			
 func set_rail_component(rail_component: RailComponent):
 	_rails_component = rail_component
+
+func update_current_state(new_state_name: String) -> void:
+	state_machine_component.current_state.change_to_state(new_state_name);
+	
+func get_current_state() -> State:
+	return state_machine_component.current_state if state_machine_component else null;
+	
+func _handle_gravity(delta) -> void:
+	if not is_on_floor():
+		velocity.y -= _gravity * delta * _mass

@@ -1,9 +1,13 @@
 class_name State extends Node
 ## Base state class for states in a state machine
 
+
 #region Properties
 ## Emited when a state will transition from on state to another. Picked up by the parent state machine class
 @warning_ignore("unused_signal") signal transitioned
+
+## The owner of this state
+@onready var _actor := owner as Actor
 
 ## The time a state will be active
 @export var _duration_time: float = 3:
@@ -19,11 +23,6 @@ var is_in_cooldown : bool = false:
 #endregion
 
 
-# TODO remove this later after removing it from inherited children
-func _ready():
-	pass
-
-
 ## resets any variables required by this state
 ## @experimental
 func reset() -> void:
@@ -31,12 +30,12 @@ func reset() -> void:
 
 
 ## Called when a state transitions and becomes the current state
-func enter(previous_state: String) -> void:
+func enter(previous_state: State) -> void:
 	pass
 
 
 ## Called when a state transitions and stops being the current state
-func exit(next_state: String) -> void:
+func exit(next_state: State) -> void:
 	pass
 
 
@@ -63,3 +62,6 @@ func change_input_state(input: String):
 func _update_animation(property: String, transition: bool) -> void:
 	if PlayerManager.character.animation_component:
 		PlayerManager.character.animation_component["parameters/conditions/" + property] = transition
+
+func _decrement_velocity_to_zero(carrier_vec : Vector3, delta) -> void:
+	_actor.velocity = carrier_vec.move_toward(Vector3.ZERO, delta);

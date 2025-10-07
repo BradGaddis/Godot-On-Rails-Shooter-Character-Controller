@@ -19,8 +19,6 @@ var _rail_path: PathFollow3D
 ## Sets up and assgings components, registers processes with the process manager
 func _ready():
 	super._ready()
-	if death_component:
-		death_component.died.connect(_on_died)
 	if shooting_component:
 		shooting_component.update_projectile_collision_layer(2**4 + 1)
 		shooting_component.update_projectile_collision_mask(2**4 + 1)

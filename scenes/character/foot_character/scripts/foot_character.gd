@@ -1,5 +1,6 @@
 class_name OnFootCharacter extends Character
 ## The base class for being on-foot
+#TODO(brad) consolidate into a single class
 
 #region Properties
 ## Reference to the camrera component
@@ -28,9 +29,14 @@ func _detect_fall_damage():
 
 ## Moves the character via the reticle and handles jumping
 func _physics_process(delta: float) -> void:
-	if not is_on_floor():
-		velocity.y -= _gravity * delta * _mass
+	_handle_gravity(delta)
 	_detect_fall_damage()
 	move_and_slide()
 	if _mode == ActorEnums.mode.free:
 		_rotate_character_toward_reticle(delta)
+
+func disable():
+	PlayerManager.enabled = false;
+
+func enable():
+	PlayerManager.enabled = true;

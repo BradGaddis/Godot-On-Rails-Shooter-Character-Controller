@@ -20,7 +20,7 @@ func _ready() -> void:
 
 
 ## Sets energy thruster enum to active, captures initial flight, chaches initial FOV and tweens FOV
-func enter(_last_state: String = ""):
+func enter(_last_state: State):
 	_start_thrusters(_enter_boost_speed_curve.max_domain)
 	_boost_enter_timer = get_tree().create_timer(_enter_boost_speed_curve.max_domain)
 	_initial_flight_speed = PlayerManager.character.get_speed()
@@ -32,7 +32,7 @@ func enter(_last_state: String = ""):
 
 ## Exits this state and returns speed. Sets thrusters to cooling, and starts cooldown.[br]
 ## Roll exit time is different than the standard exit time
-func exit(_next_state = ""):
+func exit(_next_state: State):
 	_stop_thrusters()
 	_exit_flight_speed = PlayerManager.character.get_speed()
 	PlayerManager.character.camera_component.transition_fov(_exit_fov_curve)

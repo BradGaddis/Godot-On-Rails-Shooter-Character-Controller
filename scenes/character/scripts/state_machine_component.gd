@@ -62,14 +62,15 @@ func _physics_process(delta: float) -> void:
 ## Called when a state has transitioned on a per-state basis
 func _on_state_transitioned(incoming_state: State, next_state: String):
 	assert(incoming_state != _states.get(next_state), "Looks like you are trying to transition from a state '%s' to the same state '%s'"  % [incoming_state.name, next_state])
-	current_state.exit(next_state)
+
+	current_state.exit(_states.get(next_state))
 	previous_state = current_state
 	_enter_state(_states.get(next_state))
 
 func _enter_state(new_state: State):
 	current_state = new_state
 	if current_state:
-		current_state.enter(previous_state.name)
+		current_state.enter(previous_state)
 	else:
 		push_error("You're entering a state that doesn't exist.")
 		#current_state.change_to_state("idle")

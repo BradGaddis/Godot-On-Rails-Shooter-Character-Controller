@@ -1,4 +1,6 @@
 class_name FootMoveState extends State
+#TODO Clean this class up. The code is getting a little sloppy
+
 
 var _direction: Vector2:
 	get:
@@ -24,12 +26,17 @@ func update_speed(new_speed: float):
 	_speed = new_speed
 
 
-func enter(previous_state: String) -> void:
+func enter(previous_state: State) -> void:
 	_update_animation("running", true)
+	if previous_state.name == "idle":
+		_planer_velocity_xz = Vector3.ZERO
 
 
-func exit(previous_state: String) -> void:
+func exit(previous_state: State) -> void:
 	_update_animation("running", false)
+	#while(_actor.velocity != Vector3.ZERO):
+		#_actor.velocity = _actor.velocity.move_toward(Vector3.ZERO, get_physics_process_delta_time() * 5)
+		
 
 
 ## Assigns directions in line with the camera, moves in the planer
@@ -43,8 +50,9 @@ func handle_character_movement(delta):
 		_try_stop_moving()
 	PlayerManager.character.velocity.x =_planer_velocity_xz.x
 	PlayerManager.character.velocity.z =_planer_velocity_xz.z
-	
 
+
+#TODO fix this. It can get stuck in this state under the right conditions
 func _try_stop_moving() -> void:
 	if _planer_velocity_xz.length() <= _transition_epsilon:
 		_planer_velocity_xz = Vector3.ZERO

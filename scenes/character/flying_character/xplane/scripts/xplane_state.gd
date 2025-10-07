@@ -27,7 +27,6 @@ var _did_roll: bool = false
 
 ## Assigns values to component and timer members 
 func _ready() -> void:
-	super._ready()
 	_vehicle_component = get_node_or_null("%VehicleComponent")
 	_duration_timer = get_node_or_null("DurationTimer")
 	cooldown_timer = get_node_or_null("CooldownTimer")
